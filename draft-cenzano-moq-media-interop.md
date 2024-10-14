@@ -63,6 +63,8 @@ to other formats such as FMP4.
 The publisher selects a namespace of their choosing, and sends an ANNOUNCE
 message for this namespace.
 
+Within the publisher namespace the publisher can send any number of audio or/and video tracks with the names of their choosing. The subscriber will consider all of those as part of the same synchronization gproup (timestamps aligned to the same timeline).
+
 Within the publisher namespace there are two tracks with fixed names: `video`
 and `audio`.
 
