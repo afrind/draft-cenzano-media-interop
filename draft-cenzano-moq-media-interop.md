@@ -47,11 +47,7 @@ This protocol can be used to send and receive video and audio over Media over QU
 
 This protocol specifies a simple mechanism for sending media (video and audio) over MOQT for both live-streaming and VC style use cases.  The protocol is flexible in order to support this range of use cases.
 
-The following parameters can be updated in the middle of a publisher session (or
-track?)
- * Resolution
- * Frame rate
- * Codec
+The following parameters can be updated in the middle of a the track (ex: frame rate, resolution, codec, etc)
 
 The protocol defines a low overhead packager (not LoC [loq]), and is extensible
 to other formats such as FMP4.
@@ -106,7 +102,8 @@ Media Type
 
 Specifies the meaning of all the data sent after this field
 It keeps this packager extensible to any other options (such as: fmp4, etc)
-It can be VideoLOCH264AVCC
+It can be:
+- VideoLOCH264AVCC = 0
 
 Seq ID
 
@@ -120,7 +117,7 @@ TODO: Assumes reliable transport (trade off verbose vs reliable)
 
 PTS Timestamp
 
-Present only if PresenceFlags & 0x1 > 0, if not present copy from latest
+Present only if `PresenceFlags & 0x1 > 0`, if not present copy from latest
 received.
 Indicates PTS in timebase
 
@@ -129,7 +126,7 @@ encode at start (priming)
 
 DTS Timestamp
 
-Present only if PresenceFlags & 0x10 > 0, if not present copy from latest
+Present only if `PresenceFlags & 0x10 > 0`, if not present copy from latest
 received.
 Indicates DTS in timebase
 If not present copy PTS value
@@ -140,7 +137,7 @@ encode at start (priming)
 
 Chunk Type
 
-Present only if PresenceFlags & 0x100 > 0, if not present copy from latest
+Present only if `PresenceFlags & 0x100 > 0`, if not present copy from latest
 received.
 Indicates if we can start decode from this point (Key), or we need previous
 data. For
@@ -150,34 +147,33 @@ group start). But all packagers surfaces this data
 
 Duration
 
-Present only if PresenceFlags & 0x1000 > 0, if not present copy from latest
+Present only if `PresenceFlags & 0x1000 > 0`, if not present copy from latest
 received.
 Duration in timebase
 
 Timebase
 
-Present only if PresenceFlags & 0x10000 > 0, if not present copy from latest
+Present only if `PresenceFlags & 0x10000 > 0`, if not present copy from latest
 received.
 Units used in PTS, DTS, and duration
 
 Wall Clock
 
-Present only if PresenceFlags & 0x100000 > 0, if not present copy from latest
+Present only if `PresenceFlags & 0x100000 > 0`, if not present copy from latest
 received.
 EPOCH time in ms when this frame started being captured
 
 Metadata Size
 
-Present only if PresenceFlags & 0x1000000 > 0, if not present assume 0
+Present only if `PresenceFlags & 0x1000000 > 0`, if not present assume 0
 Size in bytes of the metadata section
 It can be 0
 
 Metadata
 
 Extradata needed to decode this stream
-For mediaType == VideoLOCH264AVCC
-AVCDecoderConfigurationRecord as described in ISO/IEC 14496-15 section 5.3.3.1,
-with field lengthSizeMinusOne = 3 (So length = 4). If any other size length is
+For `mediaType == VideoLOCH264AVCC` this field will be AVCDecoderConfigurationRecord as described in ISO/IEC 14496-15 section 5.3.3.1,
+with field `lengthSizeMinusOne` = 3 (So length = 4). If any other size length is
 indicated (in AVCDecoderConfigurationRecord) we should error with “Protocol
 violation”
 
@@ -212,7 +208,8 @@ Media Type
 
 Specifies the meaning of all the data sent after this field
 It keeps this packager extensible to any other options (such as AAC-ASC, etc)
-It can be AudioLOCOpus.
+It can be:
+- AudioLOCOpus = 1
 
 Seq Id
 
@@ -226,7 +223,7 @@ TODO: Assumes reliable transport (trade off verbose vs reliable)
 
 PTS Timestamp
 
-Present only if PresenceFlags & 0x1 > 0, if not present copy from latest
+Present only if `PresenceFlags & 0x1 > 0`, if not present copy from latest
 received.
 Indicates PTS in timebase
 TODO: Varint does NOT accept easily negative, so it could be challenging to
@@ -234,31 +231,31 @@ encode at start (priming)
 
 Duration
 
-Present only if PresenceFlags & 0x10 > 0, if not present copy from latest
+Present only if `PresenceFlags & 0x10 > 0`, if not present copy from latest
 received.
 Duration in timebase
 
 Timebase
 
-Present only if PresenceFlags & 0x100 > 0, if not present copy from latest
+Present only if `PresenceFlags & 0x100 > 0`, if not present copy from latest
 received.
 Units used in PTS, DTS, and duration
 
 Sample Freq
 
-Present only if PresenceFlags & 0x1000 > 0, if not present copy from latest
+Present only if `PresenceFlags & 0x1000 > 0`, if not present copy from latest
 received.
 Sample frequency used in the original signal (before encoding)
 
 Num Channels
 
-Present only if PresenceFlags & 0x10000 > 0, if not present copy from latest
+Present only if `PresenceFlags & 0x10000 > 0`, if not present copy from latest
 received.
 Number of channels in the original signal (before encoding)
 
 Wallclock
 
-Present only if PresenceFlags & 0x100000 > 0, if not present copy from latest
+Present only if `PresenceFlags & 0x100000 > 0`, if not present copy from latest
 received.
 EPOCH time in ms when this frame started being captured
 
