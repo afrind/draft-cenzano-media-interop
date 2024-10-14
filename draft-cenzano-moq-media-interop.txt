@@ -148,9 +148,7 @@ Table of Contents
 
    Presence Flags
 
-   Indicates which of the following fields will be present This needs to
-   be sent at least once at stream start TODO: Assumes reliable
-   transport (trade off verbose vs reliable)
+   Indicates which of the following fields will be present
 
    PTS Timestamp
 
@@ -243,9 +241,7 @@ Table of Contents
 
    Presence Flags
 
-   Indicates which of the following fields will be present This needs to
-   be sent at least once at stream start TODO: Assumes reliable
-   transport (trade off verbose vs reliable)
+   Indicates which of the following fields will be present
 
    PTS Timestamp
 
