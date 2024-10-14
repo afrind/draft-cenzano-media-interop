@@ -112,8 +112,6 @@ Monotonically increasing counter for this media track
 Presence Flags
 
 Indicates which of the following fields will be present
-This needs to be sent at least once at stream start
-TODO: Assumes reliable transport (trade off verbose vs reliable)
 
 PTS Timestamp
 
@@ -218,8 +216,6 @@ Monotonically increasing counter for this media track
 Presence Flags
 
 Indicates which of the following fields will be present
-This needs to be sent at least once at stream start
-TODO: Assumes reliable transport (trade off verbose vs reliable)
 
 PTS Timestamp
 
