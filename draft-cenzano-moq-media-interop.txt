@@ -87,8 +87,8 @@ Table of Contents
    and audio) over MOQT for both live-streaming and VC style use cases.
    The protocol is flexible in order to support this range of use cases.
 
-   The following parameters can be updated in the middle of a publisher
-   session (or track?) * Resolution * Frame rate * Codec
+   The following parameters can be updated in the middle of a the track
+   (ex: frame rate, resolution, codec, etc)
 
    The protocol defines a low overhead packager (not LoC [loq]), and is
    extensible to other formats such as FMP4.
@@ -140,7 +140,7 @@ Table of Contents
 
    Specifies the meaning of all the data sent after this field It keeps
    this packager extensible to any other options (such as: fmp4, etc) It
-   can be VideoLOCH264AVCC
+   can be: - VideoLOCH264AVCC = 0
 
    Seq ID
 
@@ -202,11 +202,11 @@ Table of Contents
    Metadata
 
    Extradata needed to decode this stream For mediaType ==
-   VideoLOCH264AVCC AVCDecoderConfigurationRecord as described in ISO/
-   IEC 14496-15 section 5.3.3.1, with field lengthSizeMinusOne = 3 (So
-   length = 4).  If any other size length is indicated (in
-   AVCDecoderConfigurationRecord) we should error with “Protocol
-   violation”
+   VideoLOCH264AVCC this field will be AVCDecoderConfigurationRecord as
+   described in ISO/IEC 14496-15 section 5.3.3.1, with field
+   lengthSizeMinusOne = 3 (So length = 4).  If any other size length is
+   indicated (in AVCDecoderConfigurationRecord) we should error with
+   “Protocol violation”
 
    Payload
 
@@ -235,7 +235,7 @@ Table of Contents
 
    Specifies the meaning of all the data sent after this field It keeps
    this packager extensible to any other options (such as AAC-ASC, etc)
-   It can be AudioLOCOpus.
+   It can be: - AudioLOCOpus = 1
 
    Seq Id
 
