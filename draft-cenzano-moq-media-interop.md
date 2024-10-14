@@ -9,17 +9,17 @@ number:
 date:
 consensus: true
 v: 3
-area: WIT
-workgroup: Media over QUIC Working Group
+area: "Web and Internet Transport"
+workgroup: "Media Over QUIC"
 keyword:
  - Media over QUIC
 venue:
-  group: moq
-  type: Working Group
-  mail: moq@ietf.org
-  arch: 
-  github: afrind/draft-cenzano-media-interop
-  latest: 
+  group: "Media Over QUIC"
+  type: "Working Group"
+  mail: "moq@ietf.org"
+  arch: "https://mailarchive.ietf.org/arch/browse/moq/"
+  github: "afrind/draft-cenzano-media-interop"
+  latest: "https://afrind.github.io/draft-cenzano-media-interop/draft-cenzano-moq-media-interop.html"
 
 author:
  -
