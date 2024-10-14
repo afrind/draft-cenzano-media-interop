@@ -2,9 +2,6 @@
 ###
 # Internet-Draft Markdown Template
 #
-# Rename this file from draft-todo-yourname-protocol.md to get started.
-# Draft name format is "draft-<yourname>-<workgroup>-<name>.md".
-#
 # For initial setup, you only need to edit the first block of fields.
 # Only "title" needs to be changed; delete "abbrev" if your title is short.
 # Any other content can be edited, but be careful not to introduce errors.
@@ -19,35 +16,38 @@
 # Change the file extension to match the format (.xml for XML, etc...)
 #
 ###
-title: "TODO - Your title"
-abbrev: "TODO - Abbreviation"
+title: "MoQ Media Interop"
+abbrev: "moq-mi"
 category: info
 
-docname: draft-todo-yourname-protocol-latest
+docname: draft-cenzano-moq-media-interop-latest
 submissiontype: IETF  # also: "independent", "editorial", "IAB", or "IRTF"
 number:
 date:
 consensus: true
 v: 3
-area: AREA
-workgroup: WG Working Group
+area: WIT
+workgroup: Media over QUIC Working Group
 keyword:
- - next generation
- - unicorn
- - sparkling distributed ledger
+ - Media over QUIC
 venue:
-  group: WG
+  group: moq
   type: Working Group
-  mail: WG@example.com
-  arch: https://example.com/WG
-  github: USER/REPO
-  latest: https://example.com/LATEST
+  mail: moq@ietf.org
+  arch: 
+  github: afrind/draft-cenzano-media-interop
+  latest: 
 
 author:
  -
-    fullname: Your Name Here
-    organization: Your Organization Here
-    email: your.email@example.com
+    fullname: Jordi Cenzano-Ferret
+    organization: Meta
+    email: jcenzano@meta.com
+
+ -
+    fullname: Alan Frindell
+    organization: Meta
+    email: afrind@meta.com
 
 normative:
 
