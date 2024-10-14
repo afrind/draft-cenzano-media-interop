@@ -47,28 +47,38 @@ This protocol can be used to send and receive video and audio over Media over QU
 
 This protocol specifies a simple mechanism for sending media (video and audio) over MOQT for both live-streaming and VC style use cases.  The protocol is flexible in order to support this range of use cases.
 
-The following parameters can be updated in the middle of a publisher session (or track?) 
+The following parameters can be updated in the middle of a publisher session (or
+track?)
  * Resolution
  * Frame rate
  * Codec
 
-The protocol defines a low overhead packager (not LoC [loq]), and is extensible to other formats such as FMP4.
+The protocol defines a low overhead packager (not LoC [loq]), and is extensible
+to other formats such as FMP4.
 
 # Protocol Operation
 
 ## Track Names
 
-The publisher selects a namespace of their choosing, and sends an ANNOUNCE message for this namespace.
+The publisher selects a namespace of their choosing, and sends an ANNOUNCE
+message for this namespace.
 
-Within the publisher namespace there are two tracks with fixed names: `video` and `audio`.
+Within the publisher namespace there are two tracks with fixed names: `video`
+and `audio`.
 
 ## Mapping Tracks to MoQT Object Model
 
-For the video track, the publisher begins a new group at the start of each IDR, and each group contains a single subgroup.  Each object has the format described in {{video-object-format}}.
+For the video track, the publisher begins a new group at the start of each IDR,
+and each group contains a single subgroup.  Each object has the format described
+in {{video-object-format}}.
 
-For the audio track, the publisher begins a new group with each audio object, and each group contains a single subgroup (OR we could align the group numbers with video and make a subgroup per object.  Each object has the format described in {{audio-object-format}}.
+For the audio track, the publisher begins a new group with each audio object,
+and each group contains a single subgroup (OR we could align the group numbers
+with video and make a subgroup per object.  Each object has the format described
+in {{audio-object-format}}.
 
-TODO: Datagram forwarding preference could be used, but has problems if audio frame does not fit in a single UDP payload.
+TODO: Datagram forwarding preference could be used, but has problems if audio
+frame does not fit in a single UDP payload.
 
 ## Object Format
 
@@ -110,39 +120,50 @@ TODO: Assumes reliable transport (trade off verbose vs reliable)
 
 PTS Timestamp
 
-Present only if PresenceFlags & 0x1 > 0, if not present copy from latest received
+Present only if PresenceFlags & 0x1 > 0, if not present copy from latest
+received.
 Indicates PTS in timebase
 
-TODO: Varint does NOT accept easily negative, so it could be challenging to encode at start (priming)
+TODO: Varint does NOT accept easily negative, so it could be challenging to
+encode at start (priming)
 
 DTS Timestamp
 
-Present only if PresenceFlags & 0x10 > 0, if not present copy from latest received
+Present only if PresenceFlags & 0x10 > 0, if not present copy from latest
+received.
 Indicates DTS in timebase
 If not present copy PTS value
 Not needed if B frames are NOT used
 
-TODO: Varint does NOT accept easily negative, so it could be challenging to encode at start (priming)
+TODO: Varint does NOT accept easily negative, so it could be challenging to
+encode at start (priming)
 
 Chunk Type
 
-Present only if PresenceFlags & 0x100 > 0, if not present copy from latest received
-Indicates if we can start decode from this point (Key), or we need previous data. For 
-TODO: FOOTGUN this data will be encoded in 2+1 places (here, essence, and MOQ group start). But all packagers surfaces this data
+Present only if PresenceFlags & 0x100 > 0, if not present copy from latest
+received.
+Indicates if we can start decode from this point (Key), or we need previous
+data. For
+
+TODO: FOOTGUN this data will be encoded in 2+1 places (here, essence, and MOQ
+group start). But all packagers surfaces this data
 
 Duration
 
-Present only if PresenceFlags & 0x1000 > 0, if not present copy from latest received
+Present only if PresenceFlags & 0x1000 > 0, if not present copy from latest
+received.
 Duration in timebase
 
 Timebase
 
-Present only if PresenceFlags & 0x10000 > 0, if not present copy from latest received
+Present only if PresenceFlags & 0x10000 > 0, if not present copy from latest
+received.
 Units used in PTS, DTS, and duration
 
 Wall Clock
 
-Present only if PresenceFlags & 0x100000 > 0, if not present copy from latest received
+Present only if PresenceFlags & 0x100000 > 0, if not present copy from latest
+received.
 EPOCH time in ms when this frame started being captured
 
 Metadata Size
@@ -155,15 +176,19 @@ Metadata
 
 Extradata needed to decode this stream
 For mediaType == VideoLOCH264AVCC
-AVCDecoderConfigurationRecord  as described in ISO/IEC 14496-15 section 5.3.3.1,
-with field lengthSizeMinusOne = 3 (So length = 4). If any other size length is indicated (in AVCDecoderConfigurationRecord) we should error with “Protocol violation”
+AVCDecoderConfigurationRecord as described in ISO/IEC 14496-15 section 5.3.3.1,
+with field lengthSizeMinusOne = 3 (So length = 4). If any other size length is
+indicated (in AVCDecoderConfigurationRecord) we should error with “Protocol
+violation”
 
 Payload
 
 H264 with bitstream AVC1 format as described in iso14496-15 section 5.3.
-Using 4bytes size field length. 
-If any other size length is indicated (in AVCDecoderConfigurationRecord) we should error with “Protocol violation”
-Any change in encoding parameters MUST send a new AVCDecoderConfigurationRecord in Metadata
+Using 4bytes size field length.
+If any other size length is indicated (in AVCDecoderConfigurationRecord) we
+should error with “Protocol violation”.
+Any change in encoding parameters MUST send a new AVCDecoderConfigurationRecord
+in Metadata
 
 ## Audio Object Format
 
@@ -201,33 +226,40 @@ TODO: Assumes reliable transport (trade off verbose vs reliable)
 
 PTS Timestamp
 
-Present only if PresenceFlags & 0x1 > 0, if not present copy from latest received
+Present only if PresenceFlags & 0x1 > 0, if not present copy from latest
+received.
 Indicates PTS in timebase
-TODO: Varint does NOT accept easily negative, so it could be challenging to encode at start (priming)
+TODO: Varint does NOT accept easily negative, so it could be challenging to
+encode at start (priming)
 
 Duration
 
-Present only if PresenceFlags & 0x10 > 0, if not present copy from latest received
+Present only if PresenceFlags & 0x10 > 0, if not present copy from latest
+received.
 Duration in timebase
 
 Timebase
 
-Present only if PresenceFlags & 0x100 > 0, if not present copy from latest received
+Present only if PresenceFlags & 0x100 > 0, if not present copy from latest
+received.
 Units used in PTS, DTS, and duration
 
 Sample Freq
 
-Present only if PresenceFlags & 0x1000 > 0, if not present copy from latest received
+Present only if PresenceFlags & 0x1000 > 0, if not present copy from latest
+received.
 Sample frequency used in the original signal (before encoding)
 
 Num Channels
 
-Present only if PresenceFlags & 0x10000 > 0, if not present copy from latest received
+Present only if PresenceFlags & 0x10000 > 0, if not present copy from latest
+received.
 Number of channels in the original signal (before encoding)
 
 Wallclock
 
-Present only if PresenceFlags & 0x100000 > 0, if not present copy from latest received
+Present only if PresenceFlags & 0x100000 > 0, if not present copy from latest
+received.
 EPOCH time in ms when this frame started being captured
 
 Payload
