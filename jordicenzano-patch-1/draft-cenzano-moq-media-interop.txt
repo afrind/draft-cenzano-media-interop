@@ -100,13 +100,15 @@ Table of Contents
    The publisher selects a namespace of their choosing, and sends an
    ANNOUNCE message for this namespace.
 
-   Within the publisher namespace the publisher can send any number of
-   audio or/and video tracks with the names of their choosing.  The
-   subscriber will consider all of those as part of the same
-   synchronization gproup (timestamps aligned to the same timeline).
+   Within the publisher namespace the publisher will offer media tracks
+   named as videoX and audioX where X will be an integer starting at 0.
 
-   Within the publisher namespace there are two tracks with fixed names:
-   video and audio.
+   So in case the publisher issues 2 audio tracks and 1 video track, the
+   track names available will be video0, audio0, and audio1.
+
+   The subscriber will consider all of those tracks belonging to the
+   same namespace as part of the same synchronization group (timestamps
+   aligned to the same timeline).
 
 2.2.  Mapping Tracks to MoQT Object Model
 
