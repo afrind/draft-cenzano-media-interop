@@ -84,6 +84,23 @@ in {{audio-object-format}}.
 TODO: Datagram forwarding preference could be used, but has problems if audio
 frame does not fit in a single UDP payload.
 
+## Timestamps
+To avoid using fractional numbers and having to deal with rounding errors,
+timestamps will be expressed with two integers:
+- timestamp numerator (ex: PTS, DTS, duration)
+- timebase
+
+To convert a timestamp into seconds you just need to:
+timestamp(s) = timestamp numerator / timebase
+
+Example:
+
+PTS = 11
+timebase = 30
+
+PTS(s) = 11/30 = 0.366666
+
+
 ## Object Format
 
 ### Video Object Format
