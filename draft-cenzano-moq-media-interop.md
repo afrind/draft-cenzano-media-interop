@@ -151,7 +151,7 @@ It can be 0 if no metadata is sent
 Metadata
 
 Extradata needed to decode this stream
-For `mediaType == VideoLOCH264AVCC` this field will be 
+For `mediaType == VideoLOCH264AVCC` this field will be
 AVCDecoderConfigurationRecord as described in ISO/IEC 14496-15 section 5.3.3.1,
 with field `lengthSizeMinusOne` = 3 (So length = 4). If any other size length is
 indicated (in AVCDecoderConfigurationRecord) we should error with “Protocol
