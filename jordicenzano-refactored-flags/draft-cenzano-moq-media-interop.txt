@@ -1,0 +1,294 @@
+
+
+
+
+Media Over QUIC                                        J. Cenzano-Ferret
+Internet-Draft                                               A. Frindell
+Intended status: Informational                                      Meta
+Expires: 18 April 2025                                   15 October 2024
+
+
+                           MoQ Media Interop
+                 draft-cenzano-moq-media-interop-latest
+
+Abstract
+
+   This protocol can be used to send and receive video and audio over
+   Media over QUIC Transport [MOQT].
+
+About This Document
+
+   This note is to be removed before publishing as an RFC.
+
+   The latest revision of this draft can be found at
+   https://afrind.github.io/draft-cenzano-media-interop/draft-cenzano-
+   moq-media-interop.html.  Status information for this document may be
+   found at https://datatracker.ietf.org/doc/draft-cenzano-moq-media-
+   interop/.
+
+   Discussion of this document takes place on the Media Over QUIC
+   Working Group mailing list (mailto:moq@ietf.org), which is archived
+   at https://mailarchive.ietf.org/arch/browse/moq/.  Subscribe at
+   https://www.ietf.org/mailman/listinfo/moq/.
+
+   Source for this draft and an issue tracker can be found at
+   https://github.com/afrind/draft-cenzano-media-interop.
+
+Status of This Memo
+
+   This Internet-Draft is submitted in full conformance with the
+   provisions of BCP 78 and BCP 79.
+
+   Internet-Drafts are working documents of the Internet Engineering
+   Task Force (IETF).  Note that other groups may also distribute
+   working documents as Internet-Drafts.  The list of current Internet-
+   Drafts is at https://datatracker.ietf.org/drafts/current/.
+
+   Internet-Drafts are draft documents valid for a maximum of six months
+   and may be updated, replaced, or obsoleted by other documents at any
+   time.  It is inappropriate to use Internet-Drafts as reference
+   material or to cite them other than as "work in progress."
+
+   This Internet-Draft will expire on 18 April 2025.
+
+Copyright Notice
+
+   Copyright (c) 2024 IETF Trust and the persons identified as the
+   document authors.  All rights reserved.
+
+   This document is subject to BCP 78 and the IETF Trust's Legal
+   Provisions Relating to IETF Documents (https://trustee.ietf.org/
+   license-info) in effect on the date of publication of this document.
+   Please review these documents carefully, as they describe your rights
+   and restrictions with respect to this document.  Code Components
+   extracted from this document must include Revised BSD License text as
+   described in Section 4.e of the Trust Legal Provisions and are
+   provided without warranty as described in the Revised BSD License.
+
+Table of Contents
+
+   1.  Introduction
+   2.  Protocol Operation
+     2.1.  Track Names
+     2.2.  Mapping Tracks to MoQT Object Model
+     2.3.  Object Format
+       2.3.1.  Video Object Format
+     2.4.  Audio Object Format
+   3.  Conventions and Definitions
+   4.  Security Considerations
+   5.  IANA Considerations
+   6.  Normative References
+   Acknowledgments
+   Authors' Addresses
+
+1.  Introduction
+
+   This protocol specifies a simple mechanism for sending media (video
+   and audio) over MOQT for both live-streaming and VC style use cases.
+   The protocol is flexible in order to support this range of use cases.
+
+   The following parameters can be updated in the middle of a the track
+   (ex: frame rate, resolution, codec, etc)
+
+   The protocol defines a low overhead packager (not LoC [loq]), and is
+   extensible to other formats such as FMP4.
+
+2.  Protocol Operation
+
+2.1.  Track Names
+
+   The publisher selects a namespace of their choosing, and sends an
+   ANNOUNCE message for this namespace.
+
+   Within the publisher namespace there are two tracks with fixed names:
+   video and audio.
+
+2.2.  Mapping Tracks to MoQT Object Model
+
+   For the video track, the publisher begins a new group at the start of
+   each IDR (so object 0 will be always an IDR Keyframe), and each group
+   contains a single subgroup.  Each object has the format described in
+   Section 2.3.1.
+
+   For the audio track, the publisher begins a new group with each audio
+   object, and each group contains a single subgroup (OR we could align
+   the group numbers with video and make a subgroup per object.  Each
+   object has the format described in Section 2.4.
+
+   TODO: Datagram forwarding preference could be used, but has problems
+   if audio frame does not fit in a single UDP payload.
+
+2.3.  Object Format
+
+2.3.1.  Video Object Format
+
+   {
+     Media Type (i)
+     Seq ID (i)
+     PTS Timestamp (i)
+     DTS Timestamp (i)
+     Timebase (i)
+     Duration (i)
+     Wallclock (i)
+     Metadata Size (i)
+     Metadata (..)
+     Payload (..)
+   }
+
+   Media Type
+
+   Specifies the meaning of all the data sent after this field It keeps
+   this packager extensible to any other options (such as: fmp4, etc) It
+   can be: - VideoLOCH264AVCC = 0
+
+   Seq ID
+
+   Monotonically increasing counter for this media track
+
+   PTS Timestamp
+
+   Indicates PTS in timebase
+
+   TODO: Varint does NOT accept easily negative, so it could be
+   challenging to encode at start (priming)
+
+   DTS Timestamp
+
+   Not needed if B frames are NOT used, in that case should be same
+   value as PTS
+
+   TODO: Varint does NOT accept easily negative, so it could be
+   challenging to encode at start (priming)
+
+   Timebase
+
+   Units used in PTS, DTS, and duration
+
+   Duration
+
+   Duration in timebase It will be 0 if not set
+
+   Wall Clock
+
+   EPOCH time in ms when this frame started being captured It will be 0
+   if not set
+
+   Metadata Size
+
+   Size in bytes of the metadata section It can be 0 if no metadata is
+   sent
+
+   Metadata
+
+   Extradata needed to decode this stream For mediaType ==
+   VideoLOCH264AVCC this field will be AVCDecoderConfigurationRecord as
+   described in ISO/IEC 14496-15 section 5.3.3.1, with field
+   lengthSizeMinusOne = 3 (So length = 4).  If any other size length is
+   indicated (in AVCDecoderConfigurationRecord) we should error with
+   “Protocol violation”
+
+   Payload
+
+   H264 with bitstream AVC1 format as described in iso14496-15 section
+   5.3.  Using 4bytes size field length.  If any other size length is
+   indicated (in AVCDecoderConfigurationRecord) we should error with
+   “Protocol violation”. Any change in encoding parameters MUST send a
+   new AVCDecoderConfigurationRecord in Metadata
+
+2.4.  Audio Object Format
+
+   {
+     Media Type (i)
+     Seq ID (i)
+     PTS Timestamp (i)
+     Timebase (i)
+     Sample Freq (i)
+     Num Channels (i)
+     Duration (i)
+     Wall Clock (i)
+     Payload (..)
+   }
+
+   Media Type
+
+   Specifies the meaning of all the data sent after this field It keeps
+   this packager extensible to any other options (such as AAC-ASC, etc)
+   It can be: - AudioLOCOpus = 1
+
+   Seq Id
+
+   Monotonically increasing counter for this media track
+
+   PTS Timestamp
+
+   Indicates PTS in timebase
+
+   TODO: Varint does NOT accept easily negative, so it could be
+   challenging to encode at start (priming)
+
+   Timebase
+
+   Units used in PTS, DTS, and duration
+
+   Sample Freq
+
+   Sample frequency used in the original signal (before encoding)
+
+   Num Channels
+
+   Number of channels in the original signal (before encoding)
+
+   Duration
+
+   Duration in timebase It will be 0 if not set
+
+   Wallclock
+
+   EPOCH time in ms when this frame started being captured It will be 0
+   if not set
+
+   Payload
+
+   Opus packets, as described in rfc6716 - section 3
+
+3.  Conventions and Definitions
+
+   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+   "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
+   "OPTIONAL" in this document are to be interpreted as described in
+   BCP 14 [RFC2119] [RFC8174] when, and only when, they appear in all
+   capitals, as shown here.
+
+4.  Security Considerations
+
+   TODO Security
+
+5.  IANA Considerations
+
+   This document has no IANA actions.
+
+6.  Normative References
+
+   [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
+              Requirement Levels", BCP 14, RFC 2119,
+              DOI 10.17487/RFC2119, March 1997,
+              <https://www.rfc-editor.org/rfc/rfc2119>.
+
+   [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
+              2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
+              May 2017, <https://www.rfc-editor.org/rfc/rfc8174>.
+
+Acknowledgments
+
+   TODO acknowledge.
+
+Authors' Addresses
+
+   Jordi Cenzano-Ferret
+   Meta
+   Email: jcenzano@meta.com
+
+
+   Alan Frindell
+   Meta
+   Email: afrind@meta.com
