@@ -71,9 +71,10 @@ Table of Contents
    2.  Protocol Operation
      2.1.  Track Names
      2.2.  Mapping Tracks to MoQT Object Model
-     2.3.  Object Format
-       2.3.1.  Video Object Format
-     2.4.  Audio Object Format
+     2.3.  Timestamps
+     2.4.  Object Format
+       2.4.1.  Video Object Format
+     2.5.  Audio Object Format
    3.  Conventions and Definitions
    4.  Security Considerations
    5.  IANA Considerations
@@ -115,18 +116,33 @@ Table of Contents
    For the video track, the publisher begins a new group at the start of
    each IDR (so object 0 will be always an IDR Keyframe), and each group
    contains a single subgroup.  Each object has the format described in
-   Section 2.3.1.
+   Section 2.4.1.
 
    For the audio track, the publisher begins a new group with each audio
    object, and each group contains a single subgroup.  Each object has
-   the format described in Section 2.4.
+   the format described in Section 2.5.
 
    TODO: Datagram forwarding preference could be used, but has problems
    if audio frame does not fit in a single UDP payload.
 
-2.3.  Object Format
+2.3.  Timestamps
 
-2.3.1.  Video Object Format
+   To avoid using fractional numbers and having to deal with rounding
+   errors, timestamps will be expressed with two integers: - timestamp
+   numerator (ex: PTS, DTS, duration) - timebase
+
+   To convert a timestamp into seconds you just need to: timestamp(s) =
+   timestamp numerator / timebase
+
+   Example:
+
+   PTS = 11 timebase = 30
+
+   PTS(s) = 11/30 = 0.366666
+
+2.4.  Object Format
+
+2.4.1.  Video Object Format
 
    {
      Media Type (i)
@@ -201,7 +217,7 @@ Table of Contents
    “Protocol violation”. Any change in encoding parameters MUST send a
    new AVCDecoderConfigurationRecord in Metadata
 
-2.4.  Audio Object Format
+2.5.  Audio Object Format
 
    {
      Media Type (i)
