@@ -64,7 +64,7 @@ and `audio`.
 
 ## Mapping Tracks to MoQT Object Model
 
-For the video track, the publisher begins a new group at the start of each IDR 
+For the video track, the publisher begins a new group at the start of each IDR
 (so object 0 will be always an IDR Keyframe), and each group contains a single
 subgroup.  Each object has the format described in {{video-object-format}}.
 
@@ -151,7 +151,8 @@ It can be 0 if no metadata is sent
 Metadata
 
 Extradata needed to decode this stream
-For `mediaType == VideoLOCH264AVCC` this field will be AVCDecoderConfigurationRecord as described in ISO/IEC 14496-15 section 5.3.3.1,
+For `mediaType == VideoLOCH264AVCC` this field will be 
+AVCDecoderConfigurationRecord as described in ISO/IEC 14496-15 section 5.3.3.1,
 with field `lengthSizeMinusOne` = 3 (So length = 4). If any other size length is
 indicated (in AVCDecoderConfigurationRecord) we should error with “Protocol
 violation”
