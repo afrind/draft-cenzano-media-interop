@@ -86,8 +86,8 @@ frame does not fit in a single UDP payload.
   Seq ID (i)
   PTS Timestamp (i)
   DTS Timestamp (i)
-  Duration (i)
   Timebase (i)
+  Duration (i)
   Wallclock (i)
   Metadata Size (i)
   Metadata (..)
@@ -103,9 +103,11 @@ It keeps this packager extensible to any other options (such as: fmp4, etc)
 It can be:
 - VideoLOCH264AVCC = 0
 
+
 Seq ID
 
 Monotonically increasing counter for this media track
+
 
 PTS Timestamp
 
@@ -114,6 +116,7 @@ Indicates PTS in timebase
 TODO: Varint does NOT accept easily negative, so it could be challenging to
 encode at start (priming)
 
+
 DTS Timestamp
 
 Not needed if B frames are NOT used, in that case should be same value as PTS
@@ -121,24 +124,29 @@ Not needed if B frames are NOT used, in that case should be same value as PTS
 TODO: Varint does NOT accept easily negative, so it could be challenging to
 encode at start (priming)
 
-Duration
-
-It can be 0 if not set
-Duration in timebase
 
 Timebase
 
 Units used in PTS, DTS, and duration
 
+
+Duration
+
+Duration in timebase
+It will be 0 if not set
+
+
 Wall Clock
 
-It can be 0 if not set
 EPOCH time in ms when this frame started being captured
+It will be 0 if not set
+
 
 Metadata Size
 
-It can be 0
 Size in bytes of the metadata section
+It can be 0 if no metadata is sent
+
 
 Metadata
 
@@ -147,6 +155,7 @@ For `mediaType == VideoLOCH264AVCC` this field will be AVCDecoderConfigurationRe
 with field `lengthSizeMinusOne` = 3 (So length = 4). If any other size length is
 indicated (in AVCDecoderConfigurationRecord) we should error with “Protocol
 violation”
+
 
 Payload
 
@@ -157,6 +166,7 @@ should error with “Protocol violation”.
 Any change in encoding parameters MUST send a new AVCDecoderConfigurationRecord
 in Metadata
 
+
 ## Audio Object Format
 
 ~~~
@@ -164,12 +174,11 @@ in Metadata
   Media Type (i)
   Seq ID (i)
   PTS Timestamp (i)
-  Presence Flags (i)
-  Duration (i)
   Timebase (i)
   Sample Freq (i)
   Num Channels (i)
-  Wall Clocl (i)
+  Duration (i)
+  Wall Clock (i)
   Payload (..)
 }
 ~~~
@@ -182,6 +191,7 @@ It keeps this packager extensible to any other options (such as AAC-ASC, etc)
 It can be:
 - AudioLOCOpus = 1
 
+
 Seq Id
 
 Monotonically increasing counter for this media track
@@ -189,46 +199,36 @@ Monotonically increasing counter for this media track
 PTS Timestamp
 
 Indicates PTS in timebase
+
 TODO: Varint does NOT accept easily negative, so it could be challenging to
 encode at start (priming)
 
-Presence Flags
-
-Indicates which of the following fields will be present
-
-Duration
-
-Present only if `PresenceFlags & 0x1 > 0`, if not present copy from latest
-received. It is recommeneded to send this info periodically
-Duration in timebase
 
 Timebase
 
-Present only if `PresenceFlags & 0x10 > 0`, if not present copy from latest
-received. It is recommeneded to send this info periodically
-If it changes mid-stream needs to be resend
 Units used in PTS, DTS, and duration
 
 Sample Freq
 
-Present only if `PresenceFlags & 0x100 > 0`, if not present copy from latest
-received. It is recommeneded to send this info periodically
-If it changes mid-stream needs to be resend
 Sample frequency used in the original signal (before encoding)
+
 
 Num Channels
 
-Present only if `PresenceFlags & 0x1000 > 0`, if not present copy from latest
-received.
-It is recommeneded to send this info periodically
-If it changes mid-stream needs to be resend
 Number of channels in the original signal (before encoding)
+
+
+Duration
+
+Duration in timebase
+It will be 0 if not set
+
 
 Wallclock
 
-Present only if `PresenceFlags & 0x1000 > 0`, if not present copy from latest
-received.
 EPOCH time in ms when this frame started being captured
+It will be 0 if not set
+
 
 Payload
 
