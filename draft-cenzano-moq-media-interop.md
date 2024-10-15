@@ -78,8 +78,7 @@ For the video track, the publisher begins a new group at the start of each IDR
 subgroup.  Each object has the format described in {{video-object-format}}.
 
 For the audio track, the publisher begins a new group with each audio object,
-and each group contains a single subgroup (OR we could align the group numbers
-with video and make a subgroup per object.  Each object has the format described
+and each group contains a single subgroup.  Each object has the format described
 in {{audio-object-format}}.
 
 TODO: Datagram forwarding preference could be used, but has problems if audio
