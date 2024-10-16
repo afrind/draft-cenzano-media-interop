@@ -5,7 +5,7 @@
 Media Over QUIC                                        J. Cenzano-Ferret
 Internet-Draft                                               A. Frindell
 Intended status: Informational                                      Meta
-Expires: 18 April 2025                                   15 October 2024
+Expires: 19 April 2025                                   16 October 2024
 
 
                            MoQ Media Interop
@@ -49,7 +49,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 18 April 2025.
+   This Internet-Draft will expire on 19 April 2025.
 
 Copyright Notice
 
@@ -73,12 +73,13 @@ Table of Contents
      2.2.  Mapping Tracks to MoQT Object Model
      2.3.  Timestamps
      2.4.  Object Format
-       2.4.1.  Video Object Format
-     2.5.  Audio Object Format
-   3.  Conventions and Definitions
-   4.  Security Considerations
-   5.  IANA Considerations
-   6.  Normative References
+       2.4.1.  Media Type
+       2.4.2.  Media payload
+   3.  References
+   4.  Conventions and Definitions
+   5.  Security Considerations
+   6.  IANA Considerations
+   7.  Normative References
    Acknowledgments
    Authors' Addresses
 
@@ -91,7 +92,7 @@ Table of Contents
    The following parameters can be updated in the middle of a the track
    (ex: frame rate, resolution, codec, etc)
 
-   The protocol defines a low overhead packager (not LoC [loq]), and is
+   The protocol defines a low overhead packager (not LoC [loc], and is
    extensible to other formats such as FMP4.
 
 2.  Protocol Operation
@@ -116,11 +117,11 @@ Table of Contents
    For the video track, the publisher begins a new group at the start of
    each IDR (so object 0 will be always an IDR Keyframe), and each group
    contains a single subgroup.  Each object has the format described in
-   Section 2.4.1.
+   Section 2.4.
 
    For the audio track, the publisher begins a new group with each audio
    object, and each group contains a single subgroup.  Each object has
-   the format described in Section 2.5.
+   the format described in Section 2.4.
 
    TODO: Datagram forwarding preference could be used, but has problems
    if audio frame does not fit in a single UDP payload.
@@ -142,10 +143,35 @@ Table of Contents
 
 2.4.  Object Format
 
-2.4.1.  Video Object Format
-
    {
      Media Type (i)
+     Media payload (..)
+   }
+
+                        Figure 1: MOQT Media object
+
+2.4.1.  Media Type
+
+   This value indicates what kind of media payload will follow
+
+              +======+======================================+
+              | Code | Value                                |
+              +======+======================================+
+              |  0x0 | Video H264 in AVCC with LOC packager |
+              +------+--------------------------------------+
+              |  0x1 | Audio Opus bitsream                  |
+              +------+--------------------------------------+
+
+                                  Table 1
+
+2.4.2.  Media payload
+
+   Is where media related information is carried, and it is specifed by
+   Media type
+
+2.4.2.1.  Video H264 in AVCC with LOC packager format
+
+   {
      Seq ID (i)
      PTS Timestamp (i)
      DTS Timestamp (i)
@@ -157,24 +183,20 @@ Table of Contents
      Payload (..)
    }
 
-   Media Type
+                    Figure 2: MOQT Media video h264 loc
 
-   Specifies the meaning of all the data sent after this field It keeps
-   this packager extensible to any other options (such as: fmp4, etc) It
-   can be: - VideoLOCH264AVCC = 0
-
-   Seq ID
+2.4.2.1.1.  Seq ID
 
    Monotonically increasing counter for this media track
 
-   PTS Timestamp
+2.4.2.1.2.  PTS Timestamp
 
    Indicates PTS in timebase
 
    TODO: Varint does NOT accept easily negative, so it could be
    challenging to encode at start (priming)
 
-   DTS Timestamp
+2.4.2.1.3.  DTS Timestamp
 
    Not needed if B frames are NOT used, in that case should be same
    value as PTS
@@ -182,45 +204,48 @@ Table of Contents
    TODO: Varint does NOT accept easily negative, so it could be
    challenging to encode at start (priming)
 
-   Timebase
+2.4.2.1.4.  Timebase
 
    Units used in PTS, DTS, and duration
 
-   Duration
+2.4.2.1.5.  Duration
 
    Duration in timebase It will be 0 if not set
 
-   Wall Clock
+2.4.2.1.6.  Wall Clock
 
    EPOCH time in ms when this frame started being captured It will be 0
    if not set
 
-   Metadata Size
+2.4.2.1.7.  Metadata Size
 
    Size in bytes of the metadata section It can be 0 if no metadata is
    sent
 
-   Metadata
+2.4.2.1.8.  Metadata
 
-   Extradata needed to decode this stream For mediaType ==
-   VideoLOCH264AVCC this field will be AVCDecoderConfigurationRecord as
-   described in ISO/IEC 14496-15 section 5.3.3.1, with field
-   lengthSizeMinusOne = 3 (So length = 4).  If any other size length is
-   indicated (in AVCDecoderConfigurationRecord) we should error with
-   “Protocol violation”
+   Extradata needed to decode this stream For mediaType == 0x0 this
+   field will be AVCDecoderConfigurationRecord as described in
+   [ISO14496-15:2019] section 5.3.3.1, with field lengthSizeMinusOne = 3
+   (So length = 4).  If any other size length is indicated (in
+   AVCDecoderConfigurationRecord) we should error with “Protocol
+   violation”
 
-   Payload
+2.4.2.1.9.  Payload
 
-   H264 with bitstream AVC1 format as described in iso14496-15 section
-   5.3.  Using 4bytes size field length.  If any other size length is
-   indicated (in AVCDecoderConfigurationRecord) we should error with
-   “Protocol violation”. Any change in encoding parameters MUST send a
-   new AVCDecoderConfigurationRecord in Metadata
+   H264 with bitstream AVC1 format as described in [ISO14496-15:2019]
+   section 5.3.  Using 4bytes size field length.
 
-2.5.  Audio Object Format
+   If any other size length is indicated (in
+   AVCDecoderConfigurationRecord) we should error with “Protocol
+   violation”.
+
+   Any change in encoding parameters MUST send a new
+   AVCDecoderConfigurationRecord in Metadata
+
+2.4.2.2.  Audio Opus bitsream
 
    {
-     Media Type (i)
      Seq ID (i)
      PTS Timestamp (i)
      Timebase (i)
@@ -231,49 +256,52 @@ Table of Contents
      Payload (..)
    }
 
-   Media Type
+                    Figure 3: MOQT Media audio Opus LOC
 
-   Specifies the meaning of all the data sent after this field It keeps
-   this packager extensible to any other options (such as AAC-ASC, etc)
-   It can be: - AudioLOCOpus = 1
-
-   Seq Id
+2.4.2.2.1.  Seq Id
 
    Monotonically increasing counter for this media track
 
-   PTS Timestamp
+2.4.2.2.2.  PTS Timestamp
 
    Indicates PTS in timebase
 
    TODO: Varint does NOT accept easily negative, so it could be
    challenging to encode at start (priming)
 
-   Timebase
+2.4.2.2.3.  Timebase
 
    Units used in PTS, DTS, and duration
 
-   Sample Freq
+2.4.2.2.4.  Sample Freq
 
    Sample frequency used in the original signal (before encoding)
 
-   Num Channels
+2.4.2.2.5.  Num Channels
 
    Number of channels in the original signal (before encoding)
 
-   Duration
+2.4.2.2.6.  Duration
 
    Duration in timebase It will be 0 if not set
 
-   Wallclock
+2.4.2.2.7.  Wallclock
 
    EPOCH time in ms when this frame started being captured It will be 0
    if not set
 
-   Payload
+2.4.2.2.8.  Payload
 
-   Opus packets, as described in rfc6716 - section 3
+   Opus packets, as described in [RFC6716] - section 3
 
-3.  Conventions and Definitions
+3.  References
+
+   [ISO14496-15:2019] "Carriage of network abstraction layer (NAL) unit
+   structured video in the ISO base media file format", ISO
+   ISO14496-15:2019, International Organization for Standardization,
+   October, 2022.
+
+4.  Conventions and Definitions
 
    The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
    "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
@@ -281,20 +309,24 @@ Table of Contents
    BCP 14 [RFC2119] [RFC8174] when, and only when, they appear in all
    capitals, as shown here.
 
-4.  Security Considerations
+5.  Security Considerations
 
    TODO Security
 
-5.  IANA Considerations
+6.  IANA Considerations
 
    This document has no IANA actions.
 
-6.  Normative References
+7.  Normative References
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
               DOI 10.17487/RFC2119, March 1997,
               <https://www.rfc-editor.org/rfc/rfc2119>.
+
+   [RFC6716]  Valin, JM., Vos, K., and T. Terriberry, "Definition of the
+              Opus Audio Codec", RFC 6716, DOI 10.17487/RFC6716,
+              September 2012, <https://www.rfc-editor.org/rfc/rfc6716>.
 
    [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
