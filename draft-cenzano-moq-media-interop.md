@@ -108,6 +108,7 @@ PTS(s) = 11/30 = 0.366666
   Media payload (..)
 }
 ~~~
+{: #media-object format title="MOQT Media object"}
 
 ### Media Type
 
@@ -140,6 +141,7 @@ Is where media related information is carried, and it is specifed by Media type
   Payload (..)
 }
 ~~~
+{: #media-object-video-h264-avcc-loc format title="MOQT Media video h264 loc"}
 
 ##### Seq ID
 
@@ -219,7 +221,7 @@ in Metadata
   Payload (..)
 }
 ~~~
-
+{: #media-object-audio-opus-loc format title="MOQT Media audio Opus LOC"}
 
 ##### Seq Id
 
