@@ -109,7 +109,7 @@ PTS(s) = 11/30 = 0.366666
 }
 ~~~
 
-- Media Type
+### Media Type
 
 This value indicates what kind of media payload will follow
 
@@ -122,7 +122,10 @@ This value indicates what kind of media payload will follow
 |------|--------------------------------------|
 
 
-### Video H264 in AVCC with LOC packager format
+### Media payload
+Is where media related information is carried, and it is specifed by Media type
+
+#### Video H264 in AVCC with LOC packager format
 
 ~~~
 {
@@ -138,12 +141,12 @@ This value indicates what kind of media payload will follow
 }
 ~~~
 
-Seq ID
+##### Seq ID
 
 Monotonically increasing counter for this media track
 
 
-PTS Timestamp
+##### PTS Timestamp
 
 Indicates PTS in timebase
 
@@ -151,7 +154,7 @@ TODO: Varint does NOT accept easily negative, so it could be challenging to
 encode at start (priming)
 
 
-DTS Timestamp
+##### DTS Timestamp
 
 Not needed if B frames are NOT used, in that case should be same value as PTS
 
@@ -159,30 +162,30 @@ TODO: Varint does NOT accept easily negative, so it could be challenging to
 encode at start (priming)
 
 
-Timebase
+##### Timebase
 
 Units used in PTS, DTS, and duration
 
 
-Duration
+##### Duration
 
 Duration in timebase
 It will be 0 if not set
 
 
-Wall Clock
+##### Wall Clock
 
 EPOCH time in ms when this frame started being captured
 It will be 0 if not set
 
 
-Metadata Size
+##### Metadata Size
 
 Size in bytes of the metadata section
 It can be 0 if no metadata is sent
 
 
-Metadata
+##### Metadata
 
 Extradata needed to decode this stream
 For `mediaType == VideoLOCH264AVCC` this field will be
@@ -192,7 +195,7 @@ indicated (in AVCDecoderConfigurationRecord) we should error with “Protocol
 violation”
 
 
-Payload
+##### Payload
 
 H264 with bitstream AVC1 format as described in iso14496-15 section 5.3.
 Using 4bytes size field length.
@@ -202,7 +205,7 @@ Any change in encoding parameters MUST send a new AVCDecoderConfigurationRecord
 in Metadata
 
 
-##  Audio Opus bitsream
+#### Audio Opus bitsream
 
 ~~~
 {
@@ -218,11 +221,11 @@ in Metadata
 ~~~
 
 
-Seq Id
+##### Seq Id
 
 Monotonically increasing counter for this media track
 
-PTS Timestamp
+##### PTS Timestamp
 
 Indicates PTS in timebase
 
@@ -230,33 +233,33 @@ TODO: Varint does NOT accept easily negative, so it could be challenging to
 encode at start (priming)
 
 
-Timebase
+##### Timebase
 
 Units used in PTS, DTS, and duration
 
-Sample Freq
+##### Sample Freq
 
 Sample frequency used in the original signal (before encoding)
 
 
-Num Channels
+##### Num Channels
 
 Number of channels in the original signal (before encoding)
 
 
-Duration
+##### Duration
 
 Duration in timebase
 It will be 0 if not set
 
 
-Wallclock
+##### Wallclock
 
 EPOCH time in ms when this frame started being captured
 It will be 0 if not set
 
 
-Payload
+##### Payload
 
 Opus packets, as described in rfc6716 - section 3
 
