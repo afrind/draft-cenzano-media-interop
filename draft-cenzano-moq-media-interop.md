@@ -35,8 +35,6 @@ author:
 normative:
 
 informative:
- I-D.draft-draft-mzanaty-moq-loc:
-
 
 --- abstract
 
@@ -52,7 +50,7 @@ flexible in order to support this range of use cases.
 
 The following parameters can be updated in the middle of a the track (ex: frame rate, resolution, codec, etc)
 
-The protocol defines a low overhead packager (not LoC {{draft-mzanaty-moq-loc}}), and is extensible
+The protocol defines a low overhead packager (not LoC [loc], and is extensible
 to other formats such as FMP4.
 
 # Protocol Operation
