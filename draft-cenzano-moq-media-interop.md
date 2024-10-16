@@ -204,7 +204,7 @@ Any change in encoding parameters MUST send a new AVCDecoderConfigurationRecord
 in Metadata
 
 
-##  Audio Opus bitsream 
+##  Audio Opus bitsream
 
 ~~~
 {
