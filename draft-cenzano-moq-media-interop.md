@@ -52,7 +52,7 @@ flexible in order to support this range of use cases.
 
 The following parameters can be updated in the middle of a the track (ex: frame rate, resolution, codec, etc)
 
-The protocol defines a low overhead packager (not LoC {{draft-mzanaty-moq-loc-03}}), and is extensible
+The protocol defines a low overhead packager (not LoC {{draft-mzanaty-moq-loc}}), and is extensible
 to other formats such as FMP4.
 
 # Protocol Operation
@@ -76,11 +76,11 @@ same timeline).
 
 For the video track, the publisher begins a new group at the start of each IDR
 (so object 0 will be always an IDR Keyframe), and each group contains a single
-subgroup.  Each object has the format described in {{video-object-format}}.
+subgroup.  Each object has the format described in {{object-format}}.
 
 For the audio track, the publisher begins a new group with each audio object,
 and each group contains a single subgroup.  Each object has the format described
-in {{audio-object-format}}.
+in {{object-format}}.
 
 TODO: Datagram forwarding preference could be used, but has problems if audio
 frame does not fit in a single UDP payload.
