@@ -1149,12 +1149,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
                 <p id="section-toc.1-1.2.2.4.1"><a href="#section-2.4" class="auto internal xref">2.4</a>.  <a href="#name-object-format" class="internal xref">Object Format</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.4.2.1">
-                    <p id="section-toc.1-1.2.2.4.2.1.1"><a href="#section-2.4.1" class="auto internal xref">2.4.1</a>.  <a href="#name-video-h264-in-avcc-with-loc" class="internal xref">Video H264 in AVCC with LOC packager format</a></p>
+                    <p id="section-toc.1-1.2.2.4.2.1.1"><a href="#section-2.4.1" class="auto internal xref">2.4.1</a>.  <a href="#name-media-type" class="internal xref">Media Type</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.4.2.2">
+                    <p id="section-toc.1-1.2.2.4.2.2.1"><a href="#section-2.4.2" class="auto internal xref">2.4.2</a>.  <a href="#name-media-payload" class="internal xref">Media payload</a></p>
 </li>
                 </ul>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.5">
-                <p id="section-toc.1-1.2.2.5.1"><a href="#section-2.5" class="auto internal xref">2.5</a>.  <a href="#name-audio-opus-bitsream" class="internal xref">Audio Opus bitsream</a></p>
 </li>
             </ul>
 </li>
@@ -1259,37 +1259,45 @@ timebase = 30<a href="#section-2.3-4" class="pilcrow">¶</a></p>
 }
 </pre><a href="#section-2.4-1" class="pilcrow">¶</a>
 </div>
-<ul class="normal">
-<li class="normal" id="section-2.4-2.1">
-            <p id="section-2.4-2.1.1">Media Type<a href="#section-2.4-2.1.1" class="pilcrow">¶</a></p>
-</li>
-        </ul>
-<p id="section-2.4-3">This value indicates what kind of media payload will follow<a href="#section-2.4-3" class="pilcrow">¶</a></p>
-<table class="center" id="table-1">
-          <caption><a href="#table-1" class="selfRef">Table 1</a></caption>
-<thead>
-            <tr>
-              <th class="text-right" rowspan="1" colspan="1">Code</th>
-              <th class="text-left" rowspan="1" colspan="1">Value</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="text-right" rowspan="1" colspan="1">0x0</td>
-              <td class="text-left" rowspan="1" colspan="1">Video H264 in AVCC with LOC packager</td>
-            </tr>
-            <tr>
-              <td class="text-right" rowspan="1" colspan="1">0x1</td>
-              <td class="text-left" rowspan="1" colspan="1">Audio Opus bitsream</td>
-            </tr>
-          </tbody>
-        </table>
-<div id="video-h264-in-avcc-with-loc-packager-format">
+<div id="media-type">
 <section id="section-2.4.1">
-          <h4 id="name-video-h264-in-avcc-with-loc">
-<a href="#section-2.4.1" class="section-number selfRef">2.4.1. </a><a href="#name-video-h264-in-avcc-with-loc" class="section-name selfRef">Video H264 in AVCC with LOC packager format</a>
+          <h4 id="name-media-type">
+<a href="#section-2.4.1" class="section-number selfRef">2.4.1. </a><a href="#name-media-type" class="section-name selfRef">Media Type</a>
           </h4>
-<div class="alignLeft art-text artwork" id="section-2.4.1-1">
+<p id="section-2.4.1-1">This value indicates what kind of media payload will follow<a href="#section-2.4.1-1" class="pilcrow">¶</a></p>
+<table class="center" id="table-1">
+            <caption><a href="#table-1" class="selfRef">Table 1</a></caption>
+<thead>
+              <tr>
+                <th class="text-right" rowspan="1" colspan="1">Code</th>
+                <th class="text-left" rowspan="1" colspan="1">Value</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="text-right" rowspan="1" colspan="1">0x0</td>
+                <td class="text-left" rowspan="1" colspan="1">Video H264 in AVCC with LOC packager</td>
+              </tr>
+              <tr>
+                <td class="text-right" rowspan="1" colspan="1">0x1</td>
+                <td class="text-left" rowspan="1" colspan="1">Audio Opus bitsream</td>
+              </tr>
+            </tbody>
+          </table>
+</section>
+</div>
+<div id="media-payload">
+<section id="section-2.4.2">
+          <h4 id="name-media-payload">
+<a href="#section-2.4.2" class="section-number selfRef">2.4.2. </a><a href="#name-media-payload" class="section-name selfRef">Media payload</a>
+          </h4>
+<p id="section-2.4.2-1">Is where media related information is carried, and it is specifed by Media type<a href="#section-2.4.2-1" class="pilcrow">¶</a></p>
+<div id="video-h264-in-avcc-with-loc-packager-format">
+<section id="section-2.4.2.1">
+            <h5 id="name-video-h264-in-avcc-with-loc">
+<a href="#section-2.4.2.1" class="section-number selfRef">2.4.2.1. </a><a href="#name-video-h264-in-avcc-with-loc" class="section-name selfRef">Video H264 in AVCC with LOC packager format</a>
+            </h5>
+<div class="alignLeft art-text artwork" id="section-2.4.2.1-1">
 <pre>
 {
   Seq ID (i)
@@ -1302,53 +1310,105 @@ timebase = 30<a href="#section-2.3-4" class="pilcrow">¶</a></p>
   Metadata (..)
   Payload (..)
 }
-</pre><a href="#section-2.4.1-1" class="pilcrow">¶</a>
+</pre><a href="#section-2.4.2.1-1" class="pilcrow">¶</a>
 </div>
-<p id="section-2.4.1-2">Seq ID<a href="#section-2.4.1-2" class="pilcrow">¶</a></p>
-<p id="section-2.4.1-3">Monotonically increasing counter for this media track<a href="#section-2.4.1-3" class="pilcrow">¶</a></p>
-<p id="section-2.4.1-4">PTS Timestamp<a href="#section-2.4.1-4" class="pilcrow">¶</a></p>
-<p id="section-2.4.1-5">Indicates PTS in timebase<a href="#section-2.4.1-5" class="pilcrow">¶</a></p>
-<p id="section-2.4.1-6">TODO: Varint does NOT accept easily negative, so it could be challenging to
-encode at start (priming)<a href="#section-2.4.1-6" class="pilcrow">¶</a></p>
-<p id="section-2.4.1-7">DTS Timestamp<a href="#section-2.4.1-7" class="pilcrow">¶</a></p>
-<p id="section-2.4.1-8">Not needed if B frames are NOT used, in that case should be same value as PTS<a href="#section-2.4.1-8" class="pilcrow">¶</a></p>
-<p id="section-2.4.1-9">TODO: Varint does NOT accept easily negative, so it could be challenging to
-encode at start (priming)<a href="#section-2.4.1-9" class="pilcrow">¶</a></p>
-<p id="section-2.4.1-10">Timebase<a href="#section-2.4.1-10" class="pilcrow">¶</a></p>
-<p id="section-2.4.1-11">Units used in PTS, DTS, and duration<a href="#section-2.4.1-11" class="pilcrow">¶</a></p>
-<p id="section-2.4.1-12">Duration<a href="#section-2.4.1-12" class="pilcrow">¶</a></p>
-<p id="section-2.4.1-13">Duration in timebase
-It will be 0 if not set<a href="#section-2.4.1-13" class="pilcrow">¶</a></p>
-<p id="section-2.4.1-14">Wall Clock<a href="#section-2.4.1-14" class="pilcrow">¶</a></p>
-<p id="section-2.4.1-15">EPOCH time in ms when this frame started being captured
-It will be 0 if not set<a href="#section-2.4.1-15" class="pilcrow">¶</a></p>
-<p id="section-2.4.1-16">Metadata Size<a href="#section-2.4.1-16" class="pilcrow">¶</a></p>
-<p id="section-2.4.1-17">Size in bytes of the metadata section
-It can be 0 if no metadata is sent<a href="#section-2.4.1-17" class="pilcrow">¶</a></p>
-<p id="section-2.4.1-18">Metadata<a href="#section-2.4.1-18" class="pilcrow">¶</a></p>
-<p id="section-2.4.1-19">Extradata needed to decode this stream
+<div id="seq-id">
+<section id="section-2.4.2.1.1">
+              <h6 id="name-seq-id">
+<a href="#section-2.4.2.1.1" class="section-number selfRef">2.4.2.1.1. </a><a href="#name-seq-id" class="section-name selfRef">Seq ID</a>
+              </h6>
+<p id="section-2.4.2.1.1-1">Monotonically increasing counter for this media track<a href="#section-2.4.2.1.1-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="pts-timestamp">
+<section id="section-2.4.2.1.2">
+              <h6 id="name-pts-timestamp">
+<a href="#section-2.4.2.1.2" class="section-number selfRef">2.4.2.1.2. </a><a href="#name-pts-timestamp" class="section-name selfRef">PTS Timestamp</a>
+              </h6>
+<p id="section-2.4.2.1.2-1">Indicates PTS in timebase<a href="#section-2.4.2.1.2-1" class="pilcrow">¶</a></p>
+<p id="section-2.4.2.1.2-2">TODO: Varint does NOT accept easily negative, so it could be challenging to
+encode at start (priming)<a href="#section-2.4.2.1.2-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="dts-timestamp">
+<section id="section-2.4.2.1.3">
+              <h6 id="name-dts-timestamp">
+<a href="#section-2.4.2.1.3" class="section-number selfRef">2.4.2.1.3. </a><a href="#name-dts-timestamp" class="section-name selfRef">DTS Timestamp</a>
+              </h6>
+<p id="section-2.4.2.1.3-1">Not needed if B frames are NOT used, in that case should be same value as PTS<a href="#section-2.4.2.1.3-1" class="pilcrow">¶</a></p>
+<p id="section-2.4.2.1.3-2">TODO: Varint does NOT accept easily negative, so it could be challenging to
+encode at start (priming)<a href="#section-2.4.2.1.3-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="timebase">
+<section id="section-2.4.2.1.4">
+              <h6 id="name-timebase">
+<a href="#section-2.4.2.1.4" class="section-number selfRef">2.4.2.1.4. </a><a href="#name-timebase" class="section-name selfRef">Timebase</a>
+              </h6>
+<p id="section-2.4.2.1.4-1">Units used in PTS, DTS, and duration<a href="#section-2.4.2.1.4-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="duration">
+<section id="section-2.4.2.1.5">
+              <h6 id="name-duration">
+<a href="#section-2.4.2.1.5" class="section-number selfRef">2.4.2.1.5. </a><a href="#name-duration" class="section-name selfRef">Duration</a>
+              </h6>
+<p id="section-2.4.2.1.5-1">Duration in timebase
+It will be 0 if not set<a href="#section-2.4.2.1.5-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="wall-clock">
+<section id="section-2.4.2.1.6">
+              <h6 id="name-wall-clock">
+<a href="#section-2.4.2.1.6" class="section-number selfRef">2.4.2.1.6. </a><a href="#name-wall-clock" class="section-name selfRef">Wall Clock</a>
+              </h6>
+<p id="section-2.4.2.1.6-1">EPOCH time in ms when this frame started being captured
+It will be 0 if not set<a href="#section-2.4.2.1.6-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="metadata-size">
+<section id="section-2.4.2.1.7">
+              <h6 id="name-metadata-size">
+<a href="#section-2.4.2.1.7" class="section-number selfRef">2.4.2.1.7. </a><a href="#name-metadata-size" class="section-name selfRef">Metadata Size</a>
+              </h6>
+<p id="section-2.4.2.1.7-1">Size in bytes of the metadata section
+It can be 0 if no metadata is sent<a href="#section-2.4.2.1.7-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="metadata">
+<section id="section-2.4.2.1.8">
+              <h6 id="name-metadata">
+<a href="#section-2.4.2.1.8" class="section-number selfRef">2.4.2.1.8. </a><a href="#name-metadata" class="section-name selfRef">Metadata</a>
+              </h6>
+<p id="section-2.4.2.1.8-1">Extradata needed to decode this stream
 For <code>mediaType == VideoLOCH264AVCC</code> this field will be
 AVCDecoderConfigurationRecord as described in ISO/IEC 14496-15 section 5.3.3.1,
 with field <code>lengthSizeMinusOne</code> = 3 (So length = 4). If any other size length is
 indicated (in AVCDecoderConfigurationRecord) we should error with “Protocol
-violation”<a href="#section-2.4.1-19" class="pilcrow">¶</a></p>
-<p id="section-2.4.1-20">Payload<a href="#section-2.4.1-20" class="pilcrow">¶</a></p>
-<p id="section-2.4.1-21">H264 with bitstream AVC1 format as described in iso14496-15 section 5.3.
+violation”<a href="#section-2.4.2.1.8-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="payload">
+<section id="section-2.4.2.1.9">
+              <h6 id="name-payload">
+<a href="#section-2.4.2.1.9" class="section-number selfRef">2.4.2.1.9. </a><a href="#name-payload" class="section-name selfRef">Payload</a>
+              </h6>
+<p id="section-2.4.2.1.9-1">H264 with bitstream AVC1 format as described in iso14496-15 section 5.3.
 Using 4bytes size field length.
 If any other size length is indicated (in AVCDecoderConfigurationRecord) we
 should error with “Protocol violation”.
 Any change in encoding parameters <span class="bcp14">MUST</span> send a new AVCDecoderConfigurationRecord
-in Metadata<a href="#section-2.4.1-21" class="pilcrow">¶</a></p>
+in Metadata<a href="#section-2.4.2.1.9-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
 </div>
 <div id="audio-opus-bitsream">
-<section id="section-2.5">
-        <h3 id="name-audio-opus-bitsream">
-<a href="#section-2.5" class="section-number selfRef">2.5. </a><a href="#name-audio-opus-bitsream" class="section-name selfRef">Audio Opus bitsream</a>
-        </h3>
-<div class="alignLeft art-text artwork" id="section-2.5-1">
+<section id="section-2.4.2.2">
+            <h5 id="name-audio-opus-bitsream">
+<a href="#section-2.4.2.2" class="section-number selfRef">2.4.2.2. </a><a href="#name-audio-opus-bitsream" class="section-name selfRef">Audio Opus bitsream</a>
+            </h5>
+<div class="alignLeft art-text artwork" id="section-2.4.2.2-1">
 <pre>
 {
   Seq ID (i)
@@ -1360,28 +1420,80 @@ in Metadata<a href="#section-2.4.1-21" class="pilcrow">¶</a></p>
   Wall Clock (i)
   Payload (..)
 }
-</pre><a href="#section-2.5-1" class="pilcrow">¶</a>
+</pre><a href="#section-2.4.2.2-1" class="pilcrow">¶</a>
 </div>
-<p id="section-2.5-2">Seq Id<a href="#section-2.5-2" class="pilcrow">¶</a></p>
-<p id="section-2.5-3">Monotonically increasing counter for this media track<a href="#section-2.5-3" class="pilcrow">¶</a></p>
-<p id="section-2.5-4">PTS Timestamp<a href="#section-2.5-4" class="pilcrow">¶</a></p>
-<p id="section-2.5-5">Indicates PTS in timebase<a href="#section-2.5-5" class="pilcrow">¶</a></p>
-<p id="section-2.5-6">TODO: Varint does NOT accept easily negative, so it could be challenging to
-encode at start (priming)<a href="#section-2.5-6" class="pilcrow">¶</a></p>
-<p id="section-2.5-7">Timebase<a href="#section-2.5-7" class="pilcrow">¶</a></p>
-<p id="section-2.5-8">Units used in PTS, DTS, and duration<a href="#section-2.5-8" class="pilcrow">¶</a></p>
-<p id="section-2.5-9">Sample Freq<a href="#section-2.5-9" class="pilcrow">¶</a></p>
-<p id="section-2.5-10">Sample frequency used in the original signal (before encoding)<a href="#section-2.5-10" class="pilcrow">¶</a></p>
-<p id="section-2.5-11">Num Channels<a href="#section-2.5-11" class="pilcrow">¶</a></p>
-<p id="section-2.5-12">Number of channels in the original signal (before encoding)<a href="#section-2.5-12" class="pilcrow">¶</a></p>
-<p id="section-2.5-13">Duration<a href="#section-2.5-13" class="pilcrow">¶</a></p>
-<p id="section-2.5-14">Duration in timebase
-It will be 0 if not set<a href="#section-2.5-14" class="pilcrow">¶</a></p>
-<p id="section-2.5-15">Wallclock<a href="#section-2.5-15" class="pilcrow">¶</a></p>
-<p id="section-2.5-16">EPOCH time in ms when this frame started being captured
-It will be 0 if not set<a href="#section-2.5-16" class="pilcrow">¶</a></p>
-<p id="section-2.5-17">Payload<a href="#section-2.5-17" class="pilcrow">¶</a></p>
-<p id="section-2.5-18">Opus packets, as described in rfc6716 - section 3<a href="#section-2.5-18" class="pilcrow">¶</a></p>
+<div id="seq-id-1">
+<section id="section-2.4.2.2.1">
+              <h6 id="name-seq-id-2">
+<a href="#section-2.4.2.2.1" class="section-number selfRef">2.4.2.2.1. </a><a href="#name-seq-id-2" class="section-name selfRef">Seq Id</a>
+              </h6>
+<p id="section-2.4.2.2.1-1">Monotonically increasing counter for this media track<a href="#section-2.4.2.2.1-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="pts-timestamp-1">
+<section id="section-2.4.2.2.2">
+              <h6 id="name-pts-timestamp-2">
+<a href="#section-2.4.2.2.2" class="section-number selfRef">2.4.2.2.2. </a><a href="#name-pts-timestamp-2" class="section-name selfRef">PTS Timestamp</a>
+              </h6>
+<p id="section-2.4.2.2.2-1">Indicates PTS in timebase<a href="#section-2.4.2.2.2-1" class="pilcrow">¶</a></p>
+<p id="section-2.4.2.2.2-2">TODO: Varint does NOT accept easily negative, so it could be challenging to
+encode at start (priming)<a href="#section-2.4.2.2.2-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="timebase-1">
+<section id="section-2.4.2.2.3">
+              <h6 id="name-timebase-2">
+<a href="#section-2.4.2.2.3" class="section-number selfRef">2.4.2.2.3. </a><a href="#name-timebase-2" class="section-name selfRef">Timebase</a>
+              </h6>
+<p id="section-2.4.2.2.3-1">Units used in PTS, DTS, and duration<a href="#section-2.4.2.2.3-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="sample-freq">
+<section id="section-2.4.2.2.4">
+              <h6 id="name-sample-freq">
+<a href="#section-2.4.2.2.4" class="section-number selfRef">2.4.2.2.4. </a><a href="#name-sample-freq" class="section-name selfRef">Sample Freq</a>
+              </h6>
+<p id="section-2.4.2.2.4-1">Sample frequency used in the original signal (before encoding)<a href="#section-2.4.2.2.4-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="num-channels">
+<section id="section-2.4.2.2.5">
+              <h6 id="name-num-channels">
+<a href="#section-2.4.2.2.5" class="section-number selfRef">2.4.2.2.5. </a><a href="#name-num-channels" class="section-name selfRef">Num Channels</a>
+              </h6>
+<p id="section-2.4.2.2.5-1">Number of channels in the original signal (before encoding)<a href="#section-2.4.2.2.5-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="duration-1">
+<section id="section-2.4.2.2.6">
+              <h6 id="name-duration-2">
+<a href="#section-2.4.2.2.6" class="section-number selfRef">2.4.2.2.6. </a><a href="#name-duration-2" class="section-name selfRef">Duration</a>
+              </h6>
+<p id="section-2.4.2.2.6-1">Duration in timebase
+It will be 0 if not set<a href="#section-2.4.2.2.6-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="wallclock">
+<section id="section-2.4.2.2.7">
+              <h6 id="name-wallclock">
+<a href="#section-2.4.2.2.7" class="section-number selfRef">2.4.2.2.7. </a><a href="#name-wallclock" class="section-name selfRef">Wallclock</a>
+              </h6>
+<p id="section-2.4.2.2.7-1">EPOCH time in ms when this frame started being captured
+It will be 0 if not set<a href="#section-2.4.2.2.7-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="payload-1">
+<section id="section-2.4.2.2.8">
+              <h6 id="name-payload-2">
+<a href="#section-2.4.2.2.8" class="section-number selfRef">2.4.2.2.8. </a><a href="#name-payload-2" class="section-name selfRef">Payload</a>
+              </h6>
+<p id="section-2.4.2.2.8-1">Opus packets, as described in rfc6716 - section 3<a href="#section-2.4.2.2.8-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+</section>
+</div>
 </section>
 </div>
 </section>
