@@ -268,7 +268,7 @@ Opus packets, as described in {{!RFC6716}} - section 3
 
 # References
 
-[ISO14496-15:2019] "Carriage of network abstraction layer (NAL) unit 
+[ISO14496-15:2019] "Carriage of network abstraction layer (NAL) unit
 structured video in the ISO base media file format", ISO ISO14496-15:2019,
 International Organization for Standardization, October, 2022.
 
