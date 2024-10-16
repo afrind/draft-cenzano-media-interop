@@ -137,7 +137,7 @@ Table of Contents
 
    Example:
 
-   PTS = 11 timebase = 30
+   PTS = 11, timebase = 30
 
    PTS(s) = 11/30 = 0.366666
 
@@ -224,12 +224,15 @@ Table of Contents
 
 2.4.2.1.8.  Metadata
 
-   Extradata needed to decode this stream For mediaType == 0x0 this
-   field will be AVCDecoderConfigurationRecord as described in
-   [ISO14496-15:2019] section 5.3.3.1, with field lengthSizeMinusOne = 3
-   (So length = 4).  If any other size length is indicated (in
+   Extradata needed to decode this stream This will be
+   AVCDecoderConfigurationRecord as described in [ISO14496-15:2019]
+   section 5.3.3.1, with field lengthSizeMinusOne = 3 (So length = 4).
+   If any other size length is indicated (in
    AVCDecoderConfigurationRecord) we should error with “Protocol
    violation”
+
+   Any change in encoding parameters MUST send a new
+   AVCDecoderConfigurationRecord
 
 2.4.2.1.9.  Payload
 
@@ -239,9 +242,6 @@ Table of Contents
    If any other size length is indicated (in
    AVCDecoderConfigurationRecord) we should error with “Protocol
    violation”.
-
-   Any change in encoding parameters MUST send a new
-   AVCDecoderConfigurationRecord in Metadata
 
 2.4.2.2.  Audio Opus bitsream
 

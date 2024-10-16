@@ -1244,8 +1244,7 @@ timestamps will be expressed with two integers:
 <p id="section-2.3-2">To convert a timestamp into seconds you just need to:
 timestamp(s) = timestamp numerator / timebase<a href="#section-2.3-2" class="pilcrow">¶</a></p>
 <p id="section-2.3-3">Example:<a href="#section-2.3-3" class="pilcrow">¶</a></p>
-<p id="section-2.3-4">PTS = 11
-timebase = 30<a href="#section-2.3-4" class="pilcrow">¶</a></p>
+<p id="section-2.3-4">PTS = 11, timebase = 30<a href="#section-2.3-4" class="pilcrow">¶</a></p>
 <p id="section-2.3-5">PTS(s) = 11/30 = 0.366666<a href="#section-2.3-5" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -1396,11 +1395,11 @@ It can be 0 if no metadata is sent<a href="#section-2.4.2.1.7-1" class="pilcrow"
 <a href="#section-2.4.2.1.8" class="section-number selfRef">2.4.2.1.8. </a><a href="#name-metadata" class="section-name selfRef">Metadata</a>
               </h6>
 <p id="section-2.4.2.1.8-1">Extradata needed to decode this stream
-For <code>mediaType == 0x0</code> this field will be
-<code>AVCDecoderConfigurationRecord</code> as described in [ISO14496-15:2019] section 5.3.3.1,
-with field <code>lengthSizeMinusOne</code> = 3 (So length = 4). If any other size length is
-indicated (in <code>AVCDecoderConfigurationRecord</code>) we should error with “Protocol
-violation”<a href="#section-2.4.2.1.8-1" class="pilcrow">¶</a></p>
+This will be  <code>AVCDecoderConfigurationRecord</code> as described in
+[ISO14496-15:2019] section 5.3.3.1, with field <code>lengthSizeMinusOne</code> = 3
+(So length = 4). If any other size length is indicated
+(in <code>AVCDecoderConfigurationRecord</code>) we should error with “Protocol violation”<a href="#section-2.4.2.1.8-1" class="pilcrow">¶</a></p>
+<p id="section-2.4.2.1.8-2">Any change in encoding parameters <span class="bcp14">MUST</span> send a new <code>AVCDecoderConfigurationRecord</code><a href="#section-2.4.2.1.8-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="payload">
@@ -1412,8 +1411,6 @@ violation”<a href="#section-2.4.2.1.8-1" class="pilcrow">¶</a></p>
 Using 4bytes size field length.<a href="#section-2.4.2.1.9-1" class="pilcrow">¶</a></p>
 <p id="section-2.4.2.1.9-2">If any other size length is indicated (in AVCDecoderConfigurationRecord) we
 should error with “Protocol violation”.<a href="#section-2.4.2.1.9-2" class="pilcrow">¶</a></p>
-<p id="section-2.4.2.1.9-3">Any change in encoding parameters <span class="bcp14">MUST</span> send a new <code>AVCDecoderConfigurationRecord</code>
-in Metadata<a href="#section-2.4.2.1.9-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
