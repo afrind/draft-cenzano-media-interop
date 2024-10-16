@@ -147,6 +147,8 @@ Table of Contents
      Media payload (..)
    }
 
+                        Figure 1: MOQT Media object
+
 2.4.1.  Media Type
 
    This value indicates what kind of media payload will follow
@@ -179,6 +181,8 @@ Table of Contents
      Metadata (..)
      Payload (..)
    }
+
+                    Figure 2: MOQT Media video h264 loc
 
 2.4.2.1.1.  Seq ID
 
@@ -246,6 +250,8 @@ Table of Contents
      Wall Clock (i)
      Payload (..)
    }
+
+                    Figure 3: MOQT Media audio Opus LOC
 
 2.4.2.2.1.  Seq Id
 
