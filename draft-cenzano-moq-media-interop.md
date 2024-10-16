@@ -94,8 +94,7 @@ timestamp(s) = timestamp numerator / timebase
 
 Example:
 
-PTS = 11
-timebase = 30
+PTS = 11, timebase = 30
 
 PTS(s) = 11/30 = 0.366666
 
@@ -190,11 +189,12 @@ It can be 0 if no metadata is sent
 ##### Metadata
 
 Extradata needed to decode this stream
-For `mediaType == 0x0` this field will be
-`AVCDecoderConfigurationRecord` as described in [ISO14496-15:2019] section 5.3.3.1,
-with field `lengthSizeMinusOne` = 3 (So length = 4). If any other size length is
-indicated (in `AVCDecoderConfigurationRecord`) we should error with “Protocol
-violation”
+This will be  `AVCDecoderConfigurationRecord` as described in
+[ISO14496-15:2019] section 5.3.3.1, with field `lengthSizeMinusOne` = 3
+(So length = 4). If any other size length is indicated
+(in `AVCDecoderConfigurationRecord`) we should error with “Protocol violation”
+
+Any change in encoding parameters MUST send a new `AVCDecoderConfigurationRecord`
 
 
 ##### Payload
@@ -204,9 +204,6 @@ Using 4bytes size field length.
 
 If any other size length is indicated (in AVCDecoderConfigurationRecord) we
 should error with “Protocol violation”.
-
-Any change in encoding parameters MUST send a new `AVCDecoderConfigurationRecord`
-in Metadata
 
 
 #### Audio Opus bitsream
