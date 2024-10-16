@@ -193,17 +193,19 @@ Extradata needed to decode this stream
 For `mediaType == 0x0` this field will be
 `AVCDecoderConfigurationRecord` as described in [ISO14496-15:2019] section 5.3.3.1,
 with field `lengthSizeMinusOne` = 3 (So length = 4). If any other size length is
-indicated (in AVCDecoderConfigurationRecord) we should error with “Protocol
+indicated (in `AVCDecoderConfigurationRecord`) we should error with “Protocol
 violation”
 
 
 ##### Payload
 
-H264 with bitstream AVC1 format as described in iso14496-15 section 5.3.
+H264 with bitstream AVC1 format as described in [ISO14496-15:2019] section 5.3.
 Using 4bytes size field length.
+
 If any other size length is indicated (in AVCDecoderConfigurationRecord) we
 should error with “Protocol violation”.
-Any change in encoding parameters MUST send a new AVCDecoderConfigurationRecord
+
+Any change in encoding parameters MUST send a new `AVCDecoderConfigurationRecord`
 in Metadata
 
 
@@ -271,8 +273,6 @@ Opus packets, as described in {{!RFC6716}} - section 3
 [ISO14496-15:2019] "Carriage of network abstraction layer (NAL) unit
 structured video in the ISO base media file format", ISO ISO14496-15:2019,
 International Organization for Standardization, October, 2022.
-
-ISO/IEC 14496-15 section 5.3.3.1,
 
 # Conventions and Definitions
 
