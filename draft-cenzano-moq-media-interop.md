@@ -36,7 +36,6 @@ normative:
 
 informative:
 
-
 --- abstract
 
 This protocol can be used to send and receive video and audio over Media over QUIC Transport [MOQT].
@@ -51,7 +50,7 @@ flexible in order to support this range of use cases.
 
 The following parameters can be updated in the middle of a the track (ex: frame rate, resolution, codec, etc)
 
-The protocol defines a low overhead packager (not LoC [loq]), and is extensible
+The protocol defines a low overhead packager (not LoC [loc], and is extensible
 to other formats such as FMP4.
 
 # Protocol Operation
@@ -75,11 +74,11 @@ same timeline).
 
 For the video track, the publisher begins a new group at the start of each IDR
 (so object 0 will be always an IDR Keyframe), and each group contains a single
-subgroup.  Each object has the format described in {{video-object-format}}.
+subgroup.  Each object has the format described in {{object-format}}.
 
 For the audio track, the publisher begins a new group with each audio object,
 and each group contains a single subgroup.  Each object has the format described
-in {{audio-object-format}}.
+in {{object-format}}.
 
 TODO: Datagram forwarding preference could be used, but has problems if audio
 frame does not fit in a single UDP payload.
@@ -103,11 +102,34 @@ PTS(s) = 11/30 = 0.366666
 
 ## Object Format
 
-### Video Object Format
-
 ~~~
 {
   Media Type (i)
+  Media payload (..)
+}
+~~~
+{: #media-object format title="MOQT Media object"}
+
+### Media Type
+
+This value indicates what kind of media payload will follow
+
+|------|--------------------------------------|
+| Code | Value                                |
+|-----:|:-------------------------------------|
+| 0x0  | Video H264 in AVCC with LOC packager |
+|------|--------------------------------------|
+| 0x1  | Audio Opus bitsream                  |
+|------|--------------------------------------|
+
+
+### Media payload
+Is where media related information is carried, and it is specifed by Media type
+
+#### Video H264 in AVCC with LOC packager format
+
+~~~
+{
   Seq ID (i)
   PTS Timestamp (i)
   DTS Timestamp (i)
@@ -119,22 +141,14 @@ PTS(s) = 11/30 = 0.366666
   Payload (..)
 }
 ~~~
+{: #media-object-video-h264-avcc-loc format title="MOQT Media video h264 loc"}
 
-
-Media Type
-
-Specifies the meaning of all the data sent after this field
-It keeps this packager extensible to any other options (such as: fmp4, etc)
-It can be:
-- VideoLOCH264AVCC = 0
-
-
-Seq ID
+##### Seq ID
 
 Monotonically increasing counter for this media track
 
 
-PTS Timestamp
+##### PTS Timestamp
 
 Indicates PTS in timebase
 
@@ -142,7 +156,7 @@ TODO: Varint does NOT accept easily negative, so it could be challenging to
 encode at start (priming)
 
 
-DTS Timestamp
+##### DTS Timestamp
 
 Not needed if B frames are NOT used, in that case should be same value as PTS
 
@@ -150,54 +164,55 @@ TODO: Varint does NOT accept easily negative, so it could be challenging to
 encode at start (priming)
 
 
-Timebase
+##### Timebase
 
 Units used in PTS, DTS, and duration
 
 
-Duration
+##### Duration
 
 Duration in timebase
 It will be 0 if not set
 
 
-Wall Clock
+##### Wall Clock
 
 EPOCH time in ms when this frame started being captured
 It will be 0 if not set
 
 
-Metadata Size
+##### Metadata Size
 
 Size in bytes of the metadata section
 It can be 0 if no metadata is sent
 
 
-Metadata
+##### Metadata
 
 Extradata needed to decode this stream
-For `mediaType == VideoLOCH264AVCC` this field will be
-AVCDecoderConfigurationRecord as described in ISO/IEC 14496-15 section 5.3.3.1,
+For `mediaType == 0x0` this field will be
+`AVCDecoderConfigurationRecord` as described in [ISO14496-15:2019] section 5.3.3.1,
 with field `lengthSizeMinusOne` = 3 (So length = 4). If any other size length is
-indicated (in AVCDecoderConfigurationRecord) we should error with “Protocol
+indicated (in `AVCDecoderConfigurationRecord`) we should error with “Protocol
 violation”
 
 
-Payload
+##### Payload
 
-H264 with bitstream AVC1 format as described in iso14496-15 section 5.3.
+H264 with bitstream AVC1 format as described in [ISO14496-15:2019] section 5.3.
 Using 4bytes size field length.
+
 If any other size length is indicated (in AVCDecoderConfigurationRecord) we
 should error with “Protocol violation”.
-Any change in encoding parameters MUST send a new AVCDecoderConfigurationRecord
+
+Any change in encoding parameters MUST send a new `AVCDecoderConfigurationRecord`
 in Metadata
 
 
-## Audio Object Format
+#### Audio Opus bitsream
 
 ~~~
 {
-  Media Type (i)
   Seq ID (i)
   PTS Timestamp (i)
   Timebase (i)
@@ -208,21 +223,13 @@ in Metadata
   Payload (..)
 }
 ~~~
+{: #media-object-audio-opus-loc format title="MOQT Media audio Opus LOC"}
 
-
-Media Type
-
-Specifies the meaning of all the data sent after this field
-It keeps this packager extensible to any other options (such as AAC-ASC, etc)
-It can be:
-- AudioLOCOpus = 1
-
-
-Seq Id
+##### Seq Id
 
 Monotonically increasing counter for this media track
 
-PTS Timestamp
+##### PTS Timestamp
 
 Indicates PTS in timebase
 
@@ -230,36 +237,42 @@ TODO: Varint does NOT accept easily negative, so it could be challenging to
 encode at start (priming)
 
 
-Timebase
+##### Timebase
 
 Units used in PTS, DTS, and duration
 
-Sample Freq
+##### Sample Freq
 
 Sample frequency used in the original signal (before encoding)
 
 
-Num Channels
+##### Num Channels
 
 Number of channels in the original signal (before encoding)
 
 
-Duration
+##### Duration
 
 Duration in timebase
 It will be 0 if not set
 
 
-Wallclock
+##### Wallclock
 
 EPOCH time in ms when this frame started being captured
 It will be 0 if not set
 
 
-Payload
+##### Payload
 
-Opus packets, as described in rfc6716 - section 3
+Opus packets, as described in {{!RFC6716}} - section 3
 
+
+# References
+
+[ISO14496-15:2019] "Carriage of network abstraction layer (NAL) unit
+structured video in the ISO base media file format", ISO ISO14496-15:2019,
+International Organization for Standardization, October, 2022.
 
 # Conventions and Definitions
 
