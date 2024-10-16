@@ -35,6 +35,7 @@ author:
 normative:
 
 informative:
+ I-D.draft-draft-mzanaty-moq-loc:
 
 
 --- abstract
@@ -51,7 +52,7 @@ flexible in order to support this range of use cases.
 
 The following parameters can be updated in the middle of a the track (ex: frame rate, resolution, codec, etc)
 
-The protocol defines a low overhead packager (not LoC [loq]), and is extensible
+The protocol defines a low overhead packager (not LoC {{draft-mzanaty-moq-loc-03}}), and is extensible
 to other formats such as FMP4.
 
 # Protocol Operation
@@ -103,11 +104,30 @@ PTS(s) = 11/30 = 0.366666
 
 ## Object Format
 
-### Video Object Format
-
 ~~~
 {
   Media Type (i)
+  Media payload (..)
+}
+~~~
+
+- Media Type
+
+This value indicates what kind of media payload will follow
+
+|------|--------------------------------------|
+| Code | Value                                |
+|-----:|:-------------------------------------|
+| 0x0  | Video H264 in AVCC with LOC packager |
+|------|--------------------------------------|
+| 0x1  | Audio Opus bitsream                  |
+|------|--------------------------------------|
+
+
+### Video H264 in AVCC with LOC packager format
+
+~~~
+{
   Seq ID (i)
   PTS Timestamp (i)
   DTS Timestamp (i)
@@ -119,15 +139,6 @@ PTS(s) = 11/30 = 0.366666
   Payload (..)
 }
 ~~~
-
-
-Media Type
-
-Specifies the meaning of all the data sent after this field
-It keeps this packager extensible to any other options (such as: fmp4, etc)
-It can be:
-- VideoLOCH264AVCC = 0
-
 
 Seq ID
 
@@ -193,11 +204,10 @@ Any change in encoding parameters MUST send a new AVCDecoderConfigurationRecord
 in Metadata
 
 
-## Audio Object Format
+##  Audio Opus bitsream 
 
 ~~~
 {
-  Media Type (i)
   Seq ID (i)
   PTS Timestamp (i)
   Timebase (i)
@@ -208,14 +218,6 @@ in Metadata
   Payload (..)
 }
 ~~~
-
-
-Media Type
-
-Specifies the meaning of all the data sent after this field
-It keeps this packager extensible to any other options (such as AAC-ASC, etc)
-It can be:
-- AudioLOCOpus = 1
 
 
 Seq Id
