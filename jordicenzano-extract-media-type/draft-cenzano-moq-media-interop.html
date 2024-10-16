@@ -1399,7 +1399,7 @@ It can be 0 if no metadata is sent<a href="#section-2.4.2.1.7-1" class="pilcrow"
 For <code>mediaType == 0x0</code> this field will be
 <code>AVCDecoderConfigurationRecord</code> as described in [ISO14496-15:2019] section 5.3.3.1,
 with field <code>lengthSizeMinusOne</code> = 3 (So length = 4). If any other size length is
-indicated (in AVCDecoderConfigurationRecord) we should error with “Protocol
+indicated (in <code>AVCDecoderConfigurationRecord</code>) we should error with “Protocol
 violation”<a href="#section-2.4.2.1.8-1" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -1408,12 +1408,12 @@ violation”<a href="#section-2.4.2.1.8-1" class="pilcrow">¶</a></p>
               <h6 id="name-payload">
 <a href="#section-2.4.2.1.9" class="section-number selfRef">2.4.2.1.9. </a><a href="#name-payload" class="section-name selfRef">Payload</a>
               </h6>
-<p id="section-2.4.2.1.9-1">H264 with bitstream AVC1 format as described in iso14496-15 section 5.3.
-Using 4bytes size field length.
-If any other size length is indicated (in AVCDecoderConfigurationRecord) we
-should error with “Protocol violation”.
-Any change in encoding parameters <span class="bcp14">MUST</span> send a new AVCDecoderConfigurationRecord
-in Metadata<a href="#section-2.4.2.1.9-1" class="pilcrow">¶</a></p>
+<p id="section-2.4.2.1.9-1">H264 with bitstream AVC1 format as described in [ISO14496-15:2019] section 5.3.
+Using 4bytes size field length.<a href="#section-2.4.2.1.9-1" class="pilcrow">¶</a></p>
+<p id="section-2.4.2.1.9-2">If any other size length is indicated (in AVCDecoderConfigurationRecord) we
+should error with “Protocol violation”.<a href="#section-2.4.2.1.9-2" class="pilcrow">¶</a></p>
+<p id="section-2.4.2.1.9-3">Any change in encoding parameters <span class="bcp14">MUST</span> send a new <code>AVCDecoderConfigurationRecord</code>
+in Metadata<a href="#section-2.4.2.1.9-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -1527,7 +1527,6 @@ It will be 0 if not set<a href="#section-2.4.2.2.7-1" class="pilcrow">¶</a></p>
 <p id="section-3-1">[ISO14496-15:2019] "Carriage of network abstraction layer (NAL) unit
 structured video in the ISO base media file format", ISO ISO14496-15:2019,
 International Organization for Standardization, October, 2022.<a href="#section-3-1" class="pilcrow">¶</a></p>
-<p id="section-3-2">ISO/IEC 14496-15 section 5.3.3.1,<a href="#section-3-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="conventions-and-definitions">

@@ -233,11 +233,15 @@ Table of Contents
 
 2.4.2.1.9.  Payload
 
-   H264 with bitstream AVC1 format as described in iso14496-15 section
-   5.3.  Using 4bytes size field length.  If any other size length is
-   indicated (in AVCDecoderConfigurationRecord) we should error with
-   “Protocol violation”. Any change in encoding parameters MUST send a
-   new AVCDecoderConfigurationRecord in Metadata
+   H264 with bitstream AVC1 format as described in [ISO14496-15:2019]
+   section 5.3.  Using 4bytes size field length.
+
+   If any other size length is indicated (in
+   AVCDecoderConfigurationRecord) we should error with “Protocol
+   violation”.
+
+   Any change in encoding parameters MUST send a new
+   AVCDecoderConfigurationRecord in Metadata
 
 2.4.2.2.  Audio Opus bitsream
 
@@ -296,8 +300,6 @@ Table of Contents
    structured video in the ISO base media file format", ISO
    ISO14496-15:2019, International Organization for Standardization,
    October, 2022.
-
-   ISO/IEC 14496-15 section 5.3.3.1,
 
 4.  Conventions and Definitions
 
