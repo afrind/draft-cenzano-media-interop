@@ -1,0 +1,473 @@
+{
+  "magic": "E!vIA5L86J2I",
+  "timestamp": "2024-10-17T00:55:40.384765+00:00",
+  "repo": "afrind/draft-cenzano-media-interop",
+  "labels": [
+    {
+      "name": "bug",
+      "description": "Something isn't working",
+      "color": "d73a4a"
+    },
+    {
+      "name": "documentation",
+      "description": "Improvements or additions to documentation",
+      "color": "0075ca"
+    },
+    {
+      "name": "duplicate",
+      "description": "This issue or pull request already exists",
+      "color": "cfd3d7"
+    },
+    {
+      "name": "enhancement",
+      "description": "New feature or request",
+      "color": "a2eeef"
+    },
+    {
+      "name": "good first issue",
+      "description": "Good for newcomers",
+      "color": "7057ff"
+    },
+    {
+      "name": "help wanted",
+      "description": "Extra attention is needed",
+      "color": "008672"
+    },
+    {
+      "name": "invalid",
+      "description": "This doesn't seem right",
+      "color": "e4e669"
+    },
+    {
+      "name": "question",
+      "description": "Further information is requested",
+      "color": "d876e3"
+    },
+    {
+      "name": "wontfix",
+      "description": "This will not be worked on",
+      "color": "ffffff"
+    }
+  ],
+  "issues": [],
+  "pulls": [
+    {
+      "number": 1,
+      "id": "PR_kwDONANmGM5-mGFx",
+      "title": "Minor format update",
+      "url": "https://github.com/afrind/draft-cenzano-media-interop/pull/1",
+      "state": "MERGED",
+      "author": "jordicenzano",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Just format changes",
+      "createdAt": "2024-10-14T21:17:07Z",
+      "updatedAt": "2024-10-14T21:22:08Z",
+      "baseRepository": "afrind/draft-cenzano-media-interop",
+      "baseRefName": "main",
+      "baseRefOid": "08a60171b1a096967d2882537b07867510f6af0c",
+      "headRepository": "afrind/draft-cenzano-media-interop",
+      "headRefName": "jordicenzano-format-update",
+      "headRefOid": "94a8d42227f17f0953aabfcd49b5d3d9caa403ef",
+      "closedAt": "2024-10-14T21:22:08Z",
+      "mergedAt": "2024-10-14T21:22:08Z",
+      "mergedBy": "afrind",
+      "mergeCommit": {
+        "oid": "6938026fd9f20ed79421244d214bfbd68f8e5cd8"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDONANmGM6NH-jC",
+          "commit": {
+            "abbreviatedOid": "94a8d42"
+          },
+          "author": "afrind",
+          "authorAssociation": "OWNER",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-10-14T21:21:57Z",
+          "updatedAt": "2024-10-14T21:21:57Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "id": "PR_kwDONANmGM5-mIQZ",
+      "title": "No need for fixed track names",
+      "url": "https://github.com/afrind/draft-cenzano-media-interop/pull/2",
+      "state": "MERGED",
+      "author": "jordicenzano",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "The first element of the packager will tell the subscriber what type of media (audio, video, ...) it carries and also what codec. So there is NO need to use fixed track names",
+      "createdAt": "2024-10-14T21:25:02Z",
+      "updatedAt": "2024-10-14T22:24:35Z",
+      "baseRepository": "afrind/draft-cenzano-media-interop",
+      "baseRefName": "main",
+      "baseRefOid": "6938026fd9f20ed79421244d214bfbd68f8e5cd8",
+      "headRepository": "afrind/draft-cenzano-media-interop",
+      "headRefName": "jordicenzano-patch-1",
+      "headRefOid": "81da98414ccd6991710245ca4b34ed9fe962dd32",
+      "closedAt": "2024-10-14T22:24:35Z",
+      "mergedAt": "2024-10-14T22:24:35Z",
+      "mergedBy": "afrind",
+      "mergeCommit": {
+        "oid": "17d71ce60be9858f445b599bf228b8161908b0c6"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDONANmGM6NIAPp",
+          "commit": {
+            "abbreviatedOid": "6f1b1a0"
+          },
+          "author": "afrind",
+          "authorAssociation": "OWNER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-14T21:28:54Z",
+          "updatedAt": "2024-10-14T21:28:54Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "nit: 80 char line limit for `make`\r\n\r\nBigger question: how does the subscriber know what to subscribe to if the track names are not fixed?",
+              "createdAt": "2024-10-14T21:28:54Z",
+              "updatedAt": "2024-10-14T21:28:55Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDONANmGM6NIA6J",
+          "commit": {
+            "abbreviatedOid": "6f1b1a0"
+          },
+          "author": "jordicenzano",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-14T21:31:45Z",
+          "updatedAt": "2024-10-14T21:31:45Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "I thoght we had catalog for those type of \"out of band\" communication. This will be always true for any type of MOQT connections.\r\nPerhaps we can recommend some naming convention in case there is NO catalog invoved, such as : `video0000`, `audio0000`, `video0001`, `audio0001`,...",
+              "createdAt": "2024-10-14T21:31:45Z",
+              "updatedAt": "2024-10-14T21:31:45Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDONANmGM6NIEi3",
+          "commit": {
+            "abbreviatedOid": "6f1b1a0"
+          },
+          "author": "afrind",
+          "authorAssociation": "OWNER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-14T21:39:32Z",
+          "updatedAt": "2024-10-14T21:39:32Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "0Let's assume this is used without catalogs.  I like using a sequence number (maybe just 0, 1, 2 ... so there's no limit).  So there will be at least one audio and one video called `audio0` and `video0`, additional tracks may be available (you have to subscribe to find out)",
+              "createdAt": "2024-10-14T21:39:32Z",
+              "updatedAt": "2024-10-14T21:39:59Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDONANmGM6NIFeL",
+          "commit": {
+            "abbreviatedOid": "6f1b1a0"
+          },
+          "author": "jordicenzano",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-14T21:43:37Z",
+          "updatedAt": "2024-10-14T21:43:37Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "Yes, in this use case (media and NO catalog) sequence number should be sequential starting at 0, if you get error \"0x3 | Track Does Not Exist\" you know there is NO more.\r\n\r\nIt is a bit weak, but without catalog I understand the subsciber already knows (more or less) what to expect",
+              "createdAt": "2024-10-14T21:43:37Z",
+              "updatedAt": "2024-10-14T21:44:38Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDONANmGM6NIObI",
+          "commit": {
+            "abbreviatedOid": "81da984"
+          },
+          "author": "afrind",
+          "authorAssociation": "OWNER",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-10-14T22:24:18Z",
+          "updatedAt": "2024-10-14T22:24:18Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "id": "PR_kwDONANmGM5-mRXN",
+      "title": "Remove old comment",
+      "url": "https://github.com/afrind/draft-cenzano-media-interop/pull/3",
+      "state": "MERGED",
+      "author": "jordicenzano",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-10-14T22:01:23Z",
+      "updatedAt": "2024-10-14T22:03:07Z",
+      "baseRepository": "afrind/draft-cenzano-media-interop",
+      "baseRefName": "main",
+      "baseRefOid": "6938026fd9f20ed79421244d214bfbd68f8e5cd8",
+      "headRepository": "afrind/draft-cenzano-media-interop",
+      "headRefName": "jordicenzano-remove-old-comment",
+      "headRefOid": "ba63b4601c425ba27a8b1605f22e0b97498a4e9d",
+      "closedAt": "2024-10-14T22:03:07Z",
+      "mergedAt": "2024-10-14T22:03:07Z",
+      "mergedBy": "afrind",
+      "mergeCommit": {
+        "oid": "c76b683c94da62871dbf8448fefbc5bb06d2bf27"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 4,
+      "id": "PR_kwDONANmGM5-mYXg",
+      "title": "Main update to flags",
+      "url": "https://github.com/afrind/draft-cenzano-media-interop/pull/4",
+      "state": "MERGED",
+      "author": "jordicenzano",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "- removed flags from video (extra complexity for small gain)\r\n- refacored in audio",
+      "createdAt": "2024-10-14T22:29:20Z",
+      "updatedAt": "2024-10-15T16:00:11Z",
+      "baseRepository": "afrind/draft-cenzano-media-interop",
+      "baseRefName": "main",
+      "baseRefOid": "17d71ce60be9858f445b599bf228b8161908b0c6",
+      "headRepository": "afrind/draft-cenzano-media-interop",
+      "headRefName": "jordicenzano-refactored-flags",
+      "headRefOid": "a831a627cec4173e0a65f579760af23bbb2a42fa",
+      "closedAt": "2024-10-15T16:00:11Z",
+      "mergedAt": "2024-10-15T16:00:11Z",
+      "mergedBy": "afrind",
+      "mergeCommit": {
+        "oid": "b424d56db0f85ea0a1bf1c9b6601251ad11054d5"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDONANmGM6NIRUa",
+          "commit": {
+            "abbreviatedOid": "3157148"
+          },
+          "author": "afrind",
+          "authorAssociation": "OWNER",
+          "state": "COMMENTED",
+          "body": "I love the video changes.  Some comments on audio",
+          "createdAt": "2024-10-14T22:32:27Z",
+          "updatedAt": "2024-10-14T22:41:14Z",
+          "comments": [
+            {
+              "originalPosition": 67,
+              "body": "Maybe:\r\n\r\n> A value of 0 means Duration is undefined for this object",
+              "createdAt": "2024-10-14T22:32:27Z",
+              "updatedAt": "2024-10-14T22:41:14Z"
+            },
+            {
+              "originalPosition": 80,
+              "body": "Maybe:\r\n\r\n> A value of 0 means `Wall Clock` is undefined for this object",
+              "createdAt": "2024-10-14T22:33:27Z",
+              "updatedAt": "2024-10-14T22:41:14Z"
+            },
+            {
+              "originalPosition": 127,
+              "body": " \"copy from latest\" is weird because everything is its own stream, and things can be reordered.  It would be safer to say \"copy from the largest object received with a `Seq ID` less than the `Seq ID` of this object.\r\n\r\nHowever, that still leaves the possibility that something is wrong eg:\r\n\r\n```\r\nseq=1: settings1\r\nseq=2: no-settings\r\nseq=3: settings2\r\nseq=4: no-settings\r\n```\r\nWhat if object 4 arrives before object 3?  Does it get decoded with the wrong settings?\r\n\r\n Maybe this is a good place to use groups -- eg encoder cuts a new group when settings change, and we say \"copy from any object earlier in the group\".\r\n \r\n So it would be:\r\n \r\n```\r\ngroup=0, obj=0, seq=1: settings1\r\ngroup=0, obj=1, seq=2: no-settings\r\ngroup=1, obj=0, seq=3: settings2\r\ngroup=1, obj=1, seq=4: no-settings\r\n```",
+              "createdAt": "2024-10-14T22:39:42Z",
+              "updatedAt": "2024-10-14T22:41:14Z"
+            },
+            {
+              "originalPosition": 127,
+              "body": "This may also mean we can omit all the flags on objects > 0.",
+              "createdAt": "2024-10-14T22:40:58Z",
+              "updatedAt": "2024-10-14T22:41:14Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDONANmGM6NJjET",
+          "commit": {
+            "abbreviatedOid": "3157148"
+          },
+          "author": "jordicenzano",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-15T03:38:35Z",
+          "updatedAt": "2024-10-15T03:38:35Z",
+          "comments": [
+            {
+              "originalPosition": 127,
+              "body": "I think my next change covers all of that ^^",
+              "createdAt": "2024-10-15T03:38:35Z",
+              "updatedAt": "2024-10-15T03:38:44Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDONANmGM6NQYHF",
+          "commit": {
+            "abbreviatedOid": "a831a62"
+          },
+          "author": "afrind",
+          "authorAssociation": "OWNER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-15T15:59:51Z",
+          "updatedAt": "2024-10-15T15:59:51Z",
+          "comments": [
+            {
+              "originalPosition": 137,
+              "body": "I have a slight pref for keeping the common fields in the same spots between audio an video, but we can shuffle it later.",
+              "createdAt": "2024-10-15T15:59:51Z",
+              "updatedAt": "2024-10-15T15:59:51Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 5,
+      "id": "PR_kwDONANmGM5-ndVz",
+      "title": "Data model update (audio frame=group=subgroup)",
+      "url": "https://github.com/afrind/draft-cenzano-media-interop/pull/5",
+      "state": "MERGED",
+      "author": "jordicenzano",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-10-15T03:48:29Z",
+      "updatedAt": "2024-10-15T16:01:14Z",
+      "baseRepository": "afrind/draft-cenzano-media-interop",
+      "baseRefName": "main",
+      "baseRefOid": "17d71ce60be9858f445b599bf228b8161908b0c6",
+      "headRepository": "afrind/draft-cenzano-media-interop",
+      "headRefName": "jordicenzano-cleanup-audio-data-model",
+      "headRefOid": "7ba38e67b9c5620a1e2cb8a0666ef4f9c47085bb",
+      "closedAt": "2024-10-15T16:01:13Z",
+      "mergedAt": "2024-10-15T16:01:13Z",
+      "mergedBy": "afrind",
+      "mergeCommit": {
+        "oid": "7aa01e49e9a0cf0eff27c04b494e239f04811762"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDONANmGM6NQYxu",
+          "commit": {
+            "abbreviatedOid": "7ba38e6"
+          },
+          "author": "afrind",
+          "authorAssociation": "OWNER",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-10-15T16:01:00Z",
+          "updatedAt": "2024-10-15T16:01:00Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 6,
+      "id": "PR_kwDONANmGM5-nexx",
+      "title": "Add timestamps and timebase explanation",
+      "url": "https://github.com/afrind/draft-cenzano-media-interop/pull/6",
+      "state": "MERGED",
+      "author": "jordicenzano",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-10-15T03:55:47Z",
+      "updatedAt": "2024-10-15T16:02:48Z",
+      "baseRepository": "afrind/draft-cenzano-media-interop",
+      "baseRefName": "main",
+      "baseRefOid": "17d71ce60be9858f445b599bf228b8161908b0c6",
+      "headRepository": "afrind/draft-cenzano-media-interop",
+      "headRefName": "jordicenzano-timebase-explanation",
+      "headRefOid": "54b3773f9077d6cbfea813b4b765019bbafe49ee",
+      "closedAt": "2024-10-15T16:02:48Z",
+      "mergedAt": "2024-10-15T16:02:48Z",
+      "mergedBy": "afrind",
+      "mergeCommit": {
+        "oid": "17ccb3c94830fda118b8e14bac606d92c6cfc877"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDONANmGM6NQZkO",
+          "commit": {
+            "abbreviatedOid": "54b3773"
+          },
+          "author": "afrind",
+          "authorAssociation": "OWNER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-15T16:02:22Z",
+          "updatedAt": "2024-10-15T16:02:22Z",
+          "comments": [
+            {
+              "originalPosition": 11,
+              "body": "For timestamps longer than 1s is the numerator just larger than the denominator eg: 65 / 30?",
+              "createdAt": "2024-10-15T16:02:22Z",
+              "updatedAt": "2024-10-15T16:02:22Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 7,
+      "id": "PR_kwDONANmGM5-4RzJ",
+      "title": "Extract media type + format adjustments + References",
+      "url": "https://github.com/afrind/draft-cenzano-media-interop/pull/7",
+      "state": "MERGED",
+      "author": "jordicenzano",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-10-16T19:32:50Z",
+      "updatedAt": "2024-10-16T22:44:19Z",
+      "baseRepository": "afrind/draft-cenzano-media-interop",
+      "baseRefName": "main",
+      "baseRefOid": "17ccb3c94830fda118b8e14bac606d92c6cfc877",
+      "headRepository": "afrind/draft-cenzano-media-interop",
+      "headRefName": "jordicenzano-extract-media-type",
+      "headRefOid": "1a4763a10e7d66dbad6529e4d252a65d23681fab",
+      "closedAt": "2024-10-16T22:44:15Z",
+      "mergedAt": "2024-10-16T22:44:15Z",
+      "mergedBy": "jordicenzano",
+      "mergeCommit": {
+        "oid": "4bac183ab8bb5c6fa6c10e1ae3db5ebf4264df0f"
+      },
+      "comments": [],
+      "reviews": []
+    }
+  ]
+}
