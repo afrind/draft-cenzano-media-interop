@@ -157,7 +157,7 @@ encode at start (priming)
 
 ##### DTS Timestamp
 
-Not needed if B frames are NOT used, in that case should be same value as PTS
+Not needed if B frames are NOT used, in that case should be same value as PTS.
 
 TODO: Varint does NOT accept easily negative, so it could be challenging to
 encode at start (priming)
@@ -165,18 +165,18 @@ encode at start (priming)
 
 ##### Timebase
 
-Units used in PTS, DTS, and duration
+Units used in PTS, DTS, and duration.
 
 
 ##### Duration
 
-Duration in timebase
+Duration in timebase.
 It will be 0 if not set
 
 
 ##### Wall Clock
 
-EPOCH time in ms when this frame started being captured
+EPOCH time in ms when this frame started being captured.
 It will be 0 if not set
 
 
@@ -201,9 +201,6 @@ Any change in encoding parameters MUST send a new `AVCDecoderConfigurationRecord
 
 H264 with bitstream AVC1 format as described in [ISO14496-15:2019] section 5.3.
 Using 4bytes size field length.
-
-If any other size length is indicated (in AVCDecoderConfigurationRecord) we
-should error with “Protocol violation”.
 
 
 #### Audio Opus bitsream
@@ -250,13 +247,13 @@ Number of channels in the original signal (before encoding)
 
 ##### Duration
 
-Duration in timebase
+Duration in timebase.
 It will be 0 if not set
 
 
 ##### Wallclock
 
-EPOCH time in ms when this frame started being captured
+EPOCH time in ms when this frame started being captured.
 It will be 0 if not set
 
 
