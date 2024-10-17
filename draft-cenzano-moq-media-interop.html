@@ -1029,7 +1029,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Cenzano-Ferret &amp; Frindell</td>
-<td class="center">Expires 19 April 2025</td>
+<td class="center">Expires 20 April 2025</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1042,12 +1042,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-cenzano-moq-media-interop-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2024-10-16" class="published">16 October 2024</time>
+<time datetime="2024-10-17" class="published">17 October 2024</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2025-04-19">19 April 2025</time></dd>
+<dd class="expires"><time datetime="2025-04-20">20 April 2025</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1101,7 +1101,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 19 April 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 20 April 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1349,7 +1349,7 @@ encode at start (priming)<a href="#section-2.4.2.1.2-2" class="pilcrow">¶</a></
               <h6 id="name-dts-timestamp">
 <a href="#section-2.4.2.1.3" class="section-number selfRef">2.4.2.1.3. </a><a href="#name-dts-timestamp" class="section-name selfRef">DTS Timestamp</a>
               </h6>
-<p id="section-2.4.2.1.3-1">Not needed if B frames are NOT used, in that case should be same value as PTS<a href="#section-2.4.2.1.3-1" class="pilcrow">¶</a></p>
+<p id="section-2.4.2.1.3-1">Not needed if B frames are NOT used, in that case should be same value as PTS.<a href="#section-2.4.2.1.3-1" class="pilcrow">¶</a></p>
 <p id="section-2.4.2.1.3-2">TODO: Varint does NOT accept easily negative, so it could be challenging to
 encode at start (priming)<a href="#section-2.4.2.1.3-2" class="pilcrow">¶</a></p>
 </section>
@@ -1359,7 +1359,7 @@ encode at start (priming)<a href="#section-2.4.2.1.3-2" class="pilcrow">¶</a></
               <h6 id="name-timebase">
 <a href="#section-2.4.2.1.4" class="section-number selfRef">2.4.2.1.4. </a><a href="#name-timebase" class="section-name selfRef">Timebase</a>
               </h6>
-<p id="section-2.4.2.1.4-1">Units used in PTS, DTS, and duration<a href="#section-2.4.2.1.4-1" class="pilcrow">¶</a></p>
+<p id="section-2.4.2.1.4-1">Units used in PTS, DTS, and duration.<a href="#section-2.4.2.1.4-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="duration">
@@ -1367,7 +1367,7 @@ encode at start (priming)<a href="#section-2.4.2.1.3-2" class="pilcrow">¶</a></
               <h6 id="name-duration">
 <a href="#section-2.4.2.1.5" class="section-number selfRef">2.4.2.1.5. </a><a href="#name-duration" class="section-name selfRef">Duration</a>
               </h6>
-<p id="section-2.4.2.1.5-1">Duration in timebase
+<p id="section-2.4.2.1.5-1">Duration in timebase.
 It will be 0 if not set<a href="#section-2.4.2.1.5-1" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -1376,7 +1376,7 @@ It will be 0 if not set<a href="#section-2.4.2.1.5-1" class="pilcrow">¶</a></p>
               <h6 id="name-wall-clock">
 <a href="#section-2.4.2.1.6" class="section-number selfRef">2.4.2.1.6. </a><a href="#name-wall-clock" class="section-name selfRef">Wall Clock</a>
               </h6>
-<p id="section-2.4.2.1.6-1">EPOCH time in ms when this frame started being captured
+<p id="section-2.4.2.1.6-1">EPOCH time in ms when this frame started being captured.
 It will be 0 if not set<a href="#section-2.4.2.1.6-1" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -1409,8 +1409,6 @@ This will be  <code>AVCDecoderConfigurationRecord</code> as described in
               </h6>
 <p id="section-2.4.2.1.9-1">H264 with bitstream AVC1 format as described in [ISO14496-15:2019] section 5.3.
 Using 4bytes size field length.<a href="#section-2.4.2.1.9-1" class="pilcrow">¶</a></p>
-<p id="section-2.4.2.1.9-2">If any other size length is indicated (in AVCDecoderConfigurationRecord) we
-should error with “Protocol violation”.<a href="#section-2.4.2.1.9-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -1487,7 +1485,7 @@ encode at start (priming)<a href="#section-2.4.2.2.2-2" class="pilcrow">¶</a></
               <h6 id="name-duration-2">
 <a href="#section-2.4.2.2.6" class="section-number selfRef">2.4.2.2.6. </a><a href="#name-duration-2" class="section-name selfRef">Duration</a>
               </h6>
-<p id="section-2.4.2.2.6-1">Duration in timebase
+<p id="section-2.4.2.2.6-1">Duration in timebase.
 It will be 0 if not set<a href="#section-2.4.2.2.6-1" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -1496,7 +1494,7 @@ It will be 0 if not set<a href="#section-2.4.2.2.6-1" class="pilcrow">¶</a></p>
               <h6 id="name-wallclock">
 <a href="#section-2.4.2.2.7" class="section-number selfRef">2.4.2.2.7. </a><a href="#name-wallclock" class="section-name selfRef">Wallclock</a>
               </h6>
-<p id="section-2.4.2.2.7-1">EPOCH time in ms when this frame started being captured
+<p id="section-2.4.2.2.7-1">EPOCH time in ms when this frame started being captured.
 It will be 0 if not set<a href="#section-2.4.2.2.7-1" class="pilcrow">¶</a></p>
 </section>
 </div>
