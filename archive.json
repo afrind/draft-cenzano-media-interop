@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-10-17T00:55:40.384765+00:00",
+  "timestamp": "2024-10-20T01:00:33.680437+00:00",
   "repo": "afrind/draft-cenzano-media-interop",
   "labels": [
     {
@@ -465,6 +465,34 @@
       "mergedBy": "jordicenzano",
       "mergeCommit": {
         "oid": "4bac183ab8bb5c6fa6c10e1ae3db5ebf4264df0f"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 8,
+      "id": "PR_kwDONANmGM5--_6u",
+      "title": "Minor format updates",
+      "url": "https://github.com/afrind/draft-cenzano-media-interop/pull/8",
+      "state": "MERGED",
+      "author": "jordicenzano",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-10-17T15:10:36Z",
+      "updatedAt": "2024-10-17T15:11:42Z",
+      "baseRepository": "afrind/draft-cenzano-media-interop",
+      "baseRefName": "main",
+      "baseRefOid": "5ecb7064e4260902cfd379cf326c4b3f5b8e432a",
+      "headRepository": "afrind/draft-cenzano-media-interop",
+      "headRefName": "jordicenzano-format-update-2",
+      "headRefOid": "f86f3ebb4abc60fa437a08a644e6e0273e61601b",
+      "closedAt": "2024-10-17T15:11:39Z",
+      "mergedAt": "2024-10-17T15:11:39Z",
+      "mergedBy": "jordicenzano",
+      "mergeCommit": {
+        "oid": "4c0f095478dea2677160fff8b86a4971ecbb2189"
       },
       "comments": [],
       "reviews": []
