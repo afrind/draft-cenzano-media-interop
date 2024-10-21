@@ -33,8 +33,17 @@ author:
     email: afrind@meta.com
 
 normative:
+  MOQT: I-D.ietf-moq-transport
+
+  ISO14496:
+    target: https://www.iso.org/standard/74429.html
+    title: Carriage of network abstraction layer (NAL) unit structured video in the ISO base media file format
+    author:
+      org: ISO
+    date: 2019
 
 informative:
+  LOC: I-D.mzanaty-moq-loc
 
 --- abstract
 
@@ -46,14 +55,15 @@ QUIC Transport [MOQT].
 # Introduction
 
 This protocol specifies a simple mechanism for sending media (video and audio)
-over MOQT for both live-streaming and VC style use cases.  The protocol is
-flexible in order to support this range of use cases.
+over MOQT for both live-streaming and VC use cases.  The protocol is flexible in
+order to support this range of use cases.
 
-The following parameters can be updated in the middle of a the track (ex: frame
-rate, resolution, codec, etc)
+Media parameters can be updated in the middle of a the track (ex: frame rate,
+resolution, codec, etc)
 
-The protocol defines a low overhead packager (not LoC [loc], and is extensible
-to other formats such as FMP4.
+The protocol defines a low overhead packaging format optimized for WebCodecs
+called WCP that is extensible to other formats such as FMP4.  This is not LoC
+[LOC], but will eventually be merged with that specification.
 
 # Protocol Operation
 
@@ -86,22 +96,28 @@ TODO: Datagram forwarding preference could be used, but has problems if audio
 frame does not fit in a single UDP payload.
 
 ## Timestamps
+
 To avoid using fractional numbers and having to deal with rounding errors,
 timestamps will be expressed with two integers:
-- timestamp numerator (ex: PTS, DTS, duration)
-- timebase
+
+* timestamp numerator (ex: PTS, DTS, duration)
+* timebase
 
 To convert a timestamp into seconds you just need to:
 timestamp(s) = timestamp numerator / timebase
 
-Example:
+*Example:*
 
+~~~
 PTS = 11, timebase = 30
 
 PTS(s) = 11/30 = 0.366666
+~~~
 
 
 ## Object Format
+
+All objects this protocol have the following format.
 
 ~~~
 {
@@ -111,23 +127,20 @@ PTS(s) = 11/30 = 0.366666
 ~~~
 {: #media-object format title="MOQT Media object"}
 
-### Media Type
-
-This value indicates what kind of media payload will follow
+* Media Type: Indicates what kind of media payload will follow.
 
 |------|--------------------------------------|
 | Code | Value                                |
 |-----:|:-------------------------------------|
-| 0x0  | Video H264 in AVCC with LOC packager |
+| 0x0  | Video H264 in AVCC with WCP          |
 |------|--------------------------------------|
-| 0x1  | Audio Opus bitsream                  |
+| 0x1  | Audio Opus bitstream                 |
 |------|--------------------------------------|
+{: #media-interop-meda-type title="Media Types"}
 
+* Media payload: Media type specific payload
 
-### Media payload
-Is where media related information is carried, and it is specifed by Media type
-
-#### Video H264 in AVCC with LOC packager format
+# Video H264 in AVCC with WCP Payload Format
 
 ~~~
 {
@@ -136,77 +149,49 @@ Is where media related information is carried, and it is specifed by Media type
   DTS Timestamp (i)
   Timebase (i)
   Duration (i)
-  Wallclock (i)
+  Wall Clock (i)
   Metadata Size (i)
   Metadata (..)
   Payload (..)
 }
 ~~~
-{: #media-object-video-h264-avcc-loc format title="MOQT Media video h264 loc"}
+{: #media-object-video-h264-avcc-wcp format title="MOQT Media video h264 WCP"}
 
-##### Seq ID
+* Seq ID: Monotonically increasing counter for this media track.
 
-Monotonically increasing counter for this media track
+* PTS Timestamp: Presentation timestamp in timebase.
 
+ TODO: Varint does NOT accept easily negative values, so it could be challenging
+to encode at start (priming).
 
-##### PTS Timestamp
+* DTS Timestamp: Display timestamp in timebase.  If B frames are not used, the
+ encoder SHOULD set this to the same value as PTS.
 
-Indicates PTS in timebase
+TODO: Varint does NOT accept easily negative values, so it could be challenging
+to encode at start (priming).
 
-TODO: Varint does NOT accept easily negative, so it could be challenging to
-encode at start (priming)
+* Timebase: Denominator used to calculate `PTS`, `DTS`, and `Duration`.
 
+* Duration: Duration of Payload in timebase.  It will be 0 if not set.
 
-##### DTS Timestamp
+* Wall Clock: Epoch time in ms when this frame started being captured. It will
+  be 0 if not set.
 
-Not needed if B frames are NOT used, in that case should be same value as PTS.
+* Metadata Size: Size in bytes of the metadata section.  It will be 0 when no
+  metadata is present.
 
-TODO: Varint does NOT accept easily negative, so it could be challenging to
-encode at start (priming)
-
-
-##### Timebase
-
-Units used in PTS, DTS, and duration.
-
-
-##### Duration
-
-Duration in timebase.
-It will be 0 if not set
-
-
-##### Wall Clock
-
-EPOCH time in ms when this frame started being captured.
-It will be 0 if not set
-
-
-##### Metadata Size
-
-Size in bytes of the metadata section
-It can be 0 if no metadata is sent
-
-
-##### Metadata
-
-Extradata needed to decode this stream
-This will be  `AVCDecoderConfigurationRecord` as described in
-[ISO14496-15:2019] section 5.3.3.1, with field `lengthSizeMinusOne` = 3
-(So length = 4). If any other size length is indicated
-(in `AVCDecoderConfigurationRecord`) we should error with “Protocol violation”
-
+* Metadata: Extra data needed to decode this stream. This will be
+`AVCDecoderConfigurationRecord` as described in [ISO14496] section
+5.3.3.1, with field `lengthSizeMinusOne` = 3 (So length = 4). If any other size
+length is indicated (in `AVCDecoderConfigurationRecord`), the receiver SHOULD
+close the session with a `Protocol Violation` error.
 Any change in encoding parameters MUST send a new
 `AVCDecoderConfigurationRecord`
 
+* Payload: H264 with bitstream AVC1 format as described in [ISO14496]
+section 5.3.  Using 4 bytes size field length.
 
-##### Payload
-
-H264 with bitstream AVC1 format as described in [ISO14496-15:2019] section 5.3.
-Using 4bytes size field length.
-
-
-#### Audio Opus bitsream
+# Audio Opus bitstream Payload Format
 
 ~~~
 {
@@ -220,56 +205,27 @@ Using 4bytes size field length.
   Payload (..)
 }
 ~~~
-{: #media-object-audio-opus-loc format title="MOQT Media audio Opus LOC"}
+{: #media-object-audio-opus-WCP format title="MOQT Media audio Opus WCP"}
 
-##### Seq Id
+* Seq Id: Monotonically increasing counter for this media track.
 
-Monotonically increasing counter for this media track
-
-##### PTS Timestamp
-
-Indicates PTS in timebase
+* PTS Timestamp: Indicates PTS in timebase.
 
 TODO: Varint does NOT accept easily negative, so it could be challenging to
-encode at start (priming)
+encode at start (priming).
 
+* Timebase: Denominator used to calculate `PTS` and `Duration`.
 
-##### Timebase
+* Sample Freq: Sample frequency used in the original signal (before encoding).
 
-Units used in PTS, DTS, and duration
+* Num Channels: Number of channels in the original signal (before encoding).
 
-##### Sample Freq
+* Duration: Duration of Payload in timebase.  It will be 0 if not set.
 
-Sample frequency used in the original signal (before encoding)
+* Wall Clock: Epoch time in ms when this frame started being captured. It will
+  be 0 if not set.
 
-
-##### Num Channels
-
-Number of channels in the original signal (before encoding)
-
-
-##### Duration
-
-Duration in timebase.
-It will be 0 if not set
-
-
-##### Wallclock
-
-EPOCH time in ms when this frame started being captured.
-It will be 0 if not set
-
-
-##### Payload
-
-Opus packets, as described in {{!RFC6716}} - section 3
-
-
-# References
-
-[ISO14496-15:2019] "Carriage of network abstraction layer (NAL) unit
-structured video in the ISO base media file format", ISO ISO14496-15:2019,
-International Organization for Standardization, October, 2022.
+* Payload: Opus packets, as described in {{!RFC6716}} - section 3
 
 # Conventions and Definitions
 
