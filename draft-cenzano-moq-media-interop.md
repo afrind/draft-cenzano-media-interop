@@ -38,7 +38,8 @@ informative:
 
 --- abstract
 
-This protocol can be used to send and receive video and audio over Media over QUIC Transport [MOQT].
+This protocol can be used to send and receive video and audio over Media over
+QUIC Transport [MOQT].
 
 --- middle
 
@@ -48,7 +49,8 @@ This protocol specifies a simple mechanism for sending media (video and audio)
 over MOQT for both live-streaming and VC style use cases.  The protocol is
 flexible in order to support this range of use cases.
 
-The following parameters can be updated in the middle of a the track (ex: frame rate, resolution, codec, etc)
+The following parameters can be updated in the middle of a the track (ex: frame
+rate, resolution, codec, etc)
 
 The protocol defines a low overhead packager (not LoC [loc], and is extensible
 to other formats such as FMP4.
@@ -194,7 +196,8 @@ This will be  `AVCDecoderConfigurationRecord` as described in
 (So length = 4). If any other size length is indicated
 (in `AVCDecoderConfigurationRecord`) we should error with “Protocol violation”
 
-Any change in encoding parameters MUST send a new `AVCDecoderConfigurationRecord`
+Any change in encoding parameters MUST send a new
+`AVCDecoderConfigurationRecord`
 
 
 ##### Payload
