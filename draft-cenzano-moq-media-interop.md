@@ -70,12 +70,15 @@ called WCP that is extensible to other formats such as FMP4.  This is not LoC
 ## Track Names
 
 The publisher selects a namespace of their choosing, and sends an ANNOUNCE
-message for this namespace.
+message for this namespace.  Since MoQT tracks are immutable, each new broadcast
+MUST have a unique namespace.  It is RECOMMENDED that the last tuple of the
+track namespace contain a broadcast timestamp to ensure uniqueness.
 
-Within the publisher namespace the publisher will offer media tracks named as
-`videoX` and `audioX` where X will be an integer starting at 0.
+Within the namespace the publisher offers media tracks named `videoX` and
+`audioX`, where X is an integer starting at 0 and increasing by 1 for each
+additional track of a given type.
 
-So in case the publisher issues 2 audio tracks and 1 video track, the track
+For example, if the publisher issues 2 audio tracks and 1 video track, the track
 names available will be `video0`, `audio0`, and `audio1`.
 
 The subscriber will consider all of those tracks belonging to the same
