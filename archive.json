@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-10-20T01:00:33.680437+00:00",
+  "timestamp": "2024-10-22T00:56:31.829317+00:00",
   "repo": "afrind/draft-cenzano-media-interop",
   "labels": [
     {
@@ -493,6 +493,90 @@
       "mergedBy": "jordicenzano",
       "mergeCommit": {
         "oid": "4c0f095478dea2677160fff8b86a4971ecbb2189"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 9,
+      "id": "PR_kwDONANmGM5_XRY0",
+      "title": "Reflow lines",
+      "url": "https://github.com/afrind/draft-cenzano-media-interop/pull/9",
+      "state": "MERGED",
+      "author": "afrind",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-10-21T18:56:11Z",
+      "updatedAt": "2024-10-21T18:58:59Z",
+      "baseRepository": "afrind/draft-cenzano-media-interop",
+      "baseRefName": "main",
+      "baseRefOid": "4c0f095478dea2677160fff8b86a4971ecbb2189",
+      "headRepository": "afrind/draft-cenzano-media-interop",
+      "headRefName": "reflow",
+      "headRefOid": "7b488d25c7897d8138faceae5ed7afb5140f1091",
+      "closedAt": "2024-10-21T18:58:59Z",
+      "mergedAt": "2024-10-21T18:58:59Z",
+      "mergedBy": "afrind",
+      "mergeCommit": {
+        "oid": "3becdd44abb777f27b447ad8e894226000ba9f22"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 10,
+      "id": "PR_kwDONANmGM5_XR5W",
+      "title": "Editorial Pass",
+      "url": "https://github.com/afrind/draft-cenzano-media-interop/pull/10",
+      "state": "MERGED",
+      "author": "afrind",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "* cleaned up ISO reference\r\n* Formatting changes\r\n* Moved AV and Opus formats to top-level sections\r\n* Renamed non-LoC LoC to \"WCP\" for now to avoid confusion",
+      "createdAt": "2024-10-21T18:57:30Z",
+      "updatedAt": "2024-10-21T21:24:31Z",
+      "baseRepository": "afrind/draft-cenzano-media-interop",
+      "baseRefName": "reflow",
+      "baseRefOid": "7b488d25c7897d8138faceae5ed7afb5140f1091",
+      "headRepository": "afrind/draft-cenzano-media-interop",
+      "headRefName": "editorial",
+      "headRefOid": "d21203d84624b740d0d4bd3390d212c2e6940f3c",
+      "closedAt": "2024-10-21T21:24:31Z",
+      "mergedAt": "2024-10-21T21:24:31Z",
+      "mergedBy": "afrind",
+      "mergeCommit": {
+        "oid": "4da1a82da3f40a2a6230cf7d2014f1d0c9ca2958"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 11,
+      "id": "PR_kwDONANmGM5_XSNx",
+      "title": "Add more details on track naming",
+      "url": "https://github.com/afrind/draft-cenzano-media-interop/pull/11",
+      "state": "MERGED",
+      "author": "afrind",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "* unqiue namespaces\r\n* sequential increment of numeric name suffix",
+      "createdAt": "2024-10-21T18:58:20Z",
+      "updatedAt": "2024-10-21T21:24:43Z",
+      "baseRepository": "afrind/draft-cenzano-media-interop",
+      "baseRefName": "editorial",
+      "baseRefOid": "d21203d84624b740d0d4bd3390d212c2e6940f3c",
+      "headRepository": "afrind/draft-cenzano-media-interop",
+      "headRefName": "track-names",
+      "headRefOid": "d357b8e5c5d2bfeaa839000a8df4ae55ebbf21d2",
+      "closedAt": "2024-10-21T21:24:43Z",
+      "mergedAt": "2024-10-21T21:24:43Z",
+      "mergedBy": "afrind",
+      "mergeCommit": {
+        "oid": "baa3dbbed68fbe59f35070998db489d17a77efa4"
       },
       "comments": [],
       "reviews": []
