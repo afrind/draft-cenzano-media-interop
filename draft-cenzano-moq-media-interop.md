@@ -122,6 +122,8 @@ This value indicates what kind of media payload will follow
 |------|--------------------------------------|
 | 0x1  | Audio Opus bitsream                  |
 |------|--------------------------------------|
+| 0x2  | UTF-8 text                           |
+|------|--------------------------------------|
 
 
 ### Media payload
@@ -263,6 +265,24 @@ It will be 0 if not set
 ##### Payload
 
 Opus packets, as described in {{!RFC6716}} - section 3
+
+#### UTF-8 Text
+
+~~~
+{
+  Seq ID (i)
+  Payload (..)
+}
+~~~
+{: #object-utf8-text format title="MOQT UTF-8 Text"}
+
+##### Seq Id
+
+Monotonically increasing counter for this media track
+
+##### Payload
+
+Text packets in UTF-8, as described in {{!RFC3629}}
 
 
 # References
