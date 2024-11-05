@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-11-03T00:59:58.857317+00:00",
+  "timestamp": "2024-11-05T00:54:51.231303+00:00",
   "repo": "afrind/draft-cenzano-media-interop",
   "labels": [
     {
@@ -578,6 +578,32 @@
       "mergeCommit": {
         "oid": "baa3dbbed68fbe59f35070998db489d17a77efa4"
       },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 12,
+      "id": "PR_kwDONANmGM6AuSV8",
+      "title": "added arbitrary text (in UTF-8)",
+      "url": "https://github.com/afrind/draft-cenzano-media-interop/pull/12",
+      "state": "OPEN",
+      "author": "jordicenzano",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "- Having a way to send simple messages is very useful for testing",
+      "createdAt": "2024-11-03T12:14:41Z",
+      "updatedAt": "2024-11-03T12:14:42Z",
+      "baseRepository": "afrind/draft-cenzano-media-interop",
+      "baseRefName": "main",
+      "baseRefOid": "3becdd44abb777f27b447ad8e894226000ba9f22",
+      "headRepository": "afrind/draft-cenzano-media-interop",
+      "headRefName": "jordicenzano-add-utf8",
+      "headRefOid": "881d84e52aba7ee3ca3fb3562a6dfa4d8b6f0c7a",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
       "comments": [],
       "reviews": []
     }
