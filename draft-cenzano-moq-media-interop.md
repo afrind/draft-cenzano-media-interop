@@ -122,6 +122,8 @@ This value indicates what kind of media payload will follow
 |------|--------------------------------------|
 | 0x1  | Audio Opus bitsream                  |
 |------|--------------------------------------|
+| 0x3  | Audio AAC-LC in MPEG4                |
+|------|--------------------------------------|
 
 
 ### Media payload
@@ -263,6 +265,65 @@ It will be 0 if not set
 ##### Payload
 
 Opus packets, as described in {{!RFC6716}} - section 3
+
+
+#### Audio AAC-LC in MPEG4 bitstream
+
+~~~
+{
+  Seq ID (i)
+  PTS Timestamp (i)
+  Timebase (i)
+  Sample Freq (i)
+  Num Channels (i)
+  Duration (i)
+  Wall Clock (i)
+  Payload (..)
+}
+~~~
+{: #media-object-audio-aaclcmpeg4-loc format title="MOQT Media audio AAC-LC MPEG4 LOC"}
+
+##### Seq Id
+
+Monotonically increasing counter for this media track
+
+##### PTS Timestamp
+
+Indicates PTS in timebase
+
+TODO: Varint does NOT accept easily negative, so it could be challenging to
+encode at start (priming)
+
+
+##### Timebase
+
+Units used in PTS, DTS, and duration
+
+##### Sample Freq
+
+Sample frequency used in the original signal (before encoding)
+
+
+##### Num Channels
+
+Number of channels in the original signal (before encoding)
+
+
+##### Duration
+
+Duration in timebase.
+It will be 0 if not set
+
+
+##### Wallclock
+
+EPOCH time in ms when this frame started being captured.
+It will be 0 if not set
+
+
+##### Payload
+
+AAC frame (syntax element `raw_data_block()`), as described in section 4.4.2.1 of [ISO14496-3:2009].
 
 
 # References
