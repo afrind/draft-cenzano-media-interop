@@ -122,6 +122,8 @@ This value indicates what kind of media payload will follow
 |------|--------------------------------------|
 | 0x1  | Audio Opus bitsream                  |
 |------|--------------------------------------|
+| 0x2  | UTF-8 text                           |
+|------|--------------------------------------|
 | 0x3  | Audio AAC-LC in MPEG4                |
 |------|--------------------------------------|
 
@@ -266,6 +268,24 @@ It will be 0 if not set
 
 Opus packets, as described in {{!RFC6716}} - section 3
 
+#### UTF-8 Text
+
+~~~
+{
+  Seq ID (i)
+  Payload (..)
+}
+~~~
+{: #object-utf8-text format title="MOQT UTF-8 Text"}
+
+##### Seq Id
+
+Monotonically increasing counter for this media track
+
+##### Payload
+
+Text packets in UTF-8, as described in {{!RFC3629}}
+
 
 #### Audio AAC-LC in MPEG4 bitstream
 
@@ -331,6 +351,9 @@ AAC frame (syntax element `raw_data_block()`), as described in section 4.4.2.1 o
 [ISO14496-15:2019] "Carriage of network abstraction layer (NAL) unit
 structured video in the ISO base media file format", ISO ISO14496-15:2019,
 International Organization for Standardization, October, 2022.
+
+[ISO14496-3:2009] "Information technology — Coding of audio-visual objects", 
+ISO ISO14496-3:2009, International Organization for Standardization, September, 2009.
 
 # Conventions and Definitions
 
