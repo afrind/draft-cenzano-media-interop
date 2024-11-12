@@ -5,7 +5,7 @@
 Media Over QUIC                                        J. Cenzano-Ferret
 Internet-Draft                                               A. Frindell
 Intended status: Informational                                      Meta
-Expires: 14 May 2025                                    10 November 2024
+Expires: 16 May 2025                                    12 November 2024
 
 
                            MoQ Media Interop
@@ -49,7 +49,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 14 May 2025.
+   This Internet-Draft will expire on 16 May 2025.
 
 Copyright Notice
 
@@ -160,6 +160,8 @@ Table of Contents
               |  0x0 | Video H264 in AVCC with LOC packager |
               +------+--------------------------------------+
               |  0x1 | Audio Opus bitsream                  |
+              +------+--------------------------------------+
+              |  0x2 | UTF-8 text                           |
               +------+--------------------------------------+
               |  0x3 | Audio AAC-LC in MPEG4                |
               +------+--------------------------------------+
@@ -292,7 +294,24 @@ Table of Contents
 
    Opus packets, as described in [RFC6716] - section 3
 
-2.4.2.3.  Audio AAC-LC in MPEG4 bitstream
+2.4.2.3.  UTF-8 Text
+
+   {
+     Seq ID (i)
+     Payload (..)
+   }
+
+                         Figure 4: MOQT UTF-8 Text
+
+2.4.2.3.1.  Seq Id
+
+   Monotonically increasing counter for this media track
+
+2.4.2.3.2.  Payload
+
+   Text packets in UTF-8, as described in [RFC3629]
+
+2.4.2.4.  Audio AAC-LC in MPEG4 bitstream
 
    {
      Seq ID (i)
@@ -305,41 +324,41 @@ Table of Contents
      Payload (..)
    }
 
-                Figure 4: MOQT Media audio AAC-LC MPEG4 LOC
+                Figure 5: MOQT Media audio AAC-LC MPEG4 LOC
 
-2.4.2.3.1.  Seq Id
+2.4.2.4.1.  Seq Id
 
    Monotonically increasing counter for this media track
 
-2.4.2.3.2.  PTS Timestamp
+2.4.2.4.2.  PTS Timestamp
 
    Indicates PTS in timebase
 
    TODO: Varint does NOT accept easily negative, so it could be
    challenging to encode at start (priming)
 
-2.4.2.3.3.  Timebase
+2.4.2.4.3.  Timebase
 
    Units used in PTS, DTS, and duration
 
-2.4.2.3.4.  Sample Freq
+2.4.2.4.4.  Sample Freq
 
    Sample frequency used in the original signal (before encoding)
 
-2.4.2.3.5.  Num Channels
+2.4.2.4.5.  Num Channels
 
    Number of channels in the original signal (before encoding)
 
-2.4.2.3.6.  Duration
+2.4.2.4.6.  Duration
 
    Duration in timebase.  It will be 0 if not set
 
-2.4.2.3.7.  Wallclock
+2.4.2.4.7.  Wallclock
 
    EPOCH time in ms when this frame started being captured.  It will be
    0 if not set
 
-2.4.2.3.8.  Payload
+2.4.2.4.8.  Payload
 
    AAC frame (syntax element raw_data_block()), as described in section
    4.4.2.1 of [ISO14496-3:2009].
@@ -350,6 +369,10 @@ Table of Contents
    structured video in the ISO base media file format", ISO
    ISO14496-15:2019, International Organization for Standardization,
    October, 2022.
+
+   [ISO14496-3:2009] "Information technology — Coding of audio-visual
+   objects", ISO ISO14496-3:2009, International Organization for
+   Standardization, September, 2009.
 
 4.  Conventions and Definitions
 
@@ -373,6 +396,10 @@ Table of Contents
               Requirement Levels", BCP 14, RFC 2119,
               DOI 10.17487/RFC2119, March 1997,
               <https://www.rfc-editor.org/rfc/rfc2119>.
+
+   [RFC3629]  Yergeau, F., "UTF-8, a transformation format of ISO
+              10646", STD 63, RFC 3629, DOI 10.17487/RFC3629, November
+              2003, <https://www.rfc-editor.org/rfc/rfc3629>.
 
    [RFC6716]  Valin, JM., Vos, K., and T. Terriberry, "Definition of the
               Opus Audio Codec", RFC 6716, DOI 10.17487/RFC6716,
