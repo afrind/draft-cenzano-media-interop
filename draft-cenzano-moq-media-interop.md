@@ -124,6 +124,8 @@ This value indicates what kind of media payload will follow
 |------|--------------------------------------|
 | 0x2  | UTF-8 text                           |
 |------|--------------------------------------|
+| 0x3  | Audio AAC-LC in MPEG4                |
+|------|--------------------------------------|
 
 
 ### Media payload
@@ -285,11 +287,73 @@ Monotonically increasing counter for this media track
 Text packets in UTF-8, as described in {{!RFC3629}}
 
 
+#### Audio AAC-LC in MPEG4 bitstream
+
+~~~
+{
+  Seq ID (i)
+  PTS Timestamp (i)
+  Timebase (i)
+  Sample Freq (i)
+  Num Channels (i)
+  Duration (i)
+  Wall Clock (i)
+  Payload (..)
+}
+~~~
+{: #media-object-audio-aaclcmpeg4-loc format title="MOQT Media audio AAC-LC MPEG4 LOC"}
+
+##### Seq Id
+
+Monotonically increasing counter for this media track
+
+##### PTS Timestamp
+
+Indicates PTS in timebase
+
+TODO: Varint does NOT accept easily negative, so it could be challenging to
+encode at start (priming)
+
+
+##### Timebase
+
+Units used in PTS, DTS, and duration
+
+##### Sample Freq
+
+Sample frequency used in the original signal (before encoding)
+
+
+##### Num Channels
+
+Number of channels in the original signal (before encoding)
+
+
+##### Duration
+
+Duration in timebase.
+It will be 0 if not set
+
+
+##### Wallclock
+
+EPOCH time in ms when this frame started being captured.
+It will be 0 if not set
+
+
+##### Payload
+
+AAC frame (syntax element `raw_data_block()`), as described in section 4.4.2.1 of [ISO14496-3:2009].
+
+
 # References
 
 [ISO14496-15:2019] "Carriage of network abstraction layer (NAL) unit
 structured video in the ISO base media file format", ISO ISO14496-15:2019,
 International Organization for Standardization, October, 2022.
+
+[ISO14496-3:2009] "Information technology — Coding of audio-visual objects",
+ISO ISO14496-3:2009, International Organization for Standardization, September, 2009.
 
 # Conventions and Definitions
 
