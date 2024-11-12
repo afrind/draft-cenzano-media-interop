@@ -163,6 +163,8 @@ Table of Contents
               +------+--------------------------------------+
               |  0x2 | UTF-8 text                           |
               +------+--------------------------------------+
+              |  0x3 | Audio AAC-LC in MPEG4                |
+              +------+--------------------------------------+
 
                                   Table 1
 
@@ -309,12 +311,68 @@ Table of Contents
 
    Text packets in UTF-8, as described in [RFC3629]
 
+2.4.2.4.  Audio AAC-LC in MPEG4 bitstream
+
+   {
+     Seq ID (i)
+     PTS Timestamp (i)
+     Timebase (i)
+     Sample Freq (i)
+     Num Channels (i)
+     Duration (i)
+     Wall Clock (i)
+     Payload (..)
+   }
+
+                Figure 5: MOQT Media audio AAC-LC MPEG4 LOC
+
+2.4.2.4.1.  Seq Id
+
+   Monotonically increasing counter for this media track
+
+2.4.2.4.2.  PTS Timestamp
+
+   Indicates PTS in timebase
+
+   TODO: Varint does NOT accept easily negative, so it could be
+   challenging to encode at start (priming)
+
+2.4.2.4.3.  Timebase
+
+   Units used in PTS, DTS, and duration
+
+2.4.2.4.4.  Sample Freq
+
+   Sample frequency used in the original signal (before encoding)
+
+2.4.2.4.5.  Num Channels
+
+   Number of channels in the original signal (before encoding)
+
+2.4.2.4.6.  Duration
+
+   Duration in timebase.  It will be 0 if not set
+
+2.4.2.4.7.  Wallclock
+
+   EPOCH time in ms when this frame started being captured.  It will be
+   0 if not set
+
+2.4.2.4.8.  Payload
+
+   AAC frame (syntax element raw_data_block()), as described in section
+   4.4.2.1 of [ISO14496-3:2009].
+
 3.  References
 
    [ISO14496-15:2019] "Carriage of network abstraction layer (NAL) unit
    structured video in the ISO base media file format", ISO
    ISO14496-15:2019, International Organization for Standardization,
    October, 2022.
+
+   [ISO14496-3:2009] "Information technology — Coding of audio-visual
+   objects", ISO ISO14496-3:2009, International Organization for
+   Standardization, September, 2009.
 
 4.  Conventions and Definitions
 

@@ -1350,6 +1350,10 @@ timestamp(s) = timestamp numerator / timebase<a href="#section-2.3-2" class="pil
                 <td class="text-right" rowspan="1" colspan="1">0x2</td>
                 <td class="text-left" rowspan="1" colspan="1">UTF-8 text</td>
               </tr>
+              <tr>
+                <td class="text-right" rowspan="1" colspan="1">0x3</td>
+                <td class="text-left" rowspan="1" colspan="1">Audio AAC-LC in MPEG4</td>
+              </tr>
             </tbody>
           </table>
 </section>
@@ -1606,6 +1610,101 @@ It will be 0 if not set<a href="#section-2.4.2.2.7-1" class="pilcrow">¶</a></p>
 </div>
 </section>
 </div>
+<div id="audio-aac-lc-in-mpeg4-bitstream">
+<section id="section-2.4.2.4">
+            <h5 id="name-audio-aac-lc-in-mpeg4-bitst">
+<a href="#section-2.4.2.4" class="section-number selfRef">2.4.2.4. </a><a href="#name-audio-aac-lc-in-mpeg4-bitst" class="section-name selfRef">Audio AAC-LC in MPEG4 bitstream</a>
+            </h5>
+<span id="name-moqt-media-audio-aac-lc-mpe"></span><div id="media-object-audio-aaclcmpeg4-loc">
+<figure id="figure-5">
+              <div class="alignLeft art-text artwork" id="section-2.4.2.4-1.1">
+<pre>
+{
+  Seq ID (i)
+  PTS Timestamp (i)
+  Timebase (i)
+  Sample Freq (i)
+  Num Channels (i)
+  Duration (i)
+  Wall Clock (i)
+  Payload (..)
+}
+</pre>
+</div>
+<figcaption><a href="#figure-5" class="selfRef">Figure 5</a>:
+<a href="#name-moqt-media-audio-aac-lc-mpe" class="selfRef">MOQT Media audio AAC-LC MPEG4 LOC</a>
+              </figcaption></figure>
+</div>
+<div id="seq-id-3">
+<section id="section-2.4.2.4.1">
+              <h6 id="name-seq-id-4">
+<a href="#section-2.4.2.4.1" class="section-number selfRef">2.4.2.4.1. </a><a href="#name-seq-id-4" class="section-name selfRef">Seq Id</a>
+              </h6>
+<p id="section-2.4.2.4.1-1">Monotonically increasing counter for this media track<a href="#section-2.4.2.4.1-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="pts-timestamp-2">
+<section id="section-2.4.2.4.2">
+              <h6 id="name-pts-timestamp-3">
+<a href="#section-2.4.2.4.2" class="section-number selfRef">2.4.2.4.2. </a><a href="#name-pts-timestamp-3" class="section-name selfRef">PTS Timestamp</a>
+              </h6>
+<p id="section-2.4.2.4.2-1">Indicates PTS in timebase<a href="#section-2.4.2.4.2-1" class="pilcrow">¶</a></p>
+<p id="section-2.4.2.4.2-2">TODO: Varint does NOT accept easily negative, so it could be challenging to
+encode at start (priming)<a href="#section-2.4.2.4.2-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="timebase-2">
+<section id="section-2.4.2.4.3">
+              <h6 id="name-timebase-3">
+<a href="#section-2.4.2.4.3" class="section-number selfRef">2.4.2.4.3. </a><a href="#name-timebase-3" class="section-name selfRef">Timebase</a>
+              </h6>
+<p id="section-2.4.2.4.3-1">Units used in PTS, DTS, and duration<a href="#section-2.4.2.4.3-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="sample-freq-1">
+<section id="section-2.4.2.4.4">
+              <h6 id="name-sample-freq-2">
+<a href="#section-2.4.2.4.4" class="section-number selfRef">2.4.2.4.4. </a><a href="#name-sample-freq-2" class="section-name selfRef">Sample Freq</a>
+              </h6>
+<p id="section-2.4.2.4.4-1">Sample frequency used in the original signal (before encoding)<a href="#section-2.4.2.4.4-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="num-channels-1">
+<section id="section-2.4.2.4.5">
+              <h6 id="name-num-channels-2">
+<a href="#section-2.4.2.4.5" class="section-number selfRef">2.4.2.4.5. </a><a href="#name-num-channels-2" class="section-name selfRef">Num Channels</a>
+              </h6>
+<p id="section-2.4.2.4.5-1">Number of channels in the original signal (before encoding)<a href="#section-2.4.2.4.5-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="duration-2">
+<section id="section-2.4.2.4.6">
+              <h6 id="name-duration-3">
+<a href="#section-2.4.2.4.6" class="section-number selfRef">2.4.2.4.6. </a><a href="#name-duration-3" class="section-name selfRef">Duration</a>
+              </h6>
+<p id="section-2.4.2.4.6-1">Duration in timebase.
+It will be 0 if not set<a href="#section-2.4.2.4.6-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="wallclock-1">
+<section id="section-2.4.2.4.7">
+              <h6 id="name-wallclock-2">
+<a href="#section-2.4.2.4.7" class="section-number selfRef">2.4.2.4.7. </a><a href="#name-wallclock-2" class="section-name selfRef">Wallclock</a>
+              </h6>
+<p id="section-2.4.2.4.7-1">EPOCH time in ms when this frame started being captured.
+It will be 0 if not set<a href="#section-2.4.2.4.7-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="payload-3">
+<section id="section-2.4.2.4.8">
+              <h6 id="name-payload-4">
+<a href="#section-2.4.2.4.8" class="section-number selfRef">2.4.2.4.8. </a><a href="#name-payload-4" class="section-name selfRef">Payload</a>
+              </h6>
+<p id="section-2.4.2.4.8-1">AAC frame (syntax element <code>raw_data_block()</code>), as described in section 4.4.2.1 of [ISO14496-3:2009].<a href="#section-2.4.2.4.8-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
 </section>
 </div>
 </section>
@@ -1620,6 +1719,8 @@ It will be 0 if not set<a href="#section-2.4.2.2.7-1" class="pilcrow">¶</a></p>
 <p id="section-3-1">[ISO14496-15:2019] "Carriage of network abstraction layer (NAL) unit
 structured video in the ISO base media file format", ISO ISO14496-15:2019,
 International Organization for Standardization, October, 2022.<a href="#section-3-1" class="pilcrow">¶</a></p>
+<p id="section-3-2">[ISO14496-3:2009] "Information technology — Coding of audio-visual objects",
+ISO ISO14496-3:2009, International Organization for Standardization, September, 2009.<a href="#section-3-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="conventions-and-definitions">
