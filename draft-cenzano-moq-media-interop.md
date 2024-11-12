@@ -352,7 +352,7 @@ AAC frame (syntax element `raw_data_block()`), as described in section 4.4.2.1 o
 structured video in the ISO base media file format", ISO ISO14496-15:2019,
 International Organization for Standardization, October, 2022.
 
-[ISO14496-3:2009] "Information technology — Coding of audio-visual objects", 
+[ISO14496-3:2009] "Information technology — Coding of audio-visual objects",
 ISO ISO14496-3:2009, International Organization for Standardization, September, 2009.
 
 # Conventions and Definitions
