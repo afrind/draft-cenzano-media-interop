@@ -405,9 +405,10 @@ It will be 0 if not set
   0x03 (header value: Media type)(i)
 
   0x13 (Header type: Audio AAC-LC in MPEG4)(i)
-  0x11 (Header value length)(i)
+  0x15 (Header value length)(i)
   0x00 (Header value: Seq ID)(i)
   0x00 (Header value: PTS Timestamp)(i)
+  0x80, 0x00, 0xBB, 0x80 (Header value: Timebase)(i)
   0x80, 0x00, 0xBB, 0x80 (Header value: Sample freq)(i)
   0x02 (Header value: Num channels)(i)
   0x44, 0x00 (Header value: Duration)(i)
@@ -425,7 +426,7 @@ TODO: This sections needs to be updated with links to LOC
 ## For object header media type = Video H264 in AVCC (0x00)
 
 Payload MUST be H264 with bitstream AVC1 format as described in [ISO14496-15:2019] section 5.3.
-Using 4bytes size field length.
+Using 4 bytes size field length.
 
 
 ## For object header media type = Audio Opus bitsream (0x01)
