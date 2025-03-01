@@ -5,7 +5,7 @@
 Media Over QUIC                                        J. Cenzano-Ferret
 Internet-Draft                                               A. Frindell
 Intended status: Informational                                      Meta
-Expires: 31 August 2025                                 27 February 2025
+Expires: 2 September 2025                                   1 March 2025
 
 
                            MoQ Media Interop
@@ -14,7 +14,7 @@ Expires: 31 August 2025                                 27 February 2025
 Abstract
 
    This protocol can be used to send and receive video and audio over
-   LOC[loc], that uses Media over QUIC Transport [MOQT] .
+   Media over QUIC Transport [MOQT], using LOC[loc] packaging.
 
 About This Document
 
@@ -49,7 +49,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 31 August 2025.
+   This Internet-Draft will expire on 2 September 2025.
 
 Copyright Notice
 
