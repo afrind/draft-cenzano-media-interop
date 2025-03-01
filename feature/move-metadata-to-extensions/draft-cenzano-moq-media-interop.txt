@@ -167,7 +167,7 @@ Table of Contents
 
 2.4.  Object Format
 
-   We are reliying on MOQT extension headers to provide metadata that
+   MoQ-MI uses MOQT extension headers to provide metadata that
    identifies and augemts the media information found in the object
    payload.
 
