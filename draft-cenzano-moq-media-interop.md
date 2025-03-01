@@ -102,7 +102,7 @@ PTS(s) = 11/30 = 0.366666s
 
 ## Object Format
 
-We are reliying on MOQT extension headers to provide metadata that identifies
+MoQ-MI uses MOQT extension headers to provide metadata that identifies
 and augemts the media information found in the object payload.
 
 
