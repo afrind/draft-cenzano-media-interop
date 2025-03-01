@@ -48,7 +48,7 @@ QUIC Transport [MOQT], using LOC[loc] packaging.
 This protocol specifies a simple mechanism for sending media (video and audio)
 over LOC[loc] for both live-streaming and video conference (VC) style use cases.
 
-We allow to update encding parameters in the middle of the the track (ex: frame
+moq-mi allows updating encoding parameters in the middle of a track (ex: frame
 rate, resolution, codec, etc)
 
 The protocol refers to [loc] to define specific media wire format.
