@@ -38,8 +38,8 @@ informative:
 
 --- abstract
 
-This protocol can be used to send and receive video and audio over LOC[loc], that uses Media over
-QUIC Transport [MOQT] .
+This protocol can be used to send and receive video and audio over Media over
+QUIC Transport [MOQT], using LOC[loc] packaging.
 
 --- middle
 
