@@ -51,8 +51,7 @@ over LOC[loc] for both live-streaming and video conference (VC) style use cases.
 moq-mi allows updating encoding parameters in the middle of a track (ex: frame
 rate, resolution, codec, etc)
 
-The protocol refers to [loc] to define specific media wire format.
-
+The protocol refers to [loc] to define the specific media wire format.
 
 # Protocol Operation
 
