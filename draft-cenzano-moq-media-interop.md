@@ -83,7 +83,6 @@ in {{object-format}}.
 TODO: Datagram forwarding preference could be used, but has problems if audio
 frame does not fit in a single UDP payload.
 
-
 ## Timestamps
 
 To avoid using fractional numbers and having to deal with rounding errors,
