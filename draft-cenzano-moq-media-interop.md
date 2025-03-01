@@ -70,7 +70,6 @@ The subscriber will consider all of those tracks belonging to the same
 namespace as part of the same synchronization group (timestamps aligned to the
 same timeline).
 
-
 ## Mapping Tracks to MoQT Object Model
 
 For the video track, the publisher begins a new group at the start of each IDR
