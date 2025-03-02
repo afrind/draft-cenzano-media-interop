@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-02-27T00:57:35.579516+00:00",
+  "timestamp": "2025-03-02T01:01:11.489670+00:00",
   "repo": "afrind/draft-cenzano-media-interop",
   "labels": [
     {
@@ -702,6 +702,103 @@
           "createdAt": "2024-11-11T16:45:08Z",
           "updatedAt": "2024-11-11T16:45:08Z",
           "comments": []
+        }
+      ]
+    },
+    {
+      "number": 14,
+      "id": "PR_kwDONANmGM6MxzYo",
+      "title": "Moved medadata to extensions",
+      "url": "https://github.com/afrind/draft-cenzano-media-interop/pull/14",
+      "state": "OPEN",
+      "author": "jordicenzano",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "TDB",
+      "createdAt": "2025-02-27T10:48:49Z",
+      "updatedAt": "2025-03-01T10:25:57Z",
+      "baseRepository": "afrind/draft-cenzano-media-interop",
+      "baseRefName": "main",
+      "baseRefOid": "407e2080c2b6f9741453276458ce1198c669627a",
+      "headRepository": "afrind/draft-cenzano-media-interop",
+      "headRefName": "feature/move-metadata-to-extensions",
+      "headRefOid": "ab2eb499688b0a5a158e905263687815d6284628",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDONANmGM6eD-Bs",
+          "commit": {
+            "abbreviatedOid": "6de0ff2"
+          },
+          "author": "afrind",
+          "authorAssociation": "OWNER",
+          "state": "COMMENTED",
+          "body": "Initial comments",
+          "createdAt": "2025-02-28T21:55:20Z",
+          "updatedAt": "2025-02-28T22:00:02Z",
+          "comments": [
+            {
+              "originalPosition": 7,
+              "body": "```suggestion\r\nThis protocol can be used to send and receive video and audio over Media over\r\nQUIC Transport [MOQT], using LOC[loc] packaging.\r\n```",
+              "createdAt": "2025-02-28T21:55:20Z",
+              "updatedAt": "2025-02-28T22:00:02Z"
+            },
+            {
+              "originalPosition": 19,
+              "body": "```suggestion\r\nmoq-mi allows updating encoding parameters in the middle of a track (ex: frame\r\n```",
+              "createdAt": "2025-02-28T21:56:28Z",
+              "updatedAt": "2025-02-28T22:00:02Z"
+            },
+            {
+              "originalPosition": 25,
+              "body": "```suggestion\r\nThe protocol refers to [loc] to define the specific media wire format.\r\n```",
+              "createdAt": "2025-02-28T21:56:56Z",
+              "updatedAt": "2025-02-28T22:00:02Z"
+            },
+            {
+              "originalPosition": 33,
+              "body": "```suggestion\r\n```",
+              "createdAt": "2025-02-28T21:57:11Z",
+              "updatedAt": "2025-02-28T22:00:02Z"
+            },
+            {
+              "originalPosition": 41,
+              "body": "```suggestion\r\n```",
+              "createdAt": "2025-02-28T21:57:18Z",
+              "updatedAt": "2025-02-28T22:00:02Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDONANmGM6eEGwW",
+          "commit": {
+            "abbreviatedOid": "6de0ff2"
+          },
+          "author": "afrind",
+          "authorAssociation": "OWNER",
+          "state": "COMMENTED",
+          "body": "Couple more, otherwise lgtm.  Let me know if you want me to `make submit` after you land.",
+          "createdAt": "2025-02-28T22:21:21Z",
+          "updatedAt": "2025-02-28T22:22:57Z",
+          "comments": [
+            {
+              "originalPosition": 64,
+              "body": "```suggestion\r\nMoQ-MI uses MOQT extension headers to provide metadata that identifies\r\n```",
+              "createdAt": "2025-02-28T22:21:21Z",
+              "updatedAt": "2025-02-28T22:22:57Z"
+            },
+            {
+              "originalPosition": 449,
+              "body": "Should 4bytes be '4 bytes' ?",
+              "createdAt": "2025-02-28T22:22:22Z",
+              "updatedAt": "2025-02-28T22:22:57Z"
+            }
+          ]
         }
       ]
     }
