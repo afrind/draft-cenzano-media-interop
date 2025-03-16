@@ -9,22 +9,22 @@
 <meta content="Alan Frindell" name="author">
 <meta content="
        This protocol can be used to send and receive video and audio over Media over
-QUIC Transport [MOQT]. 
+QUIC Transport [MOQT], using LOC[loc] packaging. 
     " name="description">
-<meta content="xml2rfc 3.24.0" name="generator">
+<meta content="xml2rfc 3.28.0" name="generator">
 <meta content="Media over QUIC" name="keyword">
 <meta content="draft-cenzano-moq-media-interop-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.24.0
-    Python 3.12.7
+  xml2rfc 3.28.0
+    Python 3.12.9
     ConfigArgParse 1.7
     google-i18n-address 3.1.1
     intervaltree 3.1.0
-    Jinja2 3.1.4
+    Jinja2 3.1.5
     lxml 5.3.0
     platformdirs 4.3.6
-    pycountry 22.3.5
-    PyYAML 6.0.1
+    pycountry 24.6.1
+    PyYAML 6.0.2
     requests 2.32.3
     setuptools 70.3.0
     wcwidth 0.2.13
@@ -280,6 +280,12 @@ body {
 }
 
 /* headings */
+section {
+  clear: both;
+}
+.section-number {
+  padding-right: 0.5em;
+}
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-title);
   font-weight: 680;
@@ -311,6 +317,7 @@ h4, h5, h6 {
 /* general structure */
 .author {
   padding-bottom: 0.3em;
+  vertical-align: top;
 }
 #abstract+p {
   font-size: 18px;
@@ -388,25 +395,26 @@ svg[font-family~="monospace" i], svg [font-family~="monospace" i] {
 ol, ul {
   padding: 0;
   margin: 0 0 0.5em 2em;
-}
-:is(ol, ul) :is(ol, ul) {
-  margin-left: 1em;
+  & :is(ol, ul) {
+    margin-left: 1em;
+  }
 }
 li {
   margin: 0 0 0.25em 0;
 }
-.ulCompact li {
-  margin: 0;
-}
 ul.empty, .ulEmpty {
   list-style-type: none;
-}
-ul.empty li, .ulEmpty li {
-  margin-top: 0.5em;
+  & li {
+    margin-top: 0.5em;
+  }
 }
 :is(ul, ol).compact, .ulCompact, .olCompact {
-  line-height: 1;
   margin: 0 0 0 2em;
+  & li {
+    margin: 0;
+    & :first-child { margin-top: 0; }
+    & :last-child { margin-bottom: 0; }
+  }
 }
 
 /* definition lists */
@@ -414,38 +422,39 @@ dl {
   clear: left;
   --indent: 3ch;
   /* --indent: attr(indent ch); not supported in any browser, but we can dream */
+  &.olPercent {
+    --indent: 5ch;
+    & > dt {
+      min-width: calc(var(--indent) - 2ch);
+    }
+  }
+  &.olPercent > dt {
+    float: none;
+  }
+
+  dl > dd > & {
+    margin-top: 0.5em;
+    margin-bottom: 0;
+  }
 }
-dl.olPercent {
-  --indent: 5ch;
-}
-dl > dt {
+dl:not(.dlNewline) > dt {
   float: left;
   margin-right: 2ch;
   min-width: 8ch;
-}
-dl.dlNewline > dt {
-  float: none;
 }
 dl > dd {
   margin-bottom: .8em;
   margin-left: var(--indent) !important; /* stupid element overrides */
   min-height: 2ex;
 }
-dl.olPercent > dt {
-  min-width: calc(var(--indent) - 2ch);
-}
 :is(dl.compact, .dlCompact) > dd {
   margin-bottom: 0;
-}
-:is(dl.compact, .dlCompact) > dd > :is(:first-child, .break:first-child + *) {
-  margin-top: 0;
-}
-:is(dl.compact, .dlCompact) > dd > :is(:last-child) {
-  margin-bottom: 0;
-}
-dl > dd > dl {
-  margin-top: 0.5em;
-  margin-bottom: 0;
+  & > :is(:first-child, .break:first-child + *) {
+    margin-top: 0;
+  }
+  & > :is(:last-child) {
+    margin-bottom: 0;
+  }
 }
 :is(dd, span).break {
   display: none;
@@ -509,6 +518,7 @@ figcaption, caption {
   font-style: italic;
   margin: 0.5em 1.5em;
   text-align: left;
+  caption-side: bottom;
 }
 @media screen {
   /* Auto-collapse boilerplate. */
@@ -526,7 +536,11 @@ figcaption, caption {
   }
   pre, svg {
     display: inline-block;
-    overflow-x: auto;
+    /* In the horizontal direction, sometimes people make over-sized figures.
+       Scrollbars for those is therefore necessary: auto adds them as necessary..
+       In the vertical direction, the line-height can combine with the font
+       asender/descender height to produce scrollbars: hidden avoids that. */
+    overflow: auto hidden;
   }
   pre {
     max-width: 100%;
@@ -563,6 +577,7 @@ cite {
 
 /* tables */
 table {
+  width: auto;
   max-width: 100%;
   margin: 0 0 1em;
   border-collapse: collapse;
@@ -577,6 +592,16 @@ table.center {
 table.left {
   margin-right: auto;
 }
+table .text-left {
+  text-align: left;
+}
+table .text-center {
+  text-align: center;
+}
+table .text-right {
+  text-align: right;
+}
+
 thead, tbody {
   border: 1px solid var(--line-color);
 }
@@ -607,9 +632,11 @@ a.pilcrow {
   margin-left: 3px;
   opacity: 0.2;
   user-select: none;
+  &[href] {
+    color: var(--pilcrow-weak);
+    &:hover { text-decoration: none; }
+  }
 }
-a.pilcrow[href] { color: var(--pilcrow-weak); }
-a.pilcrow[href]:hover { text-decoration: none; }
 @media not print {
   :hover > a.pilcrow {
     opacity: 1;
@@ -649,26 +676,28 @@ sub, sup {
   font-size: var(--small-font-size);
   line-height: 18px;
   --identifier-width: 15ch;
-}
-#identifiers dt {
-  width: var(--identifier-width);
-  min-width: var(--identifier-width);
-  clear: left;
-  float: left;
-  text-align: right;
-  margin-right: 1ch;
-}
-#identifiers dd {
-  margin: 0;
-  margin-left: calc(1em + var(--identifier-width)) !important;
-  min-width: 5em;
-}
-#identifiers .authors .author {
-  display: inline-block;
-  margin-right: 1.5em;
-}
-#identifiers .authors .org {
-  font-style: italic;
+  & dt {
+    width: var(--identifier-width);
+    min-width: var(--identifier-width);
+    clear: left;
+    float: left;
+    text-align: right;
+    margin-right: 1ch;
+  }
+  & dd {
+    margin: 0;
+    margin-left: calc(1em + var(--identifier-width)) !important;
+    min-width: 5em;
+  }
+  & .authors {
+    & .author {
+      display: inline-block;
+      margin-right: 1.5em;
+    }
+    & .org {
+      font-style: italic;
+    }
+  }
 }
 
 /* The prepared/rendered info at the very bottom of the page */
@@ -679,9 +708,6 @@ sub, sup {
   margin-top: 2em;
 }
 .docInfo .prepared {
-  float: left;
-}
-.docInfo .prepared {
   float: right;
 }
 
@@ -689,53 +715,48 @@ sub, sup {
 #toc {
   padding: 0.75em 0 2em 0;
   margin-bottom: 1em;
-}
-@media screen {
-  #toc nav {
-    font-family: var(--font-title);
-    font-weight: 360;
+
+  & nav {
+    & ul {
+      margin: 0 0.5em 0 0;
+      padding: 0;
+      list-style: none;
+    }
+    & li {
+      line-height: 1.3em;
+      margin: 2px 0;
+      padding-left: 1.2em;
+      text-indent: -1.2em;
+    }
+  }
+  & a.xref {
+    white-space: normal;
   }
 }
-#toc nav ul {
-  margin: 0 0.5em 0 0;
-  padding: 0;
-  list-style: none;
-}
-#toc nav li {
-  line-height: 1.3em;
-  margin: 2px 0;
-  padding-left: 1.2em;
-  text-indent: -1.2em;
-}
-#toc a.xref {
-  white-space: normal;
-}
-/* references */
-.references dt {
-  text-align: right;
-  font-weight: bold;
-  min-width: 10ch;
-  margin-right: 1.5ch;
-}
-.references dt:target::before {
-  content: "⇒";
-  width: 15px;
-  margin: 0 10px 0 -25px;
-}
-.references dd {
-  margin-left: 12ch !important;
-  overflow: auto;
+
+.references {
+  & > dt {
+    text-align: right;
+    font-weight: bold;
+    min-width: 10ch;
+    margin-right: 1.5ch;
+    &:target::before {
+      content: "⇒";
+      margin: 0 10px 0 -25px;
+    }
+  }
+  & > dd {
+    margin-left: 12ch !important;
+    overflow: visible;
+    & .refInstance {
+      margin-bottom: 0.8em;
+    }
+    & .ascii {
+      margin-bottom: 0.25em;
+    }
+  }
 }
 
-.refInstance {
-  margin-bottom: 1.25em;
-}
-
-.references .ascii {
-  margin-bottom: 0.25em;
-}
-
-/* index */
 #rfc\.index\.index + ul {
   margin-left: 0;
 }
@@ -743,21 +764,33 @@ sub, sup {
 /* authors */
 address.vcard {
   font-style: normal;
-  margin: 1em 0;
+  max-width: 20em;
+  margin: 1em auto 1em 0;
+
+  & .nameRole {
+    font-weight: 700;
+    margin-left: 0;
+  }
+  & .label {
+    margin: 0.5em 0;
+  }
+  & .type {
+    display: none;
+  }
+  & .alternative-contact {
+    margin: 0.5em 0 0.25em 0;
+  }
+  & .non-ascii {
+    margin: 0 0 0 2em;
+  }
+  & div.left {
+    text-align: left;
+  }
+  & div.right {
+    text-align: right;
+  }
 }
-address.vcard .nameRole {
-  font-weight: 700;
-  margin-left: 0;
-}
-address.vcard .label {
-  margin: 0.5em 0;
-}
-address.vcard .type {
-  display: none;
-}
-.alternative-contact {
-  margin: 1.5em 0 1em;
-}
+
 hr.addr {
   border-top: 1px dashed;
   margin: 0;
@@ -779,6 +812,7 @@ hr.addr {
   }
 }
 
+/* Comments */
 .rfcEditorRemove p:first-of-type {
   font-style: italic;
 }
@@ -789,7 +823,31 @@ hr.addr {
 .crefSource {
   font-style: italic;
 }
-/* alternative layout for smaller screens */
+
+@media screen {
+  #toc nav {
+    font-family: var(--font-title);
+    font-weight: 360;
+    & > ul { margin-bottom: 2em; }
+    & ul {
+      margin: 0 0 0 4px;
+      & :is(p, li) {
+        margin: 2px 0;
+      }
+    }
+  }
+  #toc a.toplink {
+    float: right;
+  }
+}
+@media not screen {
+  #toc a.toplink {
+    display: none;
+  }
+}
+
+
+/* TOC layout for smaller screens */
 @media screen and (max-width: 929px) {
   #toc {
     position: fixed;
@@ -800,9 +858,6 @@ hr.addr {
     margin: 0;
     border-bottom: 1px solid #ccc;
     opacity: 0.6;
-  }
-  #toc.active {
-      opacity: 1;
   }
   #toc h2 {
     margin: 0;
@@ -815,17 +870,17 @@ hr.addr {
     background-color: #444;
     color: white;
     cursor: pointer;
-  }
-  #toc h2::before { /* css hamburger */
-    float: right;
-    position: relative;
-    width: 1em;
-    height: 1px;
-    left: -164px;
-    margin: 8px 0 0 0;
-    background: white none repeat scroll 0 0;
-    box-shadow: 0 4px 0 0 white, 0 8px 0 0 white;
-    content: "";
+    &::before { /* css hamburger */
+      float: right;
+      position: relative;
+      width: 1em;
+      height: 1px;
+      left: -164px;
+      margin: 8px 0 0 0;
+      background: white none repeat scroll 0 0;
+      box-shadow: 0 4px 0 0 white, 0 8px 0 0 white;
+      content: "";
+    }
   }
   #toc nav {
     display: none;
@@ -836,14 +891,13 @@ hr.addr {
     height: calc(100vh - 48px);
     border-left: 1px solid #ddd;
   }
-  #toc.active nav {
-    display: block;
+  #toc.active {
+    opacity: 1;
+    & nav { display: block; }
   }
   /* Make the collapsed ToC header render white on gray also when it's a link */
   #toc h2 a,
-  #toc h2 a:link,
-  #toc h2 a:focus,
-  #toc h2 a:hover,
+  #toc h2 a:is(:link, :focus, :hover),
   #toc a.toplink,
   #toc a.toplink:hover {
     color: white;
@@ -851,11 +905,11 @@ hr.addr {
     text-decoration: none;
   }
   #toc a.toplink {
-    margin-top: 2px;
+    margin: 2px 0.5em 0;
   }
 }
 
-/* alternative layout for wide screens */
+/* TOC layout for wide screens */
 @media screen and (min-width: 930px) {
   body {
     padding-right: 360px;
@@ -884,20 +938,12 @@ hr.addr {
     overscroll-behavior: contain;
     scrollbar-width: thin;
   }
-  #toc nav > ul  {
-    margin-bottom: 2em;
-  }
-  #toc ul {
-    margin: 0 0 0 4px;
-    font-size: var(--small-font-size);
-  }
-  #toc ul :is(p, li) {
-    margin: 2px 0;
-    line-height: 22px;
-  }
   img { /* future proofing */
     max-width: 100%;
     height: auto;
+  }
+  #toc a.toplink {
+    margin: 8px 0.5em 0;
   }
 }
 
@@ -940,9 +986,6 @@ hr.addr {
   td {
     border-top: 1px solid #ddd;
   }
-  .toplink {
-    display: none;
-  }
 }
 
 @page :first {
@@ -965,82 +1008,6 @@ hr.addr {
   size: A4;
   margin-bottom: 45mm;
   padding-top: 20px;
-}
-
-/* Changes introduced to fix issues found during implementation */
-
-/* Separate body from document info even without intervening H1 */
-section {
-  clear: both;
-}
-
-/* Top align author divs, to avoid names without organization dropping level with org names */
-.author {
-  vertical-align: top;
-}
-
-/* Style section numbers with more space between number and title */
-.section-number {
-  padding-right: 0.5em;
-}
-
-/* Add styling for a link in the ToC that points to the top of the document */
-a.toplink {
-  float: right;
-  margin: 8px 0.5em 0;
-}
-
-/* Provide styling for table cell text alignment */
-table .text-left {
-  text-align: left;
-}
-table .text-center {
-  text-align: center;
-}
-table .text-right {
-  text-align: right;
-}
-
-/* Make the alternative author contact information look less like just another
-   author, and group it closer with the primary author contact information */
-.alternative-contact {
-  margin: 0.5em 0 0.25em 0;
-}
-address .non-ascii {
-  margin: 0 0 0 2em;
-}
-
-/* With it being possible to set tables with alignment
-  left, center, and right, { width: 100%; } does not make sense */
-table {
-  width: auto;
-}
-
-/* Avoid reference text that sits in a block with very wide left margin,
-   because of a long floating dt label.*/
-.references dd {
-  overflow: visible;
-}
-
-/* Control caption placement */
-caption {
-  caption-side: bottom;
-}
-
-/* Limit the width of the author address vcard, so names in right-to-left
-   script don't end up on the other side of the page. */
-
-address.vcard {
-  max-width: 20em;
-  margin-right: auto;
-}
-
-/* For address alignment dependent on LTR or RTL scripts */
-address div.left {
-  text-align: left;
-}
-address div.right {
-  text-align: right;
 }
 
 /* Dark mode. */
@@ -1079,11 +1046,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">moq-mi</td>
-<td class="right">November 2024</td>
+<td class="right">March 2025</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Cenzano-Ferret &amp; Frindell</td>
-<td class="center">Expires 16 May 2025</td>
+<td class="center">Expires 17 September 2025</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1096,12 +1063,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-cenzano-moq-media-interop-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2024-11-12" class="published">12 November 2024</time>
+<time datetime="2025-03-16" class="published">16 March 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2025-05-16">16 May 2025</time></dd>
+<dd class="expires"><time datetime="2025-09-17">17 September 2025</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1119,7 +1086,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <section id="section-abstract">
       <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
 <p id="section-abstract-1">This protocol can be used to send and receive video and audio over Media over
-QUIC Transport [MOQT].<a href="#section-abstract-1" class="pilcrow">¶</a></p>
+QUIC Transport [MOQT], using LOC[loc] packaging.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
 </section>
 <section class="note rfcEditorRemove" id="section-note.1">
       <h2 id="name-about-this-document">
@@ -1156,7 +1123,7 @@ QUIC Transport [MOQT].<a href="#section-abstract-1" class="pilcrow">¶</a></p>
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 16 May 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 17 September 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1165,7 +1132,7 @@ QUIC Transport [MOQT].<a href="#section-abstract-1" class="pilcrow">¶</a></p>
 <a href="#name-copyright-notice" class="section-name selfRef">Copyright Notice</a>
         </h2>
 <p id="section-boilerplate.2-1">
-            Copyright (c) 2024 IETF Trust and the persons identified as the
+            Copyright (c) 2025 IETF Trust and the persons identified as the
             document authors. All rights reserved.<a href="#section-boilerplate.2-1" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.2-2">
             This document is subject to BCP 78 and the IETF Trust's Legal
@@ -1204,35 +1171,83 @@ QUIC Transport [MOQT].<a href="#section-abstract-1" class="pilcrow">¶</a></p>
                 <p id="section-toc.1-1.2.2.4.1"><a href="#section-2.4" class="auto internal xref">2.4</a>.  <a href="#name-object-format" class="internal xref">Object Format</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.4.2.1">
-                    <p id="section-toc.1-1.2.2.4.2.1.1"><a href="#section-2.4.1" class="auto internal xref">2.4.1</a>.  <a href="#name-media-type" class="internal xref">Media Type</a></p>
+                    <p id="section-toc.1-1.2.2.4.2.1.1"><a href="#section-2.4.1" class="auto internal xref">2.4.1</a>.  <a href="#name-media-type-header-extension" class="internal xref">Media type header extension (header extension type = 0x0A)</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.4.2.2">
-                    <p id="section-toc.1-1.2.2.4.2.2.1"><a href="#section-2.4.2" class="auto internal xref">2.4.2</a>.  <a href="#name-media-payload" class="internal xref">Media payload</a></p>
+                    <p id="section-toc.1-1.2.2.4.2.2.1"><a href="#section-2.4.2" class="auto internal xref">2.4.2</a>.  <a href="#name-video-h264-in-avcc-metadata" class="internal xref">Video H264 in AVCC metadata header extension (header extension type = 0x0B)</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.4.2.3">
+                    <p id="section-toc.1-1.2.2.4.2.3.1"><a href="#section-2.4.3" class="auto internal xref">2.4.3</a>.  <a href="#name-video-h264-in-avcc-extradat" class="internal xref">Video H264 in AVCC extradata header extension (Header extension type = 0x0D)</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.4.2.4">
+                    <p id="section-toc.1-1.2.2.4.2.4.1"><a href="#section-2.4.4" class="auto internal xref">2.4.4</a>.  <a href="#name-audio-opus-bitsream-data-he" class="internal xref">Audio Opus bitsream data header extension (Header extension type = 0x0F)</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.4.2.5">
+                    <p id="section-toc.1-1.2.2.4.2.5.1"><a href="#section-2.4.5" class="auto internal xref">2.4.5</a>.  <a href="#name-utf-8-text-header-extension" class="internal xref">UTF-8 Text header extension (Header extension type = 0x11)</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.4.2.6">
+                    <p id="section-toc.1-1.2.2.4.2.6.1"><a href="#section-2.4.6" class="auto internal xref">2.4.6</a>.  <a href="#name-audio-aac-lc-in-mpeg4-bitst" class="internal xref">Audio AAC-LC in MPEG4 bitstream data header extension (Header extension type = 0x13)</a></p>
 </li>
                 </ul>
 </li>
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3">
-            <p id="section-toc.1-1.3.1"><a href="#section-3" class="auto internal xref">3</a>.  <a href="#name-references" class="internal xref">References</a></p>
+            <p id="section-toc.1-1.3.1"><a href="#section-3" class="auto internal xref">3</a>.  <a href="#name-examples" class="internal xref">Examples</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.1">
+                <p id="section-toc.1-1.3.2.1.1"><a href="#section-3.1" class="auto internal xref">3.1</a>.  <a href="#name-example-of-first-object-for" class="internal xref">Example of first object for Video H264 in AVCC</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.1.2.1">
+                    <p id="section-toc.1-1.3.2.1.2.1.1"><a href="#section-3.1.1" class="auto internal xref">3.1.1</a>.  <a href="#name-moqt-object-subgroup-fields" class="internal xref">MOQT Object subgroup fields in case it carries Video H264 in AVCC, 1st frame sent</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.1.2.2">
+                    <p id="section-toc.1-1.3.2.1.2.2.1"><a href="#section-3.1.2" class="auto internal xref">3.1.2</a>.  <a href="#name-moqt-object-subgroup-fields-" class="internal xref">MOQT Object subgroup fields in case it carries Video H264 in AVCC, 2nd or bigger frame with NO encoding settings update</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.1.2.3">
+                    <p id="section-toc.1-1.3.2.1.2.3.1"><a href="#section-3.1.3" class="auto internal xref">3.1.3</a>.  <a href="#name-moqt-object-datagram-fields" class="internal xref">MOQT Object DATAGRAM fields in case it carries Audio AAC-LC in MPEG4</a></p>
+</li>
+                </ul>
+</li>
+            </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4">
-            <p id="section-toc.1-1.4.1"><a href="#section-4" class="auto internal xref">4</a>.  <a href="#name-conventions-and-definitions" class="internal xref">Conventions and Definitions</a></p>
+            <p id="section-toc.1-1.4.1"><a href="#section-4" class="auto internal xref">4</a>.  <a href="#name-payloads" class="internal xref">Payloads</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.1">
+                <p id="section-toc.1-1.4.2.1.1"><a href="#section-4.1" class="auto internal xref">4.1</a>.  <a href="#name-for-object-header-media-typ" class="internal xref">For object header media type = Video H264 in AVCC (0x00)</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.2">
+                <p id="section-toc.1-1.4.2.2.1"><a href="#section-4.2" class="auto internal xref">4.2</a>.  <a href="#name-for-object-header-media-type" class="internal xref">For object header media type = Audio Opus bitsream (0x01)</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.3">
+                <p id="section-toc.1-1.4.2.3.1"><a href="#section-4.3" class="auto internal xref">4.3</a>.  <a href="#name-for-object-header-media-type-" class="internal xref">For object header media type = UTF-8 text (0x02)</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.4">
+                <p id="section-toc.1-1.4.2.4.1"><a href="#section-4.4" class="auto internal xref">4.4</a>.  <a href="#name-for-object-header-media-type-a" class="internal xref">For object header media type = Audio AAC-LC in MPEG4 (0x03)</a></p>
+</li>
+            </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5">
-            <p id="section-toc.1-1.5.1"><a href="#section-5" class="auto internal xref">5</a>.  <a href="#name-security-considerations" class="internal xref">Security Considerations</a></p>
+            <p id="section-toc.1-1.5.1"><a href="#section-5" class="auto internal xref">5</a>.  <a href="#name-references" class="internal xref">References</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6">
-            <p id="section-toc.1-1.6.1"><a href="#section-6" class="auto internal xref">6</a>.  <a href="#name-iana-considerations" class="internal xref">IANA Considerations</a></p>
+            <p id="section-toc.1-1.6.1"><a href="#section-6" class="auto internal xref">6</a>.  <a href="#name-conventions-and-definitions" class="internal xref">Conventions and Definitions</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7">
-            <p id="section-toc.1-1.7.1"><a href="#section-7" class="auto internal xref">7</a>.  <a href="#name-normative-references" class="internal xref">Normative References</a></p>
+            <p id="section-toc.1-1.7.1"><a href="#section-7" class="auto internal xref">7</a>.  <a href="#name-security-considerations" class="internal xref">Security Considerations</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8">
-            <p id="section-toc.1-1.8.1"><a href="#appendix-A" class="auto internal xref"></a><a href="#name-acknowledgments" class="internal xref">Acknowledgments</a></p>
+            <p id="section-toc.1-1.8.1"><a href="#section-8" class="auto internal xref">8</a>.  <a href="#name-iana-considerations" class="internal xref">IANA Considerations</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9">
-            <p id="section-toc.1-1.9.1"><a href="#appendix-B" class="auto internal xref"></a><a href="#name-authors-addresses" class="internal xref">Authors' Addresses</a></p>
+            <p id="section-toc.1-1.9.1"><a href="#section-9" class="auto internal xref">9</a>.  <a href="#name-normative-references" class="internal xref">Normative References</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10">
+            <p id="section-toc.1-1.10.1"><a href="#appendix-A" class="auto internal xref"></a><a href="#name-acknowledgments" class="internal xref">Acknowledgments</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11">
+            <p id="section-toc.1-1.11.1"><a href="#appendix-B" class="auto internal xref"></a><a href="#name-authors-addresses" class="internal xref">Authors' Addresses</a></p>
 </li>
         </ul>
 </nav>
@@ -1244,12 +1259,10 @@ QUIC Transport [MOQT].<a href="#section-abstract-1" class="pilcrow">¶</a></p>
 <a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
       </h2>
 <p id="section-1-1">This protocol specifies a simple mechanism for sending media (video and audio)
-over MOQT for both live-streaming and VC style use cases.  The protocol is
-flexible in order to support this range of use cases.<a href="#section-1-1" class="pilcrow">¶</a></p>
-<p id="section-1-2">The following parameters can be updated in the middle of a the track (ex: frame
+over LOC[loc] for both live-streaming and video conference (VC) style use cases.<a href="#section-1-1" class="pilcrow">¶</a></p>
+<p id="section-1-2">moq-mi allows updating encoding parameters in the middle of a track (ex: frame
 rate, resolution, codec, etc)<a href="#section-1-2" class="pilcrow">¶</a></p>
-<p id="section-1-3">The protocol defines a low overhead packager (not LoC [loc], and is extensible
-to other formats such as FMP4.<a href="#section-1-3" class="pilcrow">¶</a></p>
+<p id="section-1-3">The protocol refers to [loc] to define the specific media wire format.<a href="#section-1-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="protocol-operation">
@@ -1301,7 +1314,7 @@ timestamps will be expressed with two integers:
 timestamp(s) = timestamp numerator / timebase<a href="#section-2.3-2" class="pilcrow">¶</a></p>
 <p id="section-2.3-3">Example:<a href="#section-2.3-3" class="pilcrow">¶</a></p>
 <p id="section-2.3-4">PTS = 11, timebase = 30<a href="#section-2.3-4" class="pilcrow">¶</a></p>
-<p id="section-2.3-5">PTS(s) = 11/30 = 0.366666<a href="#section-2.3-5" class="pilcrow">¶</a></p>
+<p id="section-2.3-5">PTS(s) = 11/30 = 0.366666s<a href="#section-2.3-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="object-format">
@@ -1309,38 +1322,27 @@ timestamp(s) = timestamp numerator / timebase<a href="#section-2.3-2" class="pil
         <h3 id="name-object-format">
 <a href="#section-2.4" class="section-number selfRef">2.4. </a><a href="#name-object-format" class="section-name selfRef">Object Format</a>
         </h3>
-<span id="name-moqt-media-object"></span><div id="media-object">
-<figure id="figure-1">
-          <div class="alignLeft art-text artwork" id="section-2.4-1.1">
-<pre>
-{
-  Media Type (i)
-  Media payload (..)
-}
-</pre>
-</div>
-<figcaption><a href="#figure-1" class="selfRef">Figure 1</a>:
-<a href="#name-moqt-media-object" class="selfRef">MOQT Media object</a>
-          </figcaption></figure>
-</div>
-<div id="media-type">
+<p id="section-2.4-1">MoQ-MI uses MOQT extension headers to provide metadata that identifies
+and augemts the media information found in the object payload.<a href="#section-2.4-1" class="pilcrow">¶</a></p>
+<div id="media-type-header-extension-header-extension-type-0x0a">
 <section id="section-2.4.1">
-          <h4 id="name-media-type">
-<a href="#section-2.4.1" class="section-number selfRef">2.4.1. </a><a href="#name-media-type" class="section-name selfRef">Media Type</a>
+          <h4 id="name-media-type-header-extension">
+<a href="#section-2.4.1" class="section-number selfRef">2.4.1. </a><a href="#name-media-type-header-extension" class="section-name selfRef">Media type header extension (header extension type = 0x0A)</a>
           </h4>
-<p id="section-2.4.1-1">This value indicates what kind of media payload will follow<a href="#section-2.4.1-1" class="pilcrow">¶</a></p>
+<p id="section-2.4.1-1">It defines the media type inside object payload (see section IANA in MOQ TODO),
+and it <span class="bcp14">MUST</span> be present in all objects<a href="#section-2.4.1-1" class="pilcrow">¶</a></p>
 <table class="center" id="table-1">
             <caption><a href="#table-1" class="selfRef">Table 1</a></caption>
 <thead>
               <tr>
-                <th class="text-right" rowspan="1" colspan="1">Code</th>
-                <th class="text-left" rowspan="1" colspan="1">Value</th>
+                <th class="text-right" rowspan="1" colspan="1">Value</th>
+                <th class="text-left" rowspan="1" colspan="1">Media type</th>
               </tr>
             </thead>
             <tbody>
               <tr>
                 <td class="text-right" rowspan="1" colspan="1">0x0</td>
-                <td class="text-left" rowspan="1" colspan="1">Video H264 in AVCC with LOC packager</td>
+                <td class="text-left" rowspan="1" colspan="1">Video H264 in AVCC</td>
               </tr>
               <tr>
                 <td class="text-right" rowspan="1" colspan="1">0x1</td>
@@ -1358,20 +1360,16 @@ timestamp(s) = timestamp numerator / timebase<a href="#section-2.3-2" class="pil
           </table>
 </section>
 </div>
-<div id="media-payload">
+<div id="video-h264-in-avcc-metadata-header-extension-header-extension-type-0x0b">
 <section id="section-2.4.2">
-          <h4 id="name-media-payload">
-<a href="#section-2.4.2" class="section-number selfRef">2.4.2. </a><a href="#name-media-payload" class="section-name selfRef">Media payload</a>
+          <h4 id="name-video-h264-in-avcc-metadata">
+<a href="#section-2.4.2" class="section-number selfRef">2.4.2. </a><a href="#name-video-h264-in-avcc-metadata" class="section-name selfRef">Video H264 in AVCC metadata header extension (header extension type = 0x0B)</a>
           </h4>
-<p id="section-2.4.2-1">Is where media related information is carried, and it is specifed by Media type<a href="#section-2.4.2-1" class="pilcrow">¶</a></p>
-<div id="video-h264-in-avcc-with-loc-packager-format">
-<section id="section-2.4.2.1">
-            <h5 id="name-video-h264-in-avcc-with-loc">
-<a href="#section-2.4.2.1" class="section-number selfRef">2.4.2.1. </a><a href="#name-video-h264-in-avcc-with-loc" class="section-name selfRef">Video H264 in AVCC with LOC packager format</a>
-            </h5>
-<span id="name-moqt-media-video-h264-loc"></span><div id="media-object-video-h264-avcc-loc">
-<figure id="figure-2">
-              <div class="alignLeft art-text artwork" id="section-2.4.2.1-1.1">
+<p id="section-2.4.2-1">It provides video metadata useful to consume the video carried in the payload of
+the object. The following table specifies the data inside this extesion header.<a href="#section-2.4.2-1" class="pilcrow">¶</a></p>
+<span id="name-moqt-media-video-h264data-h"></span><div id="media-object-header-0b-video-h264-avcc">
+<figure id="figure-1">
+            <div class="alignLeft art-text artwork" id="section-2.4.2-2.1">
 <pre>
 {
   Seq ID (i)
@@ -1380,112 +1378,118 @@ timestamp(s) = timestamp numerator / timebase<a href="#section-2.3-2" class="pil
   Timebase (i)
   Duration (i)
   Wallclock (i)
-  Metadata Size (i)
-  Metadata (..)
-  Payload (..)
+}
+</pre>
+</div>
+<figcaption><a href="#figure-1" class="selfRef">Figure 1</a>:
+<a href="#name-moqt-media-video-h264data-h" class="selfRef">MOQT Media video h264data header extension</a>
+            </figcaption></figure>
+</div>
+<p id="section-2.4.2-3">It <span class="bcp14">MUST</span> be present in all objects where "media type header extension" is equal
+to "Video H264 in AVCC"(0x0)<a href="#section-2.4.2-3" class="pilcrow">¶</a></p>
+<div id="seq-id">
+<section id="section-2.4.2.1">
+            <h5 id="name-seq-id">
+<a href="#section-2.4.2.1" class="section-number selfRef">2.4.2.1. </a><a href="#name-seq-id" class="section-name selfRef">Seq ID</a>
+            </h5>
+<p id="section-2.4.2.1-1">Monotonically increasing counter for this media track<a href="#section-2.4.2.1-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="pts-timestamp">
+<section id="section-2.4.2.2">
+            <h5 id="name-pts-timestamp">
+<a href="#section-2.4.2.2" class="section-number selfRef">2.4.2.2. </a><a href="#name-pts-timestamp" class="section-name selfRef">PTS Timestamp</a>
+            </h5>
+<p id="section-2.4.2.2-1">Indicates PTS in timebase<a href="#section-2.4.2.2-1" class="pilcrow">¶</a></p>
+<p id="section-2.4.2.2-2">TODO: Varint does NOT accept easily negative, so it could be challenging to
+encode at start (priming)<a href="#section-2.4.2.2-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="dts-timestamp">
+<section id="section-2.4.2.3">
+            <h5 id="name-dts-timestamp">
+<a href="#section-2.4.2.3" class="section-number selfRef">2.4.2.3. </a><a href="#name-dts-timestamp" class="section-name selfRef">DTS Timestamp</a>
+            </h5>
+<p id="section-2.4.2.3-1">Not needed if B frames are NOT used, in that case should be same value as PTS.<a href="#section-2.4.2.3-1" class="pilcrow">¶</a></p>
+<p id="section-2.4.2.3-2">TODO: Varint does NOT accept easily negative, so it could be challenging to
+encode at start (priming)<a href="#section-2.4.2.3-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="timebase">
+<section id="section-2.4.2.4">
+            <h5 id="name-timebase">
+<a href="#section-2.4.2.4" class="section-number selfRef">2.4.2.4. </a><a href="#name-timebase" class="section-name selfRef">Timebase</a>
+            </h5>
+<p id="section-2.4.2.4-1">Units used in PTS, DTS, and duration.<a href="#section-2.4.2.4-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="duration">
+<section id="section-2.4.2.5">
+            <h5 id="name-duration">
+<a href="#section-2.4.2.5" class="section-number selfRef">2.4.2.5. </a><a href="#name-duration" class="section-name selfRef">Duration</a>
+            </h5>
+<p id="section-2.4.2.5-1">Duration in timebase.
+It will be 0 if not set<a href="#section-2.4.2.5-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="wall-clock">
+<section id="section-2.4.2.6">
+            <h5 id="name-wall-clock">
+<a href="#section-2.4.2.6" class="section-number selfRef">2.4.2.6. </a><a href="#name-wall-clock" class="section-name selfRef">Wall Clock</a>
+            </h5>
+<p id="section-2.4.2.6-1">EPOCH time in ms when this frame started being captured.
+It will be 0 if not set<a href="#section-2.4.2.6-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="video-h264-in-avcc-extradata-header-extension-header-extension-type-0x0d">
+<section id="section-2.4.3">
+          <h4 id="name-video-h264-in-avcc-extradat">
+<a href="#section-2.4.3" class="section-number selfRef">2.4.3. </a><a href="#name-video-h264-in-avcc-extradat" class="section-name selfRef">Video H264 in AVCC extradata header extension (Header extension type = 0x0D)</a>
+          </h4>
+<p id="section-2.4.3-1">Provides extradata needed to start decoding the video stream<a href="#section-2.4.3-1" class="pilcrow">¶</a></p>
+<p id="section-2.4.3-2">It <span class="bcp14">MUST</span> be present in all object 0 (start of group) where "media type header
+extension" is equal to "Video H264 in AVCC"(0x0) AND there has been an update on
+the encoding paramets (or very start of the stream)<a href="#section-2.4.3-2" class="pilcrow">¶</a></p>
+<span id="name-moqt-media-video-h264-extra"></span><div id="media-object-header-0d-video-h264-avcc">
+<figure id="figure-2">
+            <div class="alignLeft art-text artwork" id="section-2.4.3-3.1">
+<pre>
+{
+  Extradata (..)
 }
 </pre>
 </div>
 <figcaption><a href="#figure-2" class="selfRef">Figure 2</a>:
-<a href="#name-moqt-media-video-h264-loc" class="selfRef">MOQT Media video h264 loc</a>
-              </figcaption></figure>
+<a href="#name-moqt-media-video-h264-extra" class="selfRef">MOQT Media video h264 extradata header extension</a>
+            </figcaption></figure>
 </div>
-<div id="seq-id">
-<section id="section-2.4.2.1.1">
-              <h6 id="name-seq-id">
-<a href="#section-2.4.2.1.1" class="section-number selfRef">2.4.2.1.1. </a><a href="#name-seq-id" class="section-name selfRef">Seq ID</a>
-              </h6>
-<p id="section-2.4.2.1.1-1">Monotonically increasing counter for this media track<a href="#section-2.4.2.1.1-1" class="pilcrow">¶</a></p>
-</section>
-</div>
-<div id="pts-timestamp">
-<section id="section-2.4.2.1.2">
-              <h6 id="name-pts-timestamp">
-<a href="#section-2.4.2.1.2" class="section-number selfRef">2.4.2.1.2. </a><a href="#name-pts-timestamp" class="section-name selfRef">PTS Timestamp</a>
-              </h6>
-<p id="section-2.4.2.1.2-1">Indicates PTS in timebase<a href="#section-2.4.2.1.2-1" class="pilcrow">¶</a></p>
-<p id="section-2.4.2.1.2-2">TODO: Varint does NOT accept easily negative, so it could be challenging to
-encode at start (priming)<a href="#section-2.4.2.1.2-2" class="pilcrow">¶</a></p>
-</section>
-</div>
-<div id="dts-timestamp">
-<section id="section-2.4.2.1.3">
-              <h6 id="name-dts-timestamp">
-<a href="#section-2.4.2.1.3" class="section-number selfRef">2.4.2.1.3. </a><a href="#name-dts-timestamp" class="section-name selfRef">DTS Timestamp</a>
-              </h6>
-<p id="section-2.4.2.1.3-1">Not needed if B frames are NOT used, in that case should be same value as PTS.<a href="#section-2.4.2.1.3-1" class="pilcrow">¶</a></p>
-<p id="section-2.4.2.1.3-2">TODO: Varint does NOT accept easily negative, so it could be challenging to
-encode at start (priming)<a href="#section-2.4.2.1.3-2" class="pilcrow">¶</a></p>
-</section>
-</div>
-<div id="timebase">
-<section id="section-2.4.2.1.4">
-              <h6 id="name-timebase">
-<a href="#section-2.4.2.1.4" class="section-number selfRef">2.4.2.1.4. </a><a href="#name-timebase" class="section-name selfRef">Timebase</a>
-              </h6>
-<p id="section-2.4.2.1.4-1">Units used in PTS, DTS, and duration.<a href="#section-2.4.2.1.4-1" class="pilcrow">¶</a></p>
-</section>
-</div>
-<div id="duration">
-<section id="section-2.4.2.1.5">
-              <h6 id="name-duration">
-<a href="#section-2.4.2.1.5" class="section-number selfRef">2.4.2.1.5. </a><a href="#name-duration" class="section-name selfRef">Duration</a>
-              </h6>
-<p id="section-2.4.2.1.5-1">Duration in timebase.
-It will be 0 if not set<a href="#section-2.4.2.1.5-1" class="pilcrow">¶</a></p>
-</section>
-</div>
-<div id="wall-clock">
-<section id="section-2.4.2.1.6">
-              <h6 id="name-wall-clock">
-<a href="#section-2.4.2.1.6" class="section-number selfRef">2.4.2.1.6. </a><a href="#name-wall-clock" class="section-name selfRef">Wall Clock</a>
-              </h6>
-<p id="section-2.4.2.1.6-1">EPOCH time in ms when this frame started being captured.
-It will be 0 if not set<a href="#section-2.4.2.1.6-1" class="pilcrow">¶</a></p>
-</section>
-</div>
-<div id="metadata-size">
-<section id="section-2.4.2.1.7">
-              <h6 id="name-metadata-size">
-<a href="#section-2.4.2.1.7" class="section-number selfRef">2.4.2.1.7. </a><a href="#name-metadata-size" class="section-name selfRef">Metadata Size</a>
-              </h6>
-<p id="section-2.4.2.1.7-1">Size in bytes of the metadata section
-It can be 0 if no metadata is sent<a href="#section-2.4.2.1.7-1" class="pilcrow">¶</a></p>
-</section>
-</div>
-<div id="metadata">
-<section id="section-2.4.2.1.8">
-              <h6 id="name-metadata">
-<a href="#section-2.4.2.1.8" class="section-number selfRef">2.4.2.1.8. </a><a href="#name-metadata" class="section-name selfRef">Metadata</a>
-              </h6>
-<p id="section-2.4.2.1.8-1">Extradata needed to decode this stream
-This will be  <code>AVCDecoderConfigurationRecord</code> as described in
+<div id="extradata">
+<section id="section-2.4.3.1">
+            <h5 id="name-extradata">
+<a href="#section-2.4.3.1" class="section-number selfRef">2.4.3.1. </a><a href="#name-extradata" class="section-name selfRef">Extradata</a>
+            </h5>
+<p id="section-2.4.3.1-1">This will be  <code>AVCDecoderConfigurationRecord</code> as described in
 [ISO14496-15:2019] section 5.3.3.1, with field <code>lengthSizeMinusOne</code> = 3
 (So length = 4). If any other size length is indicated
-(in <code>AVCDecoderConfigurationRecord</code>) we should error with “Protocol violation”<a href="#section-2.4.2.1.8-1" class="pilcrow">¶</a></p>
-<p id="section-2.4.2.1.8-2">Any change in encoding parameters <span class="bcp14">MUST</span> send a new
-<code>AVCDecoderConfigurationRecord</code><a href="#section-2.4.2.1.8-2" class="pilcrow">¶</a></p>
-</section>
-</div>
-<div id="payload">
-<section id="section-2.4.2.1.9">
-              <h6 id="name-payload">
-<a href="#section-2.4.2.1.9" class="section-number selfRef">2.4.2.1.9. </a><a href="#name-payload" class="section-name selfRef">Payload</a>
-              </h6>
-<p id="section-2.4.2.1.9-1">H264 with bitstream AVC1 format as described in [ISO14496-15:2019] section 5.3.
-Using 4bytes size field length.<a href="#section-2.4.2.1.9-1" class="pilcrow">¶</a></p>
+(in <code>AVCDecoderConfigurationRecord</code>) we should error with “Protocol violation”<a href="#section-2.4.3.1-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
 </div>
-<div id="audio-opus-bitsream">
-<section id="section-2.4.2.2">
-            <h5 id="name-audio-opus-bitsream">
-<a href="#section-2.4.2.2" class="section-number selfRef">2.4.2.2. </a><a href="#name-audio-opus-bitsream" class="section-name selfRef">Audio Opus bitsream</a>
-            </h5>
-<span id="name-moqt-media-audio-opus-loc"></span><div id="media-object-audio-opus-loc">
+<div id="audio-opus-bitsream-data-header-extension-header-extension-type-0x0f">
+<section id="section-2.4.4">
+          <h4 id="name-audio-opus-bitsream-data-he">
+<a href="#section-2.4.4" class="section-number selfRef">2.4.4. </a><a href="#name-audio-opus-bitsream-data-he" class="section-name selfRef">Audio Opus bitsream data header extension (Header extension type = 0x0F)</a>
+          </h4>
+<p id="section-2.4.4-1">It provides audio metadata useful to consume the audio carried in the payload
+of the object. Following table specifies the data inside this extesion header.<a href="#section-2.4.4-1" class="pilcrow">¶</a></p>
+<p id="section-2.4.4-2">It <span class="bcp14">MUST</span> be present in all objects where "media type header extension" is equal
+to "Audio Opus bitsream"(0x1)<a href="#section-2.4.4-2" class="pilcrow">¶</a></p>
+<span id="name-moqt-media-data-audio-opus-"></span><div id="media-object-header-audio-opus">
 <figure id="figure-3">
-              <div class="alignLeft art-text artwork" id="section-2.4.2.2-1.1">
+            <div class="alignLeft art-text artwork" id="section-2.4.4-3.1">
 <pre>
 {
   Seq ID (i)
@@ -1495,129 +1499,111 @@ Using 4bytes size field length.<a href="#section-2.4.2.1.9-1" class="pilcrow">¶
   Num Channels (i)
   Duration (i)
   Wall Clock (i)
-  Payload (..)
 }
 </pre>
 </div>
 <figcaption><a href="#figure-3" class="selfRef">Figure 3</a>:
-<a href="#name-moqt-media-audio-opus-loc" class="selfRef">MOQT Media audio Opus LOC</a>
-              </figcaption></figure>
+<a href="#name-moqt-media-data-audio-opus-" class="selfRef">MOQT Media data audio Opus header extension</a>
+            </figcaption></figure>
 </div>
 <div id="seq-id-1">
-<section id="section-2.4.2.2.1">
-              <h6 id="name-seq-id-2">
-<a href="#section-2.4.2.2.1" class="section-number selfRef">2.4.2.2.1. </a><a href="#name-seq-id-2" class="section-name selfRef">Seq Id</a>
-              </h6>
-<p id="section-2.4.2.2.1-1">Monotonically increasing counter for this media track<a href="#section-2.4.2.2.1-1" class="pilcrow">¶</a></p>
+<section id="section-2.4.4.1">
+            <h5 id="name-seq-id-2">
+<a href="#section-2.4.4.1" class="section-number selfRef">2.4.4.1. </a><a href="#name-seq-id-2" class="section-name selfRef">Seq Id</a>
+            </h5>
+<p id="section-2.4.4.1-1">Monotonically increasing counter for this media track<a href="#section-2.4.4.1-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="pts-timestamp-1">
-<section id="section-2.4.2.2.2">
-              <h6 id="name-pts-timestamp-2">
-<a href="#section-2.4.2.2.2" class="section-number selfRef">2.4.2.2.2. </a><a href="#name-pts-timestamp-2" class="section-name selfRef">PTS Timestamp</a>
-              </h6>
-<p id="section-2.4.2.2.2-1">Indicates PTS in timebase<a href="#section-2.4.2.2.2-1" class="pilcrow">¶</a></p>
-<p id="section-2.4.2.2.2-2">TODO: Varint does NOT accept easily negative, so it could be challenging to
-encode at start (priming)<a href="#section-2.4.2.2.2-2" class="pilcrow">¶</a></p>
+<section id="section-2.4.4.2">
+            <h5 id="name-pts-timestamp-2">
+<a href="#section-2.4.4.2" class="section-number selfRef">2.4.4.2. </a><a href="#name-pts-timestamp-2" class="section-name selfRef">PTS Timestamp</a>
+            </h5>
+<p id="section-2.4.4.2-1">Indicates PTS in timebase<a href="#section-2.4.4.2-1" class="pilcrow">¶</a></p>
+<p id="section-2.4.4.2-2">TODO: Varint does NOT accept easily negative, so it could be challenging to
+encode at start (priming)<a href="#section-2.4.4.2-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="timebase-1">
-<section id="section-2.4.2.2.3">
-              <h6 id="name-timebase-2">
-<a href="#section-2.4.2.2.3" class="section-number selfRef">2.4.2.2.3. </a><a href="#name-timebase-2" class="section-name selfRef">Timebase</a>
-              </h6>
-<p id="section-2.4.2.2.3-1">Units used in PTS, DTS, and duration<a href="#section-2.4.2.2.3-1" class="pilcrow">¶</a></p>
+<section id="section-2.4.4.3">
+            <h5 id="name-timebase-2">
+<a href="#section-2.4.4.3" class="section-number selfRef">2.4.4.3. </a><a href="#name-timebase-2" class="section-name selfRef">Timebase</a>
+            </h5>
+<p id="section-2.4.4.3-1">Units used in PTS, DTS, and duration<a href="#section-2.4.4.3-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="sample-freq">
-<section id="section-2.4.2.2.4">
-              <h6 id="name-sample-freq">
-<a href="#section-2.4.2.2.4" class="section-number selfRef">2.4.2.2.4. </a><a href="#name-sample-freq" class="section-name selfRef">Sample Freq</a>
-              </h6>
-<p id="section-2.4.2.2.4-1">Sample frequency used in the original signal (before encoding)<a href="#section-2.4.2.2.4-1" class="pilcrow">¶</a></p>
+<section id="section-2.4.4.4">
+            <h5 id="name-sample-freq">
+<a href="#section-2.4.4.4" class="section-number selfRef">2.4.4.4. </a><a href="#name-sample-freq" class="section-name selfRef">Sample Freq</a>
+            </h5>
+<p id="section-2.4.4.4-1">Sample frequency used in the original signal (before encoding)<a href="#section-2.4.4.4-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="num-channels">
-<section id="section-2.4.2.2.5">
-              <h6 id="name-num-channels">
-<a href="#section-2.4.2.2.5" class="section-number selfRef">2.4.2.2.5. </a><a href="#name-num-channels" class="section-name selfRef">Num Channels</a>
-              </h6>
-<p id="section-2.4.2.2.5-1">Number of channels in the original signal (before encoding)<a href="#section-2.4.2.2.5-1" class="pilcrow">¶</a></p>
+<section id="section-2.4.4.5">
+            <h5 id="name-num-channels">
+<a href="#section-2.4.4.5" class="section-number selfRef">2.4.4.5. </a><a href="#name-num-channels" class="section-name selfRef">Num Channels</a>
+            </h5>
+<p id="section-2.4.4.5-1">Number of channels in the original signal (before encoding)<a href="#section-2.4.4.5-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="duration-1">
-<section id="section-2.4.2.2.6">
-              <h6 id="name-duration-2">
-<a href="#section-2.4.2.2.6" class="section-number selfRef">2.4.2.2.6. </a><a href="#name-duration-2" class="section-name selfRef">Duration</a>
-              </h6>
-<p id="section-2.4.2.2.6-1">Duration in timebase.
-It will be 0 if not set<a href="#section-2.4.2.2.6-1" class="pilcrow">¶</a></p>
+<section id="section-2.4.4.6">
+            <h5 id="name-duration-2">
+<a href="#section-2.4.4.6" class="section-number selfRef">2.4.4.6. </a><a href="#name-duration-2" class="section-name selfRef">Duration</a>
+            </h5>
+<p id="section-2.4.4.6-1">Duration in timebase.
+It will be 0 if not set<a href="#section-2.4.4.6-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="wallclock">
-<section id="section-2.4.2.2.7">
-              <h6 id="name-wallclock">
-<a href="#section-2.4.2.2.7" class="section-number selfRef">2.4.2.2.7. </a><a href="#name-wallclock" class="section-name selfRef">Wallclock</a>
-              </h6>
-<p id="section-2.4.2.2.7-1">EPOCH time in ms when this frame started being captured.
-It will be 0 if not set<a href="#section-2.4.2.2.7-1" class="pilcrow">¶</a></p>
-</section>
-</div>
-<div id="payload-1">
-<section id="section-2.4.2.2.8">
-              <h6 id="name-payload-2">
-<a href="#section-2.4.2.2.8" class="section-number selfRef">2.4.2.2.8. </a><a href="#name-payload-2" class="section-name selfRef">Payload</a>
-              </h6>
-<p id="section-2.4.2.2.8-1">Opus packets, as described in <span>[<a href="#RFC6716" class="cite xref">RFC6716</a>]</span> - section 3<a href="#section-2.4.2.2.8-1" class="pilcrow">¶</a></p>
-</section>
-</div>
-</section>
-</div>
-<div id="utf-8-text">
-<section id="section-2.4.2.3">
-            <h5 id="name-utf-8-text">
-<a href="#section-2.4.2.3" class="section-number selfRef">2.4.2.3. </a><a href="#name-utf-8-text" class="section-name selfRef">UTF-8 Text</a>
+<section id="section-2.4.4.7">
+            <h5 id="name-wallclock">
+<a href="#section-2.4.4.7" class="section-number selfRef">2.4.4.7. </a><a href="#name-wallclock" class="section-name selfRef">Wallclock</a>
             </h5>
-<span id="name-moqt-utf-8-text"></span><div id="object-utf8-text">
+<p id="section-2.4.4.7-1">EPOCH time in ms when this frame started being captured.
+It will be 0 if not set<a href="#section-2.4.4.7-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="utf-8-text-header-extension-header-extension-type-0x11">
+<section id="section-2.4.5">
+          <h4 id="name-utf-8-text-header-extension">
+<a href="#section-2.4.5" class="section-number selfRef">2.4.5. </a><a href="#name-utf-8-text-header-extension" class="section-name selfRef">UTF-8 Text header extension (Header extension type = 0x11)</a>
+          </h4>
+<span id="name-moqt-utf-8-text-header-exte"></span><div id="object-header-utf8-text">
 <figure id="figure-4">
-              <div class="alignLeft art-text artwork" id="section-2.4.2.3-1.1">
+            <div class="alignLeft art-text artwork" id="section-2.4.5-1.1">
 <pre>
 {
   Seq ID (i)
-  Payload (..)
 }
 </pre>
 </div>
 <figcaption><a href="#figure-4" class="selfRef">Figure 4</a>:
-<a href="#name-moqt-utf-8-text" class="selfRef">MOQT UTF-8 Text</a>
-              </figcaption></figure>
+<a href="#name-moqt-utf-8-text-header-exte" class="selfRef">MOQT UTF-8 Text header extension</a>
+            </figcaption></figure>
 </div>
 <div id="seq-id-2">
-<section id="section-2.4.2.3.1">
-              <h6 id="name-seq-id-3">
-<a href="#section-2.4.2.3.1" class="section-number selfRef">2.4.2.3.1. </a><a href="#name-seq-id-3" class="section-name selfRef">Seq Id</a>
-              </h6>
-<p id="section-2.4.2.3.1-1">Monotonically increasing counter for this media track<a href="#section-2.4.2.3.1-1" class="pilcrow">¶</a></p>
-</section>
-</div>
-<div id="payload-2">
-<section id="section-2.4.2.3.2">
-              <h6 id="name-payload-3">
-<a href="#section-2.4.2.3.2" class="section-number selfRef">2.4.2.3.2. </a><a href="#name-payload-3" class="section-name selfRef">Payload</a>
-              </h6>
-<p id="section-2.4.2.3.2-1">Text packets in UTF-8, as described in <span>[<a href="#RFC3629" class="cite xref">RFC3629</a>]</span><a href="#section-2.4.2.3.2-1" class="pilcrow">¶</a></p>
-</section>
-</div>
-</section>
-</div>
-<div id="audio-aac-lc-in-mpeg4-bitstream">
-<section id="section-2.4.2.4">
-            <h5 id="name-audio-aac-lc-in-mpeg4-bitst">
-<a href="#section-2.4.2.4" class="section-number selfRef">2.4.2.4. </a><a href="#name-audio-aac-lc-in-mpeg4-bitst" class="section-name selfRef">Audio AAC-LC in MPEG4 bitstream</a>
+<section id="section-2.4.5.1">
+            <h5 id="name-seq-id-3">
+<a href="#section-2.4.5.1" class="section-number selfRef">2.4.5.1. </a><a href="#name-seq-id-3" class="section-name selfRef">Seq Id</a>
             </h5>
-<span id="name-moqt-media-audio-aac-lc-mpe"></span><div id="media-object-audio-aaclcmpeg4-loc">
+<p id="section-2.4.5.1-1">Monotonically increasing counter for this track<a href="#section-2.4.5.1-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="audio-aac-lc-in-mpeg4-bitstream-data-header-extension-header-extension-type-0x13">
+<section id="section-2.4.6">
+          <h4 id="name-audio-aac-lc-in-mpeg4-bitst">
+<a href="#section-2.4.6" class="section-number selfRef">2.4.6. </a><a href="#name-audio-aac-lc-in-mpeg4-bitst" class="section-name selfRef">Audio AAC-LC in MPEG4 bitstream data header extension (Header extension type = 0x13)</a>
+          </h4>
+<span id="name-moqt-media-audio-aac-lc-mpe"></span><div id="media-object-header-audio-aaclcmpeg4">
 <figure id="figure-5">
-              <div class="alignLeft art-text artwork" id="section-2.4.2.4-1.1">
+            <div class="alignLeft art-text artwork" id="section-2.4.6-1.1">
 <pre>
 {
   Seq ID (i)
@@ -1627,133 +1613,272 @@ It will be 0 if not set<a href="#section-2.4.2.2.7-1" class="pilcrow">¶</a></p>
   Num Channels (i)
   Duration (i)
   Wall Clock (i)
-  Payload (..)
 }
 </pre>
 </div>
 <figcaption><a href="#figure-5" class="selfRef">Figure 5</a>:
-<a href="#name-moqt-media-audio-aac-lc-mpe" class="selfRef">MOQT Media audio AAC-LC MPEG4 LOC</a>
-              </figcaption></figure>
+<a href="#name-moqt-media-audio-aac-lc-mpe" class="selfRef">MOQT Media audio AAC-LC MPEG4 object header</a>
+            </figcaption></figure>
 </div>
 <div id="seq-id-3">
-<section id="section-2.4.2.4.1">
-              <h6 id="name-seq-id-4">
-<a href="#section-2.4.2.4.1" class="section-number selfRef">2.4.2.4.1. </a><a href="#name-seq-id-4" class="section-name selfRef">Seq Id</a>
-              </h6>
-<p id="section-2.4.2.4.1-1">Monotonically increasing counter for this media track<a href="#section-2.4.2.4.1-1" class="pilcrow">¶</a></p>
+<section id="section-2.4.6.1">
+            <h5 id="name-seq-id-4">
+<a href="#section-2.4.6.1" class="section-number selfRef">2.4.6.1. </a><a href="#name-seq-id-4" class="section-name selfRef">Seq Id</a>
+            </h5>
+<p id="section-2.4.6.1-1">Monotonically increasing counter for this media track<a href="#section-2.4.6.1-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="pts-timestamp-2">
-<section id="section-2.4.2.4.2">
-              <h6 id="name-pts-timestamp-3">
-<a href="#section-2.4.2.4.2" class="section-number selfRef">2.4.2.4.2. </a><a href="#name-pts-timestamp-3" class="section-name selfRef">PTS Timestamp</a>
-              </h6>
-<p id="section-2.4.2.4.2-1">Indicates PTS in timebase<a href="#section-2.4.2.4.2-1" class="pilcrow">¶</a></p>
-<p id="section-2.4.2.4.2-2">TODO: Varint does NOT accept easily negative, so it could be challenging to
-encode at start (priming)<a href="#section-2.4.2.4.2-2" class="pilcrow">¶</a></p>
+<section id="section-2.4.6.2">
+            <h5 id="name-pts-timestamp-3">
+<a href="#section-2.4.6.2" class="section-number selfRef">2.4.6.2. </a><a href="#name-pts-timestamp-3" class="section-name selfRef">PTS Timestamp</a>
+            </h5>
+<p id="section-2.4.6.2-1">Indicates PTS in timebase<a href="#section-2.4.6.2-1" class="pilcrow">¶</a></p>
+<p id="section-2.4.6.2-2">TODO: Varint does NOT accept easily negative, so it could be challenging to
+encode at start (priming)<a href="#section-2.4.6.2-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="timebase-2">
-<section id="section-2.4.2.4.3">
-              <h6 id="name-timebase-3">
-<a href="#section-2.4.2.4.3" class="section-number selfRef">2.4.2.4.3. </a><a href="#name-timebase-3" class="section-name selfRef">Timebase</a>
-              </h6>
-<p id="section-2.4.2.4.3-1">Units used in PTS, DTS, and duration<a href="#section-2.4.2.4.3-1" class="pilcrow">¶</a></p>
+<section id="section-2.4.6.3">
+            <h5 id="name-timebase-3">
+<a href="#section-2.4.6.3" class="section-number selfRef">2.4.6.3. </a><a href="#name-timebase-3" class="section-name selfRef">Timebase</a>
+            </h5>
+<p id="section-2.4.6.3-1">Units used in PTS, DTS, and duration<a href="#section-2.4.6.3-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="sample-freq-1">
-<section id="section-2.4.2.4.4">
-              <h6 id="name-sample-freq-2">
-<a href="#section-2.4.2.4.4" class="section-number selfRef">2.4.2.4.4. </a><a href="#name-sample-freq-2" class="section-name selfRef">Sample Freq</a>
-              </h6>
-<p id="section-2.4.2.4.4-1">Sample frequency used in the original signal (before encoding)<a href="#section-2.4.2.4.4-1" class="pilcrow">¶</a></p>
+<section id="section-2.4.6.4">
+            <h5 id="name-sample-freq-2">
+<a href="#section-2.4.6.4" class="section-number selfRef">2.4.6.4. </a><a href="#name-sample-freq-2" class="section-name selfRef">Sample Freq</a>
+            </h5>
+<p id="section-2.4.6.4-1">Sample frequency used in the original signal (before encoding)<a href="#section-2.4.6.4-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="num-channels-1">
-<section id="section-2.4.2.4.5">
-              <h6 id="name-num-channels-2">
-<a href="#section-2.4.2.4.5" class="section-number selfRef">2.4.2.4.5. </a><a href="#name-num-channels-2" class="section-name selfRef">Num Channels</a>
-              </h6>
-<p id="section-2.4.2.4.5-1">Number of channels in the original signal (before encoding)<a href="#section-2.4.2.4.5-1" class="pilcrow">¶</a></p>
+<section id="section-2.4.6.5">
+            <h5 id="name-num-channels-2">
+<a href="#section-2.4.6.5" class="section-number selfRef">2.4.6.5. </a><a href="#name-num-channels-2" class="section-name selfRef">Num Channels</a>
+            </h5>
+<p id="section-2.4.6.5-1">Number of channels in the original signal (before encoding)<a href="#section-2.4.6.5-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="duration-2">
-<section id="section-2.4.2.4.6">
-              <h6 id="name-duration-3">
-<a href="#section-2.4.2.4.6" class="section-number selfRef">2.4.2.4.6. </a><a href="#name-duration-3" class="section-name selfRef">Duration</a>
-              </h6>
-<p id="section-2.4.2.4.6-1">Duration in timebase.
-It will be 0 if not set<a href="#section-2.4.2.4.6-1" class="pilcrow">¶</a></p>
+<section id="section-2.4.6.6">
+            <h5 id="name-duration-3">
+<a href="#section-2.4.6.6" class="section-number selfRef">2.4.6.6. </a><a href="#name-duration-3" class="section-name selfRef">Duration</a>
+            </h5>
+<p id="section-2.4.6.6-1">Duration in timebase.
+It will be 0 if not set<a href="#section-2.4.6.6-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="wallclock-1">
-<section id="section-2.4.2.4.7">
-              <h6 id="name-wallclock-2">
-<a href="#section-2.4.2.4.7" class="section-number selfRef">2.4.2.4.7. </a><a href="#name-wallclock-2" class="section-name selfRef">Wallclock</a>
-              </h6>
-<p id="section-2.4.2.4.7-1">EPOCH time in ms when this frame started being captured.
-It will be 0 if not set<a href="#section-2.4.2.4.7-1" class="pilcrow">¶</a></p>
-</section>
-</div>
-<div id="payload-3">
-<section id="section-2.4.2.4.8">
-              <h6 id="name-payload-4">
-<a href="#section-2.4.2.4.8" class="section-number selfRef">2.4.2.4.8. </a><a href="#name-payload-4" class="section-name selfRef">Payload</a>
-              </h6>
-<p id="section-2.4.2.4.8-1">AAC frame (syntax element <code>raw_data_block()</code>), as described in section 4.4.2.1 of [ISO14496-3:2009].<a href="#section-2.4.2.4.8-1" class="pilcrow">¶</a></p>
+<section id="section-2.4.6.7">
+            <h5 id="name-wallclock-2">
+<a href="#section-2.4.6.7" class="section-number selfRef">2.4.6.7. </a><a href="#name-wallclock-2" class="section-name selfRef">Wallclock</a>
+            </h5>
+<p id="section-2.4.6.7-1">EPOCH time in ms when this frame started being captured.
+It will be 0 if not set<a href="#section-2.4.6.7-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
 </div>
 </section>
 </div>
+</section>
+</div>
+<div id="examples">
+<section id="section-3">
+      <h2 id="name-examples">
+<a href="#section-3" class="section-number selfRef">3. </a><a href="#name-examples" class="section-name selfRef">Examples</a>
+      </h2>
+<div id="example-of-first-object-for-video-h264-in-avcc">
+<section id="section-3.1">
+        <h3 id="name-example-of-first-object-for">
+<a href="#section-3.1" class="section-number selfRef">3.1. </a><a href="#name-example-of-first-object-for" class="section-name selfRef">Example of first object for Video H264 in AVCC</a>
+        </h3>
+<div id="moqt-object-subgroup-fields-in-case-it-carries-video-h264-in-avcc-1st-frame-sent">
+<section id="section-3.1.1">
+          <h4 id="name-moqt-object-subgroup-fields">
+<a href="#section-3.1.1" class="section-number selfRef">3.1.1. </a><a href="#name-moqt-object-subgroup-fields" class="section-name selfRef">MOQT Object subgroup fields in case it carries Video H264 in AVCC, 1st frame sent</a>
+          </h4>
+<div class="alignLeft art-text artwork" id="section-3.1.1-1">
+<pre>
+{
+  0x00 (Object ID)(i),
+  0x03 (Extension Count)(i),
+  0x0A (Header type: Media type header type)(i)
+  0x00 (header value: Media type)(i)
+
+  0x0B (Header type: H264 in AVCC metadata)(i)
+  0x0D (Header value length)(i)
+  0x00 (Header value: Seq ID)(i)
+  0x00 (Header value: PTS Timestamp)(i)
+  0x00 (Header value: DTS Timestamp)(i)
+  0x1E (Header value: Timebase)(i)
+  0x01 (Header value: Duration)(i)
+  0xC0, 0x00, 0x01, 0x95, 0x45, 0x6C, 0x8B, 0xFF (Header value: Wallclock)(i)
+
+  0x0D (Header type: H264 in AVCC extradata)(i)
+  Header value length (i)
+  Header value: H264 in AVCC extradata (..)
+
+  Object Payload Length (i),
+  Object Payload bytes (..),
+}
+</pre><a href="#section-3.1.1-1" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+<div id="moqt-object-subgroup-fields-in-case-it-carries-video-h264-in-avcc-2nd-or-bigger-frame-with-no-encoding-settings-update">
+<section id="section-3.1.2">
+          <h4 id="name-moqt-object-subgroup-fields-">
+<a href="#section-3.1.2" class="section-number selfRef">3.1.2. </a><a href="#name-moqt-object-subgroup-fields-" class="section-name selfRef">MOQT Object subgroup fields in case it carries Video H264 in AVCC, 2nd or bigger frame with NO encoding settings update</a>
+          </h4>
+<div class="alignLeft art-text artwork" id="section-3.1.2-1">
+<pre>
+{
+  0x01 (Object ID)(i),
+  0x02 (Extension Count)(i),
+  0x0A (Header type: Media type header type)(i)
+  0x00 (header value: Media type)(i)
+
+  0x0B (Header type: H264 in AVCC metadata)(i)
+  0x0D (Header value length)(i)
+  0x01 (Header value: Seq ID)(i)
+  0x00 (Header value: PTS Timestamp)(i)
+  0x00 (Header value: DTS Timestamp)(i)
+  0x1E (Header value: Timebase)(i)
+  0x01 (Header value: Duration)(i)
+  0xC0, 0x00, 0x01, 0x95, 0x45, 0x6C, 0x3B, 0xE0 (Header value: Wallclock)(i)
+
+  Object Payload Length (i),
+  Object Payload bytes (..),
+}
+</pre><a href="#section-3.1.2-1" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+<div id="moqt-object-datagram-fields-in-case-it-carries-audio-aac-lc-in-mpeg4">
+<section id="section-3.1.3">
+          <h4 id="name-moqt-object-datagram-fields">
+<a href="#section-3.1.3" class="section-number selfRef">3.1.3. </a><a href="#name-moqt-object-datagram-fields" class="section-name selfRef">MOQT Object DATAGRAM fields in case it carries Audio AAC-LC in MPEG4</a>
+          </h4>
+<div class="alignLeft art-text artwork" id="section-3.1.3-1">
+<pre>
+{
+  0x00 (Track Alias)(i),
+  0x00 (Group ID)(i),
+  0x00 (Object ID)(i),
+  0x00 (Publisher Priority)(8),
+  0x02 (Extension Count)(i),
+  0x0A (Header type: Media type header type)(i)
+  0x03 (header value: Media type)(i)
+
+  0x13 (Header type: Audio AAC-LC in MPEG4)(i)
+  0x15 (Header value length)(i)
+  0x00 (Header value: Seq ID)(i)
+  0x00 (Header value: PTS Timestamp)(i)
+  0x80, 0x00, 0xBB, 0x80 (Header value: Timebase)(i)
+  0x80, 0x00, 0xBB, 0x80 (Header value: Sample freq)(i)
+  0x02 (Header value: Num channels)(i)
+  0x44, 0x00 (Header value: Duration)(i)
+  0xC0, 0x00, 0x01, 0x95, 0x45, 0x6C, 0x3B, 0xE0 (Header value: Wallclock)(i)
+
+  Object Payload Length (i),
+  Object Payload bytes (..),
+}
+</pre><a href="#section-3.1.3-1" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+</section>
+</div>
+</section>
+</div>
+<div id="payloads">
+<section id="section-4">
+      <h2 id="name-payloads">
+<a href="#section-4" class="section-number selfRef">4. </a><a href="#name-payloads" class="section-name selfRef">Payloads</a>
+      </h2>
+<p id="section-4-1">TODO: This sections needs to be updated with links to LOC<a href="#section-4-1" class="pilcrow">¶</a></p>
+<div id="for-object-header-media-type-video-h264-in-avcc-0x00">
+<section id="section-4.1">
+        <h3 id="name-for-object-header-media-typ">
+<a href="#section-4.1" class="section-number selfRef">4.1. </a><a href="#name-for-object-header-media-typ" class="section-name selfRef">For object header media type = Video H264 in AVCC (0x00)</a>
+        </h3>
+<p id="section-4.1-1">Payload <span class="bcp14">MUST</span> be H264 with bitstream AVC1 format as described in [ISO14496-15:2019] section 5.3.
+Using 4 bytes size field length.<a href="#section-4.1-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="for-object-header-media-type-audio-opus-bitsream-0x01">
+<section id="section-4.2">
+        <h3 id="name-for-object-header-media-type">
+<a href="#section-4.2" class="section-number selfRef">4.2. </a><a href="#name-for-object-header-media-type" class="section-name selfRef">For object header media type = Audio Opus bitsream (0x01)</a>
+        </h3>
+<p id="section-4.2-1">Payload <span class="bcp14">MUST</span> be Opus packets, as described in <span>[<a href="#RFC6716" class="cite xref">RFC6716</a>]</span> - section 3<a href="#section-4.2-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="for-object-header-media-type-utf-8-text-0x02">
+<section id="section-4.3">
+        <h3 id="name-for-object-header-media-type-">
+<a href="#section-4.3" class="section-number selfRef">4.3. </a><a href="#name-for-object-header-media-type-" class="section-name selfRef">For object header media type = UTF-8 text (0x02)</a>
+        </h3>
+<p id="section-4.3-1">Payload <span class="bcp14">MUST</span> be text bytes in UTF-8, as described in <span>[<a href="#RFC3629" class="cite xref">RFC3629</a>]</span><a href="#section-4.3-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="for-object-header-media-type-audio-aac-lc-in-mpeg4-0x03">
+<section id="section-4.4">
+        <h3 id="name-for-object-header-media-type-a">
+<a href="#section-4.4" class="section-number selfRef">4.4. </a><a href="#name-for-object-header-media-type-a" class="section-name selfRef">For object header media type = Audio AAC-LC in MPEG4 (0x03)</a>
+        </h3>
+<p id="section-4.4-1">Payload <span class="bcp14">MUST</span> be AAC frame (syntax element <code>raw_data_block()</code>), as described in section 4.4.2.1 of [ISO14496-3:2009].<a href="#section-4.4-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
 </div>
 <div id="references">
-<section id="section-3">
+<section id="section-5">
       <h2 id="name-references">
-<a href="#section-3" class="section-number selfRef">3. </a><a href="#name-references" class="section-name selfRef">References</a>
+<a href="#section-5" class="section-number selfRef">5. </a><a href="#name-references" class="section-name selfRef">References</a>
       </h2>
-<p id="section-3-1">[ISO14496-15:2019] "Carriage of network abstraction layer (NAL) unit
+<p id="section-5-1">[ISO14496-15:2019] "Carriage of network abstraction layer (NAL) unit
 structured video in the ISO base media file format", ISO ISO14496-15:2019,
-International Organization for Standardization, October, 2022.<a href="#section-3-1" class="pilcrow">¶</a></p>
-<p id="section-3-2">[ISO14496-3:2009] "Information technology — Coding of audio-visual objects",
-ISO ISO14496-3:2009, International Organization for Standardization, September, 2009.<a href="#section-3-2" class="pilcrow">¶</a></p>
+International Organization for Standardization, October, 2022.<a href="#section-5-1" class="pilcrow">¶</a></p>
+<p id="section-5-2">[ISO14496-3:2009] "Information technology — Coding of audio-visual objects",
+ISO ISO14496-3:2009, International Organization for Standardization, September, 2009.<a href="#section-5-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="conventions-and-definitions">
-<section id="section-4">
+<section id="section-6">
       <h2 id="name-conventions-and-definitions">
-<a href="#section-4" class="section-number selfRef">4. </a><a href="#name-conventions-and-definitions" class="section-name selfRef">Conventions and Definitions</a>
+<a href="#section-6" class="section-number selfRef">6. </a><a href="#name-conventions-and-definitions" class="section-name selfRef">Conventions and Definitions</a>
       </h2>
-<p id="section-4-1">The key words "<span class="bcp14">MUST</span>", "<span class="bcp14">MUST NOT</span>", "<span class="bcp14">REQUIRED</span>", "<span class="bcp14">SHALL</span>", "<span class="bcp14">SHALL NOT</span>", "<span class="bcp14">SHOULD</span>", "<span class="bcp14">SHOULD NOT</span>", "<span class="bcp14">RECOMMENDED</span>", "<span class="bcp14">NOT RECOMMENDED</span>",
+<p id="section-6-1">The key words "<span class="bcp14">MUST</span>", "<span class="bcp14">MUST NOT</span>", "<span class="bcp14">REQUIRED</span>", "<span class="bcp14">SHALL</span>", "<span class="bcp14">SHALL NOT</span>", "<span class="bcp14">SHOULD</span>", "<span class="bcp14">SHOULD NOT</span>", "<span class="bcp14">RECOMMENDED</span>", "<span class="bcp14">NOT RECOMMENDED</span>",
 "<span class="bcp14">MAY</span>", and "<span class="bcp14">OPTIONAL</span>" in this document are to be interpreted as
 described in BCP 14 <span>[<a href="#RFC2119" class="cite xref">RFC2119</a>]</span> <span>[<a href="#RFC8174" class="cite xref">RFC8174</a>]</span> when, and only when, they
-appear in all capitals, as shown here.<a href="#section-4-1" class="pilcrow">¶</a></p>
+appear in all capitals, as shown here.<a href="#section-6-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="security-considerations">
-<section id="section-5">
+<section id="section-7">
       <h2 id="name-security-considerations">
-<a href="#section-5" class="section-number selfRef">5. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
+<a href="#section-7" class="section-number selfRef">7. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
       </h2>
-<p id="section-5-1">TODO Security<a href="#section-5-1" class="pilcrow">¶</a></p>
+<p id="section-7-1">TODO Security<a href="#section-7-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="iana-considerations">
-<section id="section-6">
+<section id="section-8">
       <h2 id="name-iana-considerations">
-<a href="#section-6" class="section-number selfRef">6. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
+<a href="#section-8" class="section-number selfRef">8. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
       </h2>
-<p id="section-6-1">This document has no IANA actions.<a href="#section-6-1" class="pilcrow">¶</a></p>
+<p id="section-8-1">This document has no IANA actions.<a href="#section-8-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="sec-normative-references">
-<section id="section-7">
+<section id="section-9">
       <h2 id="name-normative-references">
-<a href="#section-7" class="section-number selfRef">7. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
+<a href="#section-9" class="section-number selfRef">9. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
       </h2>
 <dl class="references">
 <dt id="RFC2119">[RFC2119]</dt>
