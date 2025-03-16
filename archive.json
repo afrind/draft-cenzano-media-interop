@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-03-13T00:59:15.629783+00:00",
+  "timestamp": "2025-03-16T01:03:19.858628+00:00",
   "repo": "afrind/draft-cenzano-media-interop",
   "labels": [
     {
@@ -710,24 +710,26 @@
       "id": "PR_kwDONANmGM6MxzYo",
       "title": "Moved medadata to extensions",
       "url": "https://github.com/afrind/draft-cenzano-media-interop/pull/14",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "jordicenzano",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "TDB",
       "createdAt": "2025-02-27T10:48:49Z",
-      "updatedAt": "2025-03-01T10:25:57Z",
+      "updatedAt": "2025-03-16T00:18:14Z",
       "baseRepository": "afrind/draft-cenzano-media-interop",
       "baseRefName": "main",
       "baseRefOid": "407e2080c2b6f9741453276458ce1198c669627a",
       "headRepository": "afrind/draft-cenzano-media-interop",
       "headRefName": "feature/move-metadata-to-extensions",
       "headRefOid": "ab2eb499688b0a5a158e905263687815d6284628",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-03-16T00:18:14Z",
+      "mergedAt": "2025-03-16T00:18:14Z",
+      "mergedBy": "jordicenzano",
+      "mergeCommit": {
+        "oid": "ab2eb499688b0a5a158e905263687815d6284628"
+      },
       "comments": [],
       "reviews": [
         {
