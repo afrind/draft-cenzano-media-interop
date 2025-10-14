@@ -5,7 +5,7 @@
 Media Over QUIC                                        J. Cenzano-Ferret
 Internet-Draft                                               A. Frindell
 Intended status: Informational                                      Meta
-Expires: 2 September 2025                                   1 March 2025
+Expires: 17 April 2026                                   14 October 2025
 
 
                            MoQ Media Interop
@@ -49,7 +49,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 2 September 2025.
+   This Internet-Draft will expire on 17 April 2026.
 
 Copyright Notice
 
@@ -76,7 +76,7 @@ Table of Contents
        2.4.1.  Media type header extension (header extension type =
                0x0A)
        2.4.2.  Video H264 in AVCC metadata header extension (header
-               extension type = 0x0B)
+               extension type = 0x15)
        2.4.3.  Video H264 in AVCC extradata header extension (Header
                extension type = 0x0D)
        2.4.4.  Audio Opus bitsream data header extension (Header
@@ -191,7 +191,7 @@ Table of Contents
                                   Table 1
 
 2.4.2.  Video H264 in AVCC metadata header extension (header extension
-        type = 0x0B)
+        type = 0x15)
 
    It provides video metadata useful to consume the video carried in the
    payload of the object.  The following table specifies the data inside
@@ -392,7 +392,7 @@ Table of Contents
   0x0A (Header type: Media type header type)(i)
   0x00 (header value: Media type)(i)
 
-  0x0B (Header type: H264 in AVCC metadata)(i)
+  0x15 (Header type: H264 in AVCC metadata)(i)
   0x0D (Header value length)(i)
   0x00 (Header value: Seq ID)(i)
   0x00 (Header value: PTS Timestamp)(i)
@@ -418,7 +418,7 @@ Table of Contents
   0x0A (Header type: Media type header type)(i)
   0x00 (header value: Media type)(i)
 
-  0x0B (Header type: H264 in AVCC metadata)(i)
+  0x15 (Header type: H264 in AVCC metadata)(i)
   0x0D (Header value length)(i)
   0x01 (Header value: Seq ID)(i)
   0x00 (Header value: PTS Timestamp)(i)
