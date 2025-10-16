@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-10-14T01:00:14.621491+00:00",
+  "timestamp": "2025-10-16T01:01:21.584450+00:00",
   "repo": "afrind/draft-cenzano-media-interop",
   "labels": [
     {
@@ -803,6 +803,56 @@
           ]
         }
       ]
+    },
+    {
+      "number": 15,
+      "id": "PR_kwDONANmGM6trJrr",
+      "title": "Changed metadata extension code point to avoid draft-14 conflict",
+      "url": "https://github.com/afrind/draft-cenzano-media-interop/pull/15",
+      "state": "MERGED",
+      "author": "afrind",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "0x0B is now reserved for IMMUTABLE_EXTENSIONS",
+      "createdAt": "2025-10-14T13:49:04Z",
+      "updatedAt": "2025-10-14T18:05:41Z",
+      "baseRepository": "afrind/draft-cenzano-media-interop",
+      "baseRefName": "main",
+      "baseRefOid": "ab2eb499688b0a5a158e905263687815d6284628",
+      "headRepository": "afrind/draft-cenzano-media-interop",
+      "headRefName": "afrind-extension-id",
+      "headRefOid": "3cfb14234b2c368436745c410fa53939637bd640",
+      "closedAt": "2025-10-14T18:05:41Z",
+      "mergedAt": "2025-10-14T18:05:41Z",
+      "mergedBy": "afrind",
+      "mergeCommit": {
+        "oid": "b2f776ac80d88e1736156550bb4ab77012197eec"
+      },
+      "comments": [
+        {
+          "author": "jordicenzano",
+          "authorAssociation": "COLLABORATOR",
+          "body": "This LGTM, but can we publish a v03 version with this change since it is changing wire format.\r\nBy doing that everything will be clear, new value will be in the new version (v03). And v03 will be compatible with MOQ vXX+",
+          "createdAt": "2025-10-14T14:01:36Z",
+          "updatedAt": "2025-10-14T14:01:36Z"
+        },
+        {
+          "author": "afrind",
+          "authorAssociation": "OWNER",
+          "body": "> This LGTM, but can we publish a v03 version with this change since it is changing wire format. By doing that everything will be clear, new value will be in the new version (v03). And v03 will be compatible with MOQ vXX+\r\n\r\nYes, once this lands we can add the -03 tag and it will publish a new version automatically.",
+          "createdAt": "2025-10-14T14:17:07Z",
+          "updatedAt": "2025-10-14T14:17:07Z"
+        },
+        {
+          "author": "jordicenzano",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Then LGTM!! Thanks",
+          "createdAt": "2025-10-14T14:45:54Z",
+          "updatedAt": "2025-10-14T14:45:54Z"
+        }
+      ],
+      "reviews": []
     }
   ]
 }
